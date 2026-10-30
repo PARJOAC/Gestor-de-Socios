@@ -594,8 +594,8 @@ button:disabled {
 
 /* Estilo de etiqueta o 'badge' para cada actividad */
 .badge-actividad {
-  background-color: #e0f2fe;
-  color: #0369a1;
+  background-color: #fdebc3;
+  color: #ebac25;
   font-size: 0.75rem;
   font-weight: 500;
   padding: 2px 8px;
@@ -608,7 +608,7 @@ button:disabled {
 .avatar-iniciales {
   width: 36px;
   height: 36px;
-  background-color: #0284c7;
+  background-color: #ebac25;
   color: #ffffff;
   font-weight: 600;
   font-size: 0.85rem;
