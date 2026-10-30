@@ -125,11 +125,20 @@ function renderizarTabla({
       const apellidos = value.apellidos;
       // En el reemplazo, '$1' mantiene la primera letra capturada y le añade el punto.
       let apellidosAbreviados = apellidos.replace(eliminar, " $1.");
+
+      let arroba = value.email.indexOf("@");
+      console.log(arroba);
+      let email =
+        value.email.charAt(0) +
+        value.email.charAt(1) +
+        value.email.slice(3, arroba).replace(/./g, "*") +
+        value.email.slice(arroba);
+
       tabla.innerHTML += `
         <tr>
           <td>${value.id}</td>
           <td>${value.nombre} ${apellidosAbreviados}</td>
-          <td>${value.email}</td>
+          <td>${email}</td>
           <td>${value.actividades.join(", ")}</td>
           <td>${calcularEdad(value.fechaNacimiento)}</td>
           <td>${value.cuota} €</td>
