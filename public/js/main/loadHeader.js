@@ -30,3 +30,11 @@ const meses = {
 let fechaActual = new Date();
 fecha.innerText =
   `${diasSemana[fechaActual.getDay()]}, ${fechaActual.getDate()} de ${meses[fechaActual.getMonth()]} de ${fechaActual.getFullYear()}`.toUpperCase();
+
+loadHora();
+setInterval(() => loadHora(), 1000);
+
+function loadHora() {
+  fechaActual = new Date();
+  hora.innerHTML = `${fechaActual.getHours()}:${fechaActual.getMinutes()}:${fechaActual.getSeconds()}`;
+}
