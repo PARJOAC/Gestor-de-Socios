@@ -56,7 +56,10 @@ function renderizarTabla({
   }
 
   // Filtrar por actividad seleccionada
-  if (actividadFiltro) {
+  if (
+    actividadFiltro &&
+    actividadFiltro.toLowerCase() != "todas las actividades"
+  ) {
     let queryFiltro = actividadFiltro
       .toLowerCase()
       .normalize("NFD")
@@ -211,8 +214,14 @@ function calcularEdad(fechaNacimiento) {
 
 // 3. EVENTO DE BÚSQUEDA EN TIEMPO REAL
 buscarSocio.addEventListener("input", function (input) {
-  textoBusqueda = input.target.value.trim();
+  texto = input.target.value.trim().length;
   paginaActual = 0; // Volver a la primera página al buscar
+  renderizarTabla();
+  if (texto < 2) {
+    textoBusqueda = "";
+  } else {
+    textoBusqueda = input.target.value.trim();
+  }
   renderizarTabla();
 });
 
@@ -226,7 +235,7 @@ selectFiltro.addEventListener("change", function (e) {
   } else {
     actividadFiltro = Actividades[indiceSeleccionado];
   }
-
+  console.log(actividadFiltro);
   paginaActual = 0; // Volver a la primera página al filtrar
   renderizarTabla();
 });
