@@ -79,13 +79,13 @@ function renderizarTabla({
   if (ordenFiltro) {
     switch (ordenFiltro.toLowerCase()) {
       case "default":
-        sociosFiltrados.sort((a, b) => a.cuota - b.cuota);
+        sociosFiltrados.sort((a, b) => a.id.localeCompare(b.id));
         break;
       case "nombre":
-        sociosFiltrados.sort((a, b) => a.nombre - b.nombre);
+        sociosFiltrados.sort((a, b) => a.nombre.localeCompare(b.nombre));
         break;
       case "apellidos":
-        sociosFiltrados.sort((a, b) => a.apellidos - b.apellidos);
+        sociosFiltrados.sort((a, b) => a.apellidos.localeCompare(b.apellidos));
         break;
       case "jovenes":
         sociosFiltrados.sort(
@@ -100,6 +100,8 @@ function renderizarTabla({
       case "cuota":
         sociosFiltrados.sort((a, b) => a.cuota - b.cuota);
         break;
+      default:
+        throw new Error("Ese orden no existe.");
     }
   }
 
@@ -153,7 +155,7 @@ function renderizarTabla({
               <div class="avatar-iniciales">
                 ${iniciales}
               </div>
-              <span class="id-numero">#${value.id}</span>
+              <span class="id-numero">${value.id}</span>
             </div>
           </td>
           <td>${value.nombre} ${apellidosAbreviados}</td>
