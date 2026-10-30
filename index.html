@@ -12,6 +12,7 @@
     <script src="public/js/main/loadActividades.js" defer></script>
     <script src="public/js/windows/fullScreen.js" defer></script>
     <script src="public/js/dialog/modal.js" defer></script>
+    <script src="public/js/util/addSocio.js" defer></script>
   </head>
   <body>
     <!-- CABECERA -->
@@ -166,13 +167,9 @@
 
         <!-- Contenedor de paginación centrado -->
         <div id="botones" class="pagination-container">
-          <button id="pagina-anterior" class="btn-secondary">
-            ◀️
-          </button>
+          <button id="pagina-anterior" class="btn-secondary">◀️</button>
           <span id="pagina-actual">0</span>
-          <button id="pagina-siguiente" class="btn-secondary">
-            ▶️
-          </button>
+          <button id="pagina-siguiente" class="btn-secondary">▶️</button>
         </div>
       </section>
 
@@ -214,6 +211,7 @@
               <input
                 type="text"
                 id="alta-nombre"
+                name="nombre"
                 placeholder="Ej: María José"
               />
               <span class="error-msg" id="error-nombre"></span>
@@ -224,6 +222,7 @@
               <input
                 type="text"
                 id="alta-apellidos"
+                name="apellidos"
                 placeholder="Ej: Martín Ruiz"
               />
               <span class="error-msg" id="error-apellidos"></span>
@@ -231,7 +230,12 @@
 
             <div class="form-group">
               <label for="alta-dni">DNI:</label>
-              <input type="text" id="alta-dni" placeholder="12345678Z" />
+              <input
+                type="text"
+                id="alta-dni"
+                name="dni"
+                placeholder="12345678Z"
+              />
               <span class="error-msg" id="error-dni"></span>
             </div>
 
@@ -240,6 +244,7 @@
               <input
                 type="email"
                 id="alta-email"
+                name="email"
                 placeholder="correo@dominio.es"
               />
               <span class="error-msg" id="error-email"></span>
@@ -247,7 +252,12 @@
 
             <div class="form-group">
               <label for="alta-telefono">Teléfono:</label>
-              <input type="text" id="alta-telefono" placeholder="612 345 678" />
+              <input
+                type="text"
+                id="alta-telefono"
+                name="telefono"
+                placeholder="612 345 678"
+              />
               <span class="error-msg" id="error-telefono"></span>
             </div>
 
@@ -258,6 +268,7 @@
               <input
                 type="text"
                 id="alta-nacimiento"
+                name="nacimiento"
                 placeholder="14/03/1995"
               />
               <span class="error-msg" id="error-nacimiento"></span>
@@ -274,6 +285,7 @@
               <input
                 type="number"
                 id="alta-cuota"
+                name="cuota"
                 step="0.01"
                 placeholder="35"
               />
@@ -284,7 +296,6 @@
               Registrar Socio
             </button>
           </form>
-          <div id="alta-success-msg" class="success-msg hidden"></div>
         </div>
       </dialog>
 
