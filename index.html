@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestor de Socios - Club Deportivo</title>
     <link rel="stylesheet" href="public/css/style.css" />
+    <script src="public/js/main/loadHeader.js" defer></script>
     <script src="public/js/data/socios.js"></script>
     <script src="public/js/data/actividades.js"></script>
-    <script src="public/js/main/loadHeader.js" defer></script>
     <script src="public/js/main/loadTabla.js" defer></script>
     <script src="public/js/main/loadActividades.js" defer></script>
     <script src="public/js/windows/fullScreen.js" defer></script>
@@ -165,6 +165,17 @@
             No hay socios que coincidan.
           </p>
         </div>
+
+        <!-- Contenedor de paginación centrado -->
+        <div id="botones" class="pagination-container">
+          <button id="pagina-anterior" class="btn-secondary">
+            ◀️
+          </button>
+          <span id="pagina-actual">0</span>
+          <button id="pagina-siguiente" class="btn-secondary">
+            ▶️
+          </button>
+        </div>
       </section>
 
       <!-- 3.3 FICHA DE SOCIO -->
@@ -254,7 +265,6 @@
               <span class="error-msg" id="error-nacimiento"></span>
             </div>
 
-            <!-- Actividades correctamente agrupadas en form-full -->
             <div class="form-group form-full">
               <label>Actividades:</label>
               <div class="tags-container" id="alta-actividades"></div>
