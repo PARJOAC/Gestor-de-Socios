@@ -1,9 +1,9 @@
 const Actividades = [
-  (TODAS = "Todas las actividades"),
-  (NATACION = "Natación"),
-  (YOGA = "Yoga"),
-  (PADEL = "Pádel"),
   (MUSCULACION = "Musculación"),
-  (SPINNING = "Spinning"),
+  (NATACION = "Natación"),
+  (PADEL = "Pádel"),
   (PILATES = "Pilates"),
+  (SPINNING = "Spinning"),
+  (TODAS = "Todas las actividades"),
+  (YOGA = "Yoga"),
 ];
