@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestor de Socios - Club Deportivo</title>
     <link rel="stylesheet" href="public/css/style.css" />
-    <script src="public/js/modal.js" defer></script>
+    <script src="public/js/data/socios.js"></script>
+    <script src="public/js/data/actividades.js"></script>
+    <script src="public/js/main/loadHeader.js" defer></script>
+    <script src="public/js/main/loadTabla.js" defer></script>
+    <script src="public/js/main/loadActividades.js" defer></script>
+    <script src="public/js/windows/fullScreen.js" defer></script>
+    <script src="public/js/dialog/modal.js" defer></script>
   </head>
   <body>
     <!-- CABECERA -->
@@ -14,13 +20,13 @@
         <h1>Club Deportivo</h1>
         <!-- Contenedor vertical: Fecha arriba, Hora abajo -->
         <div class="datetime-container">
-          <span id="current-date">Cargando fecha...</span>
-          <span id="current-time">00:00:00</span>
+          <span id="current-date"></span>
+          <span id="current-time"></span>
         </div>
       </div>
     </header>
 
-    <main class="container">
+    <main class="container" id="main">
       <!-- 3.2 LISTADO DE SOCIOS -->
       <section id="section-socios" class="card">
         <div class="section-header">
@@ -107,15 +113,7 @@
               Filtrar por actividad
             </label>
             <div class="select-wrapper">
-              <select id="select-activity-filter">
-                <option value="todas">Todas las actividades</option>
-                <option value="natación">Natación</option>
-                <option value="yoga">Yoga</option>
-                <option value="pádel">Pádel</option>
-                <option value="musculación">Musculación</option>
-                <option value="spinning">Spinning</option>
-                <option value="pilates">Pilates</option>
-              </select>
+              <select id="select-activity-filter"></select>
             </div>
           </div>
 
@@ -259,52 +257,7 @@
             <!-- Actividades correctamente agrupadas en form-full -->
             <div class="form-group form-full">
               <label>Actividades:</label>
-              <div class="tags-container" id="alta-actividades">
-                <label class="tag-chip">
-                  <input
-                    type="checkbox"
-                    value="natación"
-                    class="hidden-checkbox"
-                  />
-                  <span>Natación</span>
-                </label>
-                <label class="tag-chip">
-                  <input type="checkbox" value="yoga" class="hidden-checkbox" />
-                  <span>Yoga</span>
-                </label>
-                <label class="tag-chip">
-                  <input
-                    type="checkbox"
-                    value="pádel"
-                    class="hidden-checkbox"
-                  />
-                  <span>Pádel</span>
-                </label>
-                <label class="tag-chip">
-                  <input
-                    type="checkbox"
-                    value="musculación"
-                    class="hidden-checkbox"
-                  />
-                  <span>Musculación</span>
-                </label>
-                <label class="tag-chip">
-                  <input
-                    type="checkbox"
-                    value="spinning"
-                    class="hidden-checkbox"
-                  />
-                  <span>Spinning</span>
-                </label>
-                <label class="tag-chip">
-                  <input
-                    type="checkbox"
-                    value="pilates"
-                    class="hidden-checkbox"
-                  />
-                  <span>Pilates</span>
-                </label>
-              </div>
+              <div class="tags-container" id="alta-actividades"></div>
               <span class="error-msg" id="error-actividades"></span>
             </div>
 
@@ -325,6 +278,10 @@
           </form>
           <div id="alta-success-msg" class="success-msg hidden"></div>
         </div>
+      </dialog>
+
+      <dialog id="error">
+        <h1 id="mensaje-error"></h1>
       </dialog>
 
       <!-- 3.5 ESTADÍSTICAS -->

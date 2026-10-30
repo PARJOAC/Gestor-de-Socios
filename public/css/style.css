@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
+  --primary-color: #ebac25;
+  --primary-hover: #d8a61d;
   --bg-color: #f8fafc;
   --card-bg: #ffffff;
   --text-color: #1e293b;
@@ -523,12 +523,21 @@ th {
 }
 
 section:fullscreen,
-section:-webkit-full-screen {
-  background: var(--card-bg);
+section:-webkit-full-screen,
+section:-moz-full-screen {
+  background-color: var(
+    --card-bg
+  ) !important; /* Forzamos el color blanco de la tarjeta */
+  color: var(--text-color);
   padding: 2rem;
   overflow-y: auto;
   width: 100vw;
   height: 100vh;
+  box-sizing: border-box;
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
 }
 
 body:has(dialog[open]) {
