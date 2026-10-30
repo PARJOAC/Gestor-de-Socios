@@ -560,3 +560,82 @@ button:disabled {
   background-color: #cbd5e1 !important;
   color: #64748b !important;
 }
+
+/* Contenedor flexible para que las etiquetas no se amontonen */
+.contenedor-actividades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Estilo de etiqueta o 'badge' para cada actividad */
+.badge-actividad {
+  background-color: #e0f2fe; /* Azul muy suave */
+  color: #0369a1; /* Texto azul oscuro */
+  font-size: 0.75rem; /* 12px */
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 9999px; /* Bordes completamente redondeados */
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Opcional: Mejorar un poco la tabla general para que no se vea "fea" */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: #334155;
+}
+
+th,
+td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.875rem;
+}
+
+th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+}
+
+tbody tr:hover {
+  background-color: #f1f5f9; /* Efecto hover al pasar el ratón */
+}
+
+/* Círculo con las iniciales (tu código) */
+.avatar-iniciales {
+  width: 36px;
+  height: 36px;
+  background-color: #0284c7; /* Color de fondo (azul moderno) */
+  color: #ffffff; /* Color del texto (blanco) */
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 50%; /* Lo convierte en un círculo perfecto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0.05, 0.05, 0.1);
+  cursor: default;
+  flex-shrink: 0; /* Evita que el círculo se deforme */
+}
+
+/* Contenedor para alinear el avatar y el ID lado a lado */
+.socio-id-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre el círculo y el número */
+}
+
+/* Estilo para el número de ID */
+.id-numero {
+  font-weight: 500;
+  color: #64748b; /* Un gris sutil y elegante */
+  font-size: 0.85rem;
+}

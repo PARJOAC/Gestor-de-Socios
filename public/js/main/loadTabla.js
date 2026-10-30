@@ -97,6 +97,9 @@ function renderizarTabla({
           (a, b) => new Date(a.fechaNacimiento) + new Date(b.fechaNacimiento),
         );
         break;
+      case "cuota":
+        sociosFiltrados.sort((a, b) => a.cuota - b.cuota);
+        break;
     }
   }
 
@@ -133,14 +136,31 @@ function renderizarTabla({
         value.email.charAt(1) +
         value.email.slice(3, arroba).replace(/./g, "*") +
         value.email.slice(arroba);
+      let actividadesHtml = value.actividades
+        .map(
+          (actividad) =>
+            `<span class="badge-actividad">${actividad.toUpperCase()}</span>`,
+        )
+        .join(" ");
+
+      // Dentro del bucle sociosPaginaActual.forEach de renderizarTabla:
+
+      let iniciales = obtenerIniciales(value.nombre, value.apellidos);
 
       tabla.innerHTML += `
         <tr>
-          <td>${value.id}</td>
+          <td>
+            <div class="socio-id-container">
+              <div class="avatar-iniciales">
+                ${iniciales}
+              </div>
+              <span class="id-numero">#${value.id}</span>
+            </div>
+          </td>
           <td>${value.nombre} ${apellidosAbreviados}</td>
           <td>${email}</td>
-          <td>${value.actividades.join(", ")}</td>
-          <td>${calcularEdad(value.fechaNacimiento)}</td>
+          <td><div class="contenedor-actividades">${actividadesHtml}</div></td>
+          <td>${calcularEdad(value.fechaNacimiento)} años</td>
           <td>${value.cuota} €</td>
         </tr>
       `;
@@ -265,3 +285,10 @@ ordenarFiltro.addEventListener("change", function (e) {
 
 // 5. EJECUCIÓN INICIAL
 renderizarTabla();
+
+// Helper para obtener las iniciales (ej. "Ana María Gómez Pérez" -> "AM")
+function obtenerIniciales(nombre, apellidos) {
+  let primNombre = nombre ? nombre.trim().charAt(0) : "";
+  let primApellido = apellidos ? apellidos.trim().charAt(0) : "";
+  return (primNombre + primApellido).toUpperCase();
+}
