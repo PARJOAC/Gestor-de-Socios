@@ -130,7 +130,6 @@ function renderizarTabla({
       let apellidosAbreviados = apellidos.replace(eliminar, " $1.");
 
       let arroba = value.email.indexOf("@");
-      console.log(arroba);
       let email =
         value.email.charAt(0) +
         value.email.charAt(1) +
@@ -264,7 +263,6 @@ selectFiltro.addEventListener("change", function (e) {
   } else {
     actividadFiltro = Actividades[indiceSeleccionado];
   }
-  console.log(actividadFiltro);
   paginaActual = 0; // Volver a la primera página al filtrar
   renderizarTabla();
 });
