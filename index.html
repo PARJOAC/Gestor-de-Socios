@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestor de Socios - Club Deportivo</title>
+    <link rel="stylesheet" href="public/css/style.css" />
+    <script src="public/js/modal.js" defer></script>
+  </head>
+  <body>
+    <!-- CABECERA -->
+    <header id="main-header">
+      <div class="header-content">
+        <h1>Club Deportivo</h1>
+        <!-- Contenedor vertical: Fecha arriba, Hora abajo -->
+        <div class="datetime-container">
+          <span id="current-date">Cargando fecha...</span>
+          <span id="current-time">00:00:00</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- 3.2 LISTADO DE SOCIOS -->
+      <section id="section-socios" class="card">
+        <div class="section-header">
+          <h2>Listado de Socios</h2>
+          <div class="header-actions">
+            <button id="btn-open-alta" class="btn-primary">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Nuevo Socio
+            </button>
+            <button
+              id="btn-fullscreen"
+              class="btn-secondary"
+              title="Pantalla completa"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+                ></path>
+              </svg>
+              Pantalla Completa
+            </button>
+          </div>
+        </div>
+
+        <!-- Controles de búsqueda, filtro y orden mejorados -->
+        <div class="controls-bar">
+          <div class="control-card">
+            <label for="input-search">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              Buscar socio
+            </label>
+            <input
+              type="text"
+              id="input-search"
+              placeholder="Nombre, email (mín. 2 carac.)"
+            />
+          </div>
+
+          <div class="control-card">
+            <label for="select-activity-filter">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                ></path>
+              </svg>
+              Filtrar por actividad
+            </label>
+            <div class="select-wrapper">
+              <select id="select-activity-filter">
+                <option value="todas">Todas las actividades</option>
+                <option value="natación">Natación</option>
+                <option value="yoga">Yoga</option>
+                <option value="pádel">Pádel</option>
+                <option value="musculación">Musculación</option>
+                <option value="spinning">Spinning</option>
+                <option value="pilates">Pilates</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="control-card">
+            <label for="select-order">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
+              Ordenar listado
+            </label>
+            <div class="select-wrapper">
+              <select id="select-order">
+                <option value="default">Por defecto</option>
+                <option value="nombre">Por Nombre</option>
+                <option value="apellidos">Por Apellidos</option>
+                <option value="jovenes">Más jóvenes primero</option>
+                <option value="antiguos">Más antiguos primero</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de socios -->
+        <div class="table-responsive">
+          <table id="table-socios">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Actividades</th>
+                <th>Edad</th>
+                <th>Cuota</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-socios">
+              <!-- Las filas se inyectarán por JS -->
+            </tbody>
+          </table>
+          <p id="no-results-msg" class="hidden text-center">
+            No hay socios que coincidan.
+          </p>
+        </div>
+      </section>
+
+      <!-- 3.3 FICHA DE SOCIO -->
+      <section id="section-ficha" class="card">
+        <h2>Ficha de Socio</h2>
+        <div class="control-group" style="max-width: 450px">
+          <label for="input-dni-search">Consultar por DNI:</label>
+          <div class="search-inline">
+            <input
+              type="text"
+              id="input-dni-search"
+              placeholder="Ej: 12345678Z"
+            />
+            <button id="btn-search-dni" class="btn-primary">Consultar</button>
+          </div>
+        </div>
+
+        <div id="ficha-container" class="ficha-details">
+          <p class="text-muted">
+            Introduce un DNI para ver los detalles del socio.
+          </p>
+        </div>
+        <p id="ficha-error-msg" class="error-text hidden">
+          El DNI no corresponde a ningún socio.
+        </p>
+      </section>
+
+      <!-- 3.4 MODAL DE ALTA DE SOCIO -->
+      <dialog id="modal-alta" class="modal">
+        <div class="modal-header">
+          <h2>Dar de Alta Nuevo Socio</h2>
+          <button id="btn-close-alta" class="btn-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-alta" novalidate>
+            <div class="form-group">
+              <label for="alta-nombre">Nombre:</label>
+              <input
+                type="text"
+                id="alta-nombre"
+                placeholder="Ej: María José"
+              />
+              <span class="error-msg" id="error-nombre"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="alta-apellidos">Apellidos:</label>
+              <input
+                type="text"
+                id="alta-apellidos"
+                placeholder="Ej: Martín Ruiz"
+              />
+              <span class="error-msg" id="error-apellidos"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="alta-dni">DNI:</label>
+              <input type="text" id="alta-dni" placeholder="12345678Z" />
+              <span class="error-msg" id="error-dni"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="alta-email">Email:</label>
+              <input
+                type="email"
+                id="alta-email"
+                placeholder="correo@dominio.es"
+              />
+              <span class="error-msg" id="error-email"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="alta-telefono">Teléfono:</label>
+              <input type="text" id="alta-telefono" placeholder="612 345 678" />
+              <span class="error-msg" id="error-telefono"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="alta-nacimiento"
+                >Fecha de Nacimiento (dd/mm/aaaa):</label
+              >
+              <input
+                type="text"
+                id="alta-nacimiento"
+                placeholder="14/03/1995"
+              />
+              <span class="error-msg" id="error-nacimiento"></span>
+            </div>
+
+            <!-- Actividades correctamente agrupadas en form-full -->
+            <div class="form-group form-full">
+              <label>Actividades:</label>
+              <div class="tags-container" id="alta-actividades">
+                <label class="tag-chip">
+                  <input
+                    type="checkbox"
+                    value="natación"
+                    class="hidden-checkbox"
+                  />
+                  <span>Natación</span>
+                </label>
+                <label class="tag-chip">
+                  <input type="checkbox" value="yoga" class="hidden-checkbox" />
+                  <span>Yoga</span>
+                </label>
+                <label class="tag-chip">
+                  <input
+                    type="checkbox"
+                    value="pádel"
+                    class="hidden-checkbox"
+                  />
+                  <span>Pádel</span>
+                </label>
+                <label class="tag-chip">
+                  <input
+                    type="checkbox"
+                    value="musculación"
+                    class="hidden-checkbox"
+                  />
+                  <span>Musculación</span>
+                </label>
+                <label class="tag-chip">
+                  <input
+                    type="checkbox"
+                    value="spinning"
+                    class="hidden-checkbox"
+                  />
+                  <span>Spinning</span>
+                </label>
+                <label class="tag-chip">
+                  <input
+                    type="checkbox"
+                    value="pilates"
+                    class="hidden-checkbox"
+                  />
+                  <span>Pilates</span>
+                </label>
+              </div>
+              <span class="error-msg" id="error-actividades"></span>
+            </div>
+
+            <div class="form-group form-full" style="max-width: 50%">
+              <label for="alta-cuota">Cuota Mensual (€):</label>
+              <input
+                type="number"
+                id="alta-cuota"
+                step="0.01"
+                placeholder="35"
+              />
+              <span class="error-msg" id="error-cuota"></span>
+            </div>
+
+            <button type="submit" class="btn-primary btn-block form-full">
+              Registrar Socio
+            </button>
+          </form>
+          <div id="alta-success-msg" class="success-msg hidden"></div>
+        </div>
+      </dialog>
+
+      <!-- 3.5 ESTADÍSTICAS -->
+      <section id="section-stats" class="card">
+        <h2>Estadísticas del Club</h2>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <h3>Total Socios</h3>
+            <p id="stat-total-socios">0</p>
+          </div>
+          <div class="stat-box">
+            <h3>Ingresos Mensuales</h3>
+            <p id="stat-ingresos">0.00 €</p>
+          </div>
+          <div class="stat-box">
+            <h3>Cuota Media</h3>
+            <p id="stat-cuota-media">0.00 €</p>
+          </div>
+          <div class="stat-box">
+            <h3>Edad Media</h3>
+            <p id="stat-edad-media">0.0 años</p>
+          </div>
+          <div class="stat-box">
+            <h3>Rango de Edad</h3>
+            <p>
+              <span id="stat-edad-min">0</span> -
+              <span id="stat-edad-max">0</span> años
+            </p>
+          </div>
+          <div class="stat-box">
+            <h3>Actividad Más Popular</h3>
+            <p id="stat-populares">-</p>
+          </div>
+          <div class="stat-box">
+            <h3>¿Menores de edad?</h3>
+            <p id="stat-menores">-</p>
+          </div>
+          <div class="stat-box">
+            <h3>¿Todos con actividad?</h3>
+            <p id="stat-todos-actividad">-</p>
+          </div>
+        </div>
+
+        <div class="stats-extra-grid">
+          <div class="stat-box-large">
+            <h3>Top 3 Socios más veteranos</h3>
+            <ol id="stat-veteranos-list"></ol>
+          </div>
+          <div class="stat-box-large">
+            <h3>Dominios de correo utilizados</h3>
+            <ul id="stat-dominios-list"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
