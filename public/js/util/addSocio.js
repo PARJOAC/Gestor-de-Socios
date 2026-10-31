@@ -2,31 +2,46 @@ let formulario = document.getElementById("form-alta");
 
 formulario.addEventListener("submit", function (e) {
   e.preventDefault(); // Evita que la página se recargue
+
   try {
+    let errores = [];
+
+    const nombre = document.getElementById("alta-nombre").value.trim();
+    if (!nombre) errores.push("NOMBRE");
+
+    const apellidos = document.getElementById("alta-apellidos").value.trim();
+    if (!apellidos) errores.push("APELLIDOS");
+
+    const dni = document.getElementById("alta-dni").value.trim();
+    if (!dni) errores.push("DNI");
+
+    const email = document.getElementById("alta-email").value.trim();
+    if (!email) errores.push("EMAIL");
+
+    const telefono = document.getElementById("alta-telefono").value.trim();
+    if (!telefono) errores.push("TELÉFONO");
+
+    const nacimiento = document.getElementById("alta-nacimiento").value.trim();
+    if (!nacimiento) errores.push("FECHA DE NACIMIENTO");
+
+    const cuota = document.getElementById("alta-cuota").value.trim();
+    if (!cuota) errores.push("CUOTA");
+
+    // Si hay errores, unimos los strings del array y lanzamos el Error con ese mensaje de texto
+    if (errores.length > 0) {
+      throw new Error(errores.join(", "));
+    }
+
+    // Si todo va bien:
     const datos = new FormData(formulario);
     const objetoDatos = Object.fromEntries(datos.entries());
-
-    const nombre = document.getElementById("alta-nombre").value;
-    if (!nombre) throw new Error("Falta el NOMBRE por añadir.");
-    const apellidos = document.getElementById("alta-apellidos").value;
-    if (!apellidos) throw new Error("Faltan los APELLIDOS por añadir.");
-    const dni = document.getElementById("alta-dni").value;
-    if (!dni) throw new Error("Falta el DNI por añadir.");
-    const email = document.getElementById("alta-email").value;
-    if (!email) throw new Error("Falta el EMAIL por añadir.");
-    const telefono = document.getElementById("alta-telefono").value;
-    if (!telefono) throw new Error("Falta el TELÉFONO por añadir.");
-    const nacimiento = document.getElementById("alta-nacimiento").value;
-    if (!nacimiento)
-      throw new Error("Falta la FECHA DE NACIMIENTO por añadir.");
-    const actividades = document.getElementById("alta-actividades");
-    if (!actividades) throw new Error("Faltan las ACTIVIDADES por añadir.");
-    const cuota = document.getElementById("alta-cuota").value;
-    if (!cuota) throw new Error("Falta la CUOTA por añadir.");
     socios.push(objetoDatos);
-    modal.close();
+
+    // Cierra el modal basado en clases que creamos antes
+    modal.classList.add("hidden");
+    formulario.reset();
   } catch (e) {
-    let errorDiv = document.getElementById("error-msg");
-    errorDiv.innerHTML = e.message;
+    // e.message contendrá la cadena unida ("NOMBRE, APELLIDOS, ...")
+    mostrarToastError("Falta por añadir esta información: " + e.message);
   }
 });

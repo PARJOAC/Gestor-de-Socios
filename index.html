@@ -14,6 +14,7 @@
     <script src="public/js/dialog/modal.js" defer></script>
     <script src="public/js/util/addSocio.js" defer></script>
     <script src="public/js/util/consultar.js" defer></script>
+    <script src="public/js/toast/error.js" defer></script>
   </head>
   <body>
     <!-- CABECERA -->
@@ -200,8 +201,63 @@
         </p>
       </section>
 
-      <!-- 3.4 MODAL DE ALTA DE SOCIO -->
-      <dialog id="modal-alta" class="modal">
+      <!-- 3.5 ESTADÍSTICAS -->
+      <section id="section-stats" class="card">
+        <h2>Estadísticas del Club</h2>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <h3>Total Socios</h3>
+            <p id="stat-total-socios">0</p>
+          </div>
+          <div class="stat-box">
+            <h3>Ingresos Mensuales</h3>
+            <p id="stat-ingresos">0.00 €</p>
+          </div>
+          <div class="stat-box">
+            <h3>Cuota Media</h3>
+            <p id="stat-cuota-media">0.00 €</p>
+          </div>
+          <div class="stat-box">
+            <h3>Edad Media</h3>
+            <p id="stat-edad-media">0.0 años</p>
+          </div>
+          <div class="stat-box">
+            <h3>Rango de Edad</h3>
+            <p>
+              <span id="stat-edad-min">0</span> -
+              <span id="stat-edad-max">0</span> años
+            </p>
+          </div>
+          <div class="stat-box">
+            <h3>Actividad Más Popular</h3>
+            <p id="stat-populares">-</p>
+          </div>
+          <div class="stat-box">
+            <h3>¿Menores de edad?</h3>
+            <p id="stat-menores">-</p>
+          </div>
+          <div class="stat-box">
+            <h3>¿Todos con actividad?</h3>
+            <p id="stat-todos-actividad">-</p>
+          </div>
+        </div>
+
+        <div class="stats-extra-grid">
+          <div class="stat-box-large">
+            <h3>Top 3 Socios más veteranos</h3>
+            <ol id="stat-veteranos-list"></ol>
+          </div>
+          <div class="stat-box-large">
+            <h3>Dominios de correo utilizados</h3>
+            <ul id="stat-dominios-list"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 3.4 MODAL DE ALTA DE SOCIO (Convertido a div para respetar z-index con toasts) -->
+    <div id="modal-alta" class="custom-modal-backdrop hidden">
+      <div class="modal custom-modal-content">
         <div class="modal-header">
           <h2>Dar de Alta Nuevo Socio</h2>
           <button id="btn-close-alta" class="btn-close">&times;</button>
@@ -300,64 +356,14 @@
             </button>
           </form>
         </div>
-      </dialog>
+      </div>
+    </div>
 
-      <dialog id="error">
-        <h1 id="mensaje-error"></h1>
-      </dialog>
+    <div id="error" class="custom-modal-backdrop hidden">
+      <h1 id="mensaje-error"></h1>
+    </div>
 
-      <!-- 3.5 ESTADÍSTICAS -->
-      <section id="section-stats" class="card">
-        <h2>Estadísticas del Club</h2>
-        <div class="stats-grid">
-          <div class="stat-box">
-            <h3>Total Socios</h3>
-            <p id="stat-total-socios">0</p>
-          </div>
-          <div class="stat-box">
-            <h3>Ingresos Mensuales</h3>
-            <p id="stat-ingresos">0.00 €</p>
-          </div>
-          <div class="stat-box">
-            <h3>Cuota Media</h3>
-            <p id="stat-cuota-media">0.00 €</p>
-          </div>
-          <div class="stat-box">
-            <h3>Edad Media</h3>
-            <p id="stat-edad-media">0.0 años</p>
-          </div>
-          <div class="stat-box">
-            <h3>Rango de Edad</h3>
-            <p>
-              <span id="stat-edad-min">0</span> -
-              <span id="stat-edad-max">0</span> años
-            </p>
-          </div>
-          <div class="stat-box">
-            <h3>Actividad Más Popular</h3>
-            <p id="stat-populares">-</p>
-          </div>
-          <div class="stat-box">
-            <h3>¿Menores de edad?</h3>
-            <p id="stat-menores">-</p>
-          </div>
-          <div class="stat-box">
-            <h3>¿Todos con actividad?</h3>
-            <p id="stat-todos-actividad">-</p>
-          </div>
-        </div>
-
-        <div class="stats-extra-grid">
-          <div class="stat-box-large">
-            <h3>Top 3 Socios más veteranos</h3>
-            <ol id="stat-veteranos-list"></ol>
-          </div>
-          <div class="stat-box-large">
-            <h3>Dominios de correo utilizados</h3>
-            <ul id="stat-dominios-list"></ul>
-          </div>
-        </div>
-      </section>
-    </main>
+    <!-- CONTENEDOR DE TOASTS GLOBAL AL FINAL DEL BODY -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
   </body>
 </html>

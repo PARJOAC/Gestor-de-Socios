@@ -1,12 +1,14 @@
 const btnBuscar = document.getElementById("btn-search-dni");
 
 btnBuscar.addEventListener("click", function (e) {
-  const dni = document.getElementById("input-dni-search");
-  let busqueda = socios.find(
-    (socio) => socio.dni.toLowerCase() === dni.value.toLowerCase(),
-  );
-  let datosConsulta = document.getElementById("datosConsulta");
-  datosConsulta.innerHTML = `
+  try {
+    const dni = document.getElementById("input-dni-search");
+    let busqueda = socios.find(
+      (socio) => socio.dni.toLowerCase() === dni.value.toLowerCase(),
+    );
+    if (!busqueda) throw new Error("El socio no se ha encontrado.");
+    let datosConsulta = document.getElementById("datosConsulta");
+    datosConsulta.innerHTML = `
         <p><strong>Nombre:</strong> ${busqueda.nombre}</p>
         <p><strong>Apellidos:</strong> ${busqueda.apellidos}</p>
         <p><strong>DNI:</strong> ${busqueda.dni}</p>
@@ -17,4 +19,7 @@ btnBuscar.addEventListener("click", function (e) {
         <p><strong>Actividades:</strong> ${busqueda.actividades.join(", ")}</p>
         <p><strong>Cuota:</strong> ${busqueda.cuota}</p>
     `;
+  } catch (e) {
+    mostrarToastError(e);
+  }
 });

@@ -37,6 +37,36 @@ body {
   overflow-x: hidden;
 }
 
+body:has(.custom-modal-backdrop:not(.hidden)) {
+  overflow: hidden;
+}
+
+/* Tipografía y Textos */
+h2 {
+  margin-bottom: 1.25rem;
+  font-size: 1.25rem;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--bg-color);
+  padding-bottom: 0.5rem;
+}
+
+.text-center {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 1.5rem;
+}
+
+.text-muted,
+.stat-box h3,
+.stat-box-large h3 {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
 /* Cabecera general */
 #main-header {
   background-color: var(--primary-color);
@@ -45,9 +75,13 @@ body {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
-.header-content {
+.header-content,
+.container {
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -55,7 +89,6 @@ body {
   gap: 1rem;
 }
 
-/* Contenedor que apila la fecha encima de la hora */
 .datetime-container {
   display: flex;
   flex-direction: column;
@@ -77,10 +110,10 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Contenedor principal */
+/* Contenedor principal y Tarjetas */
 .container {
-  max-width: 1200px;
-  margin: 1.5rem auto;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   padding: 0 1rem;
   display: flex;
   flex-direction: column;
@@ -101,15 +134,7 @@ body {
   }
 }
 
-h2 {
-  margin-bottom: 1.25rem;
-  font-size: 1.25rem;
-  color: var(--text-color);
-  border-bottom: 2px solid var(--bg-color);
-  padding-bottom: 0.5rem;
-}
-
-/* Controles y barra de búsqueda/filtros mejorados */
+/* Secciones y Controles */
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -180,17 +205,42 @@ h2 {
   color: var(--primary-color);
 }
 
+/* Formularios, Inputs y Selects */
+label {
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.control-group,
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.25rem;
+}
+
 .control-card input,
-.control-card select {
+.control-card select,
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select {
   width: 100%;
-  padding: 0.65rem 0.875rem;
+  padding: 0.5rem 0.75rem;
   background-color: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-color);
   outline: none;
   transition: all 0.2s ease-in-out;
+}
+
+.control-card input,
+.control-card select {
+  padding: 0.65rem 0.875rem;
+  font-size: 0.95rem;
 }
 
 .control-card input:hover,
@@ -199,8 +249,14 @@ h2 {
 }
 
 .control-card input:focus,
-.control-card select:focus {
+.control-card select:focus,
+input:focus,
+select:focus {
   border-color: var(--primary-color);
+}
+
+.control-card input:focus,
+.control-card select:focus {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
@@ -212,38 +268,6 @@ select {
   background-size: 1rem;
   padding-right: 2.5rem;
   cursor: pointer;
-}
-
-.control-group,
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  margin-bottom: 0.25rem;
-}
-
-label {
-  font-weight: 500;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-input[type="text"],
-input[type="email"],
-input[type="number"],
-select {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  font-size: 0.9rem;
-  outline: none;
-  transition: border-color 0.2s;
-  width: 100%;
-}
-
-input:focus,
-select:focus {
-  border-color: var(--primary-color);
 }
 
 .search-inline {
@@ -264,6 +288,13 @@ button {
   border-radius: var(--radius);
   padding: 0.6rem 1rem;
   transition: background-color 0.2s;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #cbd5e1 !important;
+  color: #64748b !important;
 }
 
 .btn-primary {
@@ -288,9 +319,21 @@ button {
   width: 100%;
 }
 
-/* Estilos de la Ventana Modal (<dialog>) */
-dialog.modal {
-  border: none;
+/* Ventana Modal Personalizada (Fondo Oscuro + Contenido) */
+.custom-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 1000; /* Fondo oscuro por debajo de los toasts pero por encima de la web */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.custom-modal-content {
+  background: var(--card-bg);
   border-radius: var(--radius);
   padding: 0;
   width: 92%;
@@ -299,15 +342,7 @@ dialog.modal {
   box-shadow:
     0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  animation: fadeIn 0.2s ease-in-out;
-}
-
-dialog.modal::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
+  overflow: hidden;
 }
 
 .modal-header {
@@ -347,15 +382,13 @@ dialog.modal::backdrop {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-/* FORMULARIO RESPONSIVE (1 columna en móvil, 2 en escritorio) */
+/* Formulario de Alta */
 #form-alta {
   display: grid;
   grid-template-columns: 1fr;
@@ -382,11 +415,16 @@ dialog.modal::backdrop {
   margin-top: 0.5rem;
 }
 
-/* ESTILOS DE LAS ETIQUETAS DE ACTIVIDADES */
-.tags-container {
+/* Etiquetas y Chips de Actividades */
+.tags-container,
+.socio-actividades,
+.contenedor-actividades {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+}
+
+.tags-container {
   margin-top: 0.25rem;
 }
 
@@ -422,7 +460,18 @@ dialog.modal::backdrop {
   font-weight: 600;
 }
 
-/* Tabla de socios y utilidades con scroll horizontal fluido */
+.badge-actividad {
+  background-color: #fdebc3;
+  color: #ebac25;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Tablas */
 .table-responsive {
   width: 100%;
   overflow-x: auto;
@@ -441,7 +490,7 @@ th,
 td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #e2e8f0;
-  white-space: nowrap; /* Evita saltos extraños de línea en celdas */
+  white-space: nowrap;
 }
 
 th {
@@ -454,6 +503,7 @@ tbody tr:hover {
   background-color: #f1f5f9;
 }
 
+/* Mensajes de error y éxito */
 .input-error {
   border-color: var(--error-color) !important;
 }
@@ -480,6 +530,7 @@ tbody tr:hover {
   font-weight: 500;
 }
 
+/* Estadísticas */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -487,16 +538,25 @@ tbody tr:hover {
   margin-bottom: 1.5rem;
 }
 
-.stat-box {
+.stats-extra-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.stat-box,
+.stat-box-large {
   background: var(--bg-color);
   padding: 1rem;
   border-radius: var(--radius);
+}
+
+.stat-box {
   text-align: center;
 }
 
 .stat-box h3 {
   font-size: 0.85rem;
-  color: var(--text-muted);
   margin-bottom: 0.25rem;
 }
 
@@ -506,21 +566,8 @@ tbody tr:hover {
   color: var(--primary-color);
 }
 
-.stats-extra-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-}
-
-.stat-box-large {
-  background: var(--bg-color);
-  padding: 1rem;
-  border-radius: var(--radius);
-}
-
 .stat-box-large h3 {
   font-size: 0.9rem;
-  color: var(--text-muted);
   margin-bottom: 0.5rem;
 }
 
@@ -530,22 +577,7 @@ tbody tr:hover {
   font-size: 0.9rem;
 }
 
-.hidden {
-  display: none !important;
-}
-
-.text-center {
-  text-align: center;
-  color: var(--text-muted);
-  padding: 1.5rem;
-}
-
-.text-muted {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-/* PANTALLA COMPLETA CORREGIDA PARA PERMITIR SCROLL NATURAL */
+/* Pantalla Completa */
 section:fullscreen,
 section:-webkit-full-screen,
 section:-moz-full-screen {
@@ -559,11 +591,7 @@ section:-moz-full-screen {
   display: block !important;
 }
 
-body:has(dialog[open]) {
-  overflow: hidden;
-}
-
-/* Contenedor de paginación centrado */
+/* Paginación */
 .pagination-container {
   display: flex;
   justify-content: center;
@@ -578,37 +606,11 @@ body:has(dialog[open]) {
   font-weight: 600;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: #cbd5e1 !important;
-  color: #64748b !important;
-}
-
-/* Contenedor flexible para etiquetas */
-.contenedor-actividades {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-/* Estilo de etiqueta o 'badge' para cada actividad */
-.badge-actividad {
-  background-color: #fdebc3;
-  color: #ebac25;
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 9999px;
-  display: inline-block;
-  white-space: nowrap;
-}
-
-/* Círculo con las iniciales */
+/* Tarjeta y Detalles de Socio */
 .avatar-iniciales {
   width: 36px;
   height: 36px;
-  background-color: #ebac25;
+  background-color: var(--primary-color);
   color: #ffffff;
   font-weight: 600;
   font-size: 0.85rem;
@@ -621,21 +623,24 @@ button:disabled {
   flex-shrink: 0;
 }
 
-/* Contenedor para alinear el avatar y el ID lado a lado */
 .socio-id-container {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Estilo para el número de ID */
+.id-numero,
+.socio-edad,
+.socio-footer-label,
+.socio-label {
+  color: var(--text-muted);
+}
+
 .id-numero {
   font-weight: 500;
-  color: #64748b;
   font-size: 0.85rem;
 }
 
-/* Tarjeta principal del socio */
 .socio-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -651,7 +656,6 @@ button:disabled {
   max-width: 450px;
 }
 
-/* Alerta de error o no encontrado */
 .socio-error {
   background-color: #fef2f2;
   border: 1px solid #fecaca;
@@ -661,13 +665,11 @@ button:disabled {
   font-size: 0.95rem;
 }
 
-/* Cabecera */
 .socio-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 0;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem;
   border-bottom: 2px solid #f1f5f9;
   padding-bottom: 0.5rem;
 }
@@ -675,7 +677,7 @@ button:disabled {
 .socio-header h3 {
   margin: 0;
   font-size: 1.15rem;
-  color: #1e293b;
+  color: var(--text-color);
 }
 
 .socio-badge-activo {
@@ -687,7 +689,6 @@ button:disabled {
   font-weight: 500;
 }
 
-/* Cuadrícula de datos */
 .socio-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -700,12 +701,12 @@ button:disabled {
   flex-direction: column;
 }
 
-.socio-full {
+.socio-full,
+.socio-footer {
   grid-column: span 2;
 }
 
 .socio-label {
-  color: #64748b;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -730,19 +731,6 @@ button:disabled {
   text-decoration: underline;
 }
 
-.socio-edad {
-  color: #64748b;
-  font-weight: normal;
-}
-
-/* Actividades (Tags) */
-.socio-actividades {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-top: 0.2rem;
-}
-
 .socio-tag {
   background: #f1f5f9;
   color: #334155;
@@ -752,9 +740,7 @@ button:disabled {
   border: 1px solid #e2e8f0;
 }
 
-/* Pie de tarjeta (Cuota) */
 .socio-footer {
-  grid-column: span 2;
   border-top: 1px solid #f1f5f9;
   padding-top: 0.75rem;
   margin-top: 0.25rem;
@@ -764,7 +750,6 @@ button:disabled {
 }
 
 .socio-footer-label {
-  color: #64748b;
   font-size: 0.85rem;
   font-weight: 500;
 }
@@ -776,4 +761,79 @@ button:disabled {
   padding: 0.2rem 0.6rem;
   border-radius: 6px;
   border: 1px solid #a7f3d0;
+}
+
+/* Notificaciones Toast (Siempre por encima del modal backdrop gracias a z-index: 99999) */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 99999;
+  max-width: 380px;
+  width: calc(100% - 3rem);
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--card-bg, #ffffff);
+  color: var(--text-color, #1e293b);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius, 8px);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  pointer-events: auto;
+  border-left: 4px solid var(--error-color, #dc2626);
+  animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.toast.toast-error {
+  border-left-color: var(--error-color, #dc2626);
+  background-color: #fef2f2;
+  color: #991b1b;
+}
+
+.toast svg {
+  flex-shrink: 0;
+  color: var(--error-color, #dc2626);
+}
+
+.toast-message {
+  font-size: 0.9rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+.toast.hiding {
+  animation: toastFadeOut 0.25s ease-in forwards;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toastFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.95);
+  }
 }
