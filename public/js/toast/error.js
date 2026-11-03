@@ -14,11 +14,10 @@ function mostrarToastError(mensaje) {
 
   container.appendChild(toast);
 
-  // Eliminar automáticamente tras 4 segundos
   setTimeout(() => {
     toast.classList.add("hiding");
     toast.addEventListener("animationend", () => toast.remove());
-  }, 4000);
+  }, 5000);
 }
 
 export { mostrarToastError };
