@@ -253,10 +253,6 @@ select {
 input:focus,
 select:focus {
   border-color: var(--primary-color);
-}
-
-.control-card input:focus,
-.control-card select:focus {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
@@ -319,13 +315,13 @@ button:disabled {
   width: 100%;
 }
 
-/* Ventana Modal Personalizada (Fondo Oscuro + Contenido) */
+/* Ventana Modal Personalizada */
 .custom-modal-backdrop {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
-  z-index: 1000; /* Fondo oscuro por debajo de los toasts pero por encima de la web */
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -577,20 +573,6 @@ tbody tr:hover {
   font-size: 0.9rem;
 }
 
-/* Pantalla Completa */
-section:fullscreen,
-section:-webkit-full-screen,
-section:-moz-full-screen {
-  background-color: var(--card-bg) !important;
-  color: var(--text-color);
-  padding: 2rem;
-  width: 100vw !important;
-  height: 100vh !important;
-  box-sizing: border-box;
-  overflow-y: auto !important;
-  display: block !important;
-}
-
 /* Paginación */
 .pagination-container {
   display: flex;
@@ -649,10 +631,6 @@ section:-moz-full-screen {
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.05),
     0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
   max-width: 450px;
 }
 
@@ -763,7 +741,7 @@ section:-moz-full-screen {
   border: 1px solid #a7f3d0;
 }
 
-/* Notificaciones Toast (Siempre por encima del modal backdrop gracias a z-index: 99999) */
+/* Notificaciones Toast */
 .toast-container {
   position: fixed;
   bottom: 1.5rem;
@@ -836,4 +814,16 @@ section:-moz-full-screen {
     opacity: 0;
     transform: translateY(0.5rem) scale(0.95);
   }
+}
+
+/* Cuando el body está en pantalla completa, fijamos el fondo blanco y permitimos el scroll */
+body:fullscreen,
+body:-webkit-full-screen,
+body:-moz-full-screen {
+  background-color: #ffffff !important;
+  color: var(--text-color) !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow-y: auto !important; /* Habilita el scroll */
+  padding: 1.5rem !important;
 }

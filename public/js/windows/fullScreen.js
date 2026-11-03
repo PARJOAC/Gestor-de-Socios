@@ -3,7 +3,7 @@ import { mostrarToastError } from "../toast/error.js";
 
 btnFullScreen.addEventListener("click", function () {
   try {
-    const elem = document.getElementById("main");
+    const elem = document.body;
 
     if (!document.fullscreenElement) {
       elem.requestFullscreen().catch((err) => {
@@ -14,8 +14,17 @@ btnFullScreen.addEventListener("click", function () {
     } else {
       document.exitFullscreen();
     }
-    elem.style.backgroundColor = "white";
   } catch (e) {
     mostrarToastError(e.message);
+  }
+});
+
+document.addEventListener("fullscreenchange", function () {
+  const header = document.getElementById("main-header");
+
+  if (document.fullscreenElement) {
+    header.style.display = "none";
+  } else {
+    header.style.display = "";
   }
 });
