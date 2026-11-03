@@ -1,4 +1,5 @@
 let formulario = document.getElementById("form-alta");
+import { mostrarToastError } from "../toast/error.js";
 
 formulario.addEventListener("submit", function (e) {
   e.preventDefault(); // Evita que la página se recargue
@@ -35,7 +36,7 @@ formulario.addEventListener("submit", function (e) {
     // Si todo va bien:
     const datos = new FormData(formulario);
     const objetoDatos = Object.fromEntries(datos.entries());
-    socios.push(objetoDatos);
+    Socios.push(objetoDatos);
 
     // Cierra el modal basado en clases que creamos antes
     modal.classList.add("hidden");

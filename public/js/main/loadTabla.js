@@ -12,6 +12,14 @@ let textoBusqueda = "";
 let actividadFiltro = "";
 let ordenFiltro = "";
 
+import { Socios } from "../data/socios.js";
+import {
+  calcularEdad,
+  obtenerIniciales,
+  abreviarApellido,
+  esconderCorreo,
+} from "../util/functions/socio.js";
+
 // 1. FUNCIÓN PARA PINTAR LA TABLA Y ACTUALIZAR BOTONES
 function renderizarTabla({
   busqueda: paramBusqueda = textoBusqueda,
@@ -26,7 +34,7 @@ function renderizarTabla({
   // Limpiar la tabla antes de pintar
   tabla.innerHTML = "";
 
-  let sociosFiltrados = socios;
+  let sociosFiltrados = Socios;
 
   // Filtrar por texto de búsqueda (nombre, apellidos o email)
   if (textoBusqueda) {
@@ -125,18 +133,9 @@ function renderizarTabla({
     tabla.innerHTML = `<tr><td colspan="6" style="text-align: center;">No se encontraron socios</td></tr>`;
   } else {
     sociosPaginaActual.forEach((value) => {
-      let eliminar = /\s([A-Za-zÁ-ÿ])[A-Za-zÁ-ÿ]*/g;
+      const apellidosAbreviados = abreviarApellido(value.apellidos);
+      const email = esconderCorreo(value.email);
 
-      const apellidos = value.apellidos;
-      // En el reemplazo, '$1' mantiene la primera letra capturada y le añade el punto.
-      let apellidosAbreviados = apellidos.replace(eliminar, " $1.");
-
-      let arroba = value.email.indexOf("@");
-      let email =
-        value.email.charAt(0) +
-        value.email.charAt(1) +
-        value.email.slice(3, arroba).replace(/./g, "*") +
-        value.email.slice(arroba);
       let actividadesHtml = value.actividades
         .map(
           (actividad) =>
@@ -188,7 +187,7 @@ botonAnterior.addEventListener("click", () => {
 
 botonSiguiente.addEventListener("click", () => {
   // Recalcular el total de páginas considerando los filtros actuales
-  let sociosFiltrados = socios;
+  let sociosFiltrados = Socios;
   if (textoBusqueda) {
     let q = textoBusqueda
       .toLowerCase()
@@ -237,11 +236,6 @@ botonSiguiente.addEventListener("click", () => {
   }
 });
 
-// Helper para la edad
-function calcularEdad(fechaNacimiento) {
-  return new Date().getFullYear() - new Date(fechaNacimiento).getFullYear();
-}
-
 // 3. EVENTO DE BÚSQUEDA EN TIEMPO REAL
 buscarSocio.addEventListener("input", function (input) {
   texto = input.target.value.trim().length;
@@ -285,10 +279,3 @@ ordenarFiltro.addEventListener("change", function (e) {
 
 // 5. EJECUCIÓN INICIAL
 renderizarTabla();
-
-// Helper para obtener las iniciales (ej. "Ana María Gómez Pérez" -> "AM")
-function obtenerIniciales(nombre, apellidos) {
-  let primNombre = nombre ? nombre.trim().charAt(0) : "";
-  let primApellido = apellidos ? apellidos.trim().charAt(0) : "";
-  return (primNombre + primApellido).toUpperCase();
-}

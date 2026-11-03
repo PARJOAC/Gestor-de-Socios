@@ -1,5 +1,5 @@
 // Datos de todos los socios
-const socios = [
+const Socios = [
   {
     id: "SOC-0001",
     nombre: "Lucía",
@@ -241,3 +241,5 @@ const socios = [
     cuota: 55,
   },
 ];
+
+export { Socios };

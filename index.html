@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestor de Socios - Club Deportivo</title>
     <link rel="stylesheet" href="public/css/style.css" />
-    <script src="public/js/main/loadHeader.js" defer></script>
+    <script type="module" src="public/js/main.js"></script>
+    <!--script src="public/js/main/loadHeader.js" defer></script>
     <script src="public/js/data/socios.js"></script>
     <script src="public/js/data/actividades.js"></script>
     <script src="public/js/main/loadTabla.js" defer></script>
@@ -14,7 +15,7 @@
     <script src="public/js/dialog/modal.js" defer></script>
     <script src="public/js/util/addSocio.js" defer></script>
     <script src="public/js/util/consultar.js" defer></script>
-    <script src="public/js/toast/error.js" defer></script>
+    <script src="public/js/toast/error.js" defer></script -->
   </head>
   <body>
     <!-- CABECERA -->
@@ -184,18 +185,13 @@
             <input
               type="text"
               id="input-dni-search"
-              placeholder="Ej: 12345678Z"
+              placeholder="Introduce un DNI para ver detalles del socio."
             />
             <button id="btn-search-dni" class="btn-primary">Consultar</button>
           </div>
           <div id="datosConsulta"></div>
         </div>
 
-        <div id="ficha-container" class="ficha-details">
-          <p class="text-muted">
-            Introduce un DNI para ver los detalles del socio.
-          </p>
-        </div>
         <p id="ficha-error-msg" class="error-text hidden">
           El DNI no corresponde a ningún socio.
         </p>

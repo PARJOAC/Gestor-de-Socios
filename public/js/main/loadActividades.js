@@ -1,7 +1,8 @@
 let listaActividades = document.getElementById("select-activity-filter");
 let altaActividades = document.getElementById("alta-actividades");
+import { Actividades } from "../data/actividades.js";
 
-Actividades.forEach((value, index) => {
+Object.values(Actividades).forEach((value, index) => {
   listaActividades.innerHTML += `<option value="${index}">${value}</option>`;
   altaActividades.innerHTML += `
   <label class="tag-chip">

@@ -20,3 +20,5 @@ function mostrarToastError(mensaje) {
     toast.addEventListener("animationend", () => toast.remove());
   }, 4000);
 }
+
+export { mostrarToastError };

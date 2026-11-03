@@ -1,9 +1,12 @@
 const btnBuscar = document.getElementById("btn-search-dni");
+import { mostrarToastError } from "../toast/error.js";
+import { Socios } from "../data/socios.js";
+import { calcularEdad } from "../util/functions/socio.js";
 
 btnBuscar.addEventListener("click", function (e) {
   try {
     const dni = document.getElementById("input-dni-search");
-    let busqueda = socios.find(
+    let busqueda = Socios.find(
       (socio) => socio.dni.toLowerCase() === dni.value.toLowerCase(),
     );
     if (!busqueda) throw new Error("El socio no se ha encontrado.");
