@@ -23,6 +23,6 @@ btnBuscar.addEventListener("click", function (e) {
         <p><strong>Cuota:</strong> ${busqueda.cuota}</p>
     `;
   } catch (e) {
-    mostrarToastError(e);
+    mostrarToastError(e.message);
   }
 });

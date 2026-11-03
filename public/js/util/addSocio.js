@@ -2,7 +2,7 @@ let formulario = document.getElementById("form-alta");
 import { mostrarToastError } from "../toast/error.js";
 
 formulario.addEventListener("submit", function (e) {
-  e.preventDefault(); // Evita que la página se recargue
+  e.preventDefault();
 
   try {
     let errores = [];
@@ -28,21 +28,17 @@ formulario.addEventListener("submit", function (e) {
     const cuota = document.getElementById("alta-cuota").value.trim();
     if (!cuota) errores.push("CUOTA");
 
-    // Si hay errores, unimos los strings del array y lanzamos el Error con ese mensaje de texto
     if (errores.length > 0) {
       throw new Error(errores.join(", "));
     }
 
-    // Si todo va bien:
     const datos = new FormData(formulario);
     const objetoDatos = Object.fromEntries(datos.entries());
     Socios.push(objetoDatos);
 
-    // Cierra el modal basado en clases que creamos antes
     modal.classList.add("hidden");
     formulario.reset();
   } catch (e) {
-    // e.message contendrá la cadena unida ("NOMBRE, APELLIDOS, ...")
     mostrarToastError("Falta por añadir esta información: " + e.message);
   }
 });

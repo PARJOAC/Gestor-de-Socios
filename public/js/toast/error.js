@@ -10,7 +10,7 @@ function mostrarToastError(mensaje) {
         <line x1="12" y1="9" x2="12" y2="13"></line>
         <line x1="12" y1="17" x2="12" y2="17"></line>
   </svg>
-  <span class="toast-message">${mensaje}</span>`;
+  <span class="toast-message">Error: ${mensaje}</span>`;
 
   container.appendChild(toast);
 

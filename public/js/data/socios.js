@@ -7,7 +7,7 @@ const Socios = [
     dni: "12345678Z",
     email: "lucia.martin@correo.es",
     telefono: "612345678",
-    fechaNacimiento: "1972-03-14", // ~54 años
+    fechaNacimiento: "1972-03-14",
     fechaAlta: "2019-09-02",
     actividades: ["natación", "yoga"],
     cuota: 35,
@@ -19,7 +19,7 @@ const Socios = [
     dni: "87654321M",
     email: "alvaro.gomez@gmail.com",
     telefono: "689123456",
-    fechaNacimiento: "2006-11-22", // ~20 años
+    fechaNacimiento: "2006-11-22",
     fechaAlta: "2020-01-15",
     actividades: ["pádel", "musculación"],
     cuota: 40,
@@ -31,7 +31,7 @@ const Socios = [
     dni: "45678912K",
     email: "maria.lopez@outlook.es",
     telefono: "671234567",
-    fechaNacimiento: "1968-05-10", // ~58 años
+    fechaNacimiento: "1968-05-10",
     fechaAlta: "2021-03-10",
     actividades: ["spinning", "pilates"],
     cuota: 38,
@@ -43,7 +43,7 @@ const Socios = [
     dni: "78912345Q",
     email: "carlos.sanchez@correo.es",
     telefono: "634567890",
-    fechaNacimiento: "2008-07-19", // ~18 años
+    fechaNacimiento: "2008-07-19",
     fechaAlta: "2018-11-05",
     actividades: ["natación", "musculación"],
     cuota: 45,
@@ -55,7 +55,7 @@ const Socios = [
     dni: "32165498V",
     email: "sofia.fernandez@yahoo.es",
     telefono: "655443322",
-    fechaNacimiento: "1980-12-01", // ~46 años
+    fechaNacimiento: "1980-12-01",
     fechaAlta: "2022-06-20",
     actividades: ["yoga", "pilates"],
     cuota: 30,
@@ -67,7 +67,7 @@ const Socios = [
     dni: "14725836H",
     email: "david.romero@correo.es",
     telefono: "698765432",
-    fechaNacimiento: "1966-09-30", // ~60 años
+    fechaNacimiento: "1966-09-30",
     fechaAlta: "2017-04-12",
     actividades: ["pádel"],
     cuota: 25,
@@ -79,7 +79,7 @@ const Socios = [
     dni: "96385274F",
     email: "elena.navarro@gmail.com",
     telefono: "611223344",
-    fechaNacimiento: "2005-02-18", // ~21 años
+    fechaNacimiento: "2005-02-18",
     fechaAlta: "2023-01-09",
     actividades: ["natación", "spinning"],
     cuota: 42,
@@ -91,7 +91,7 @@ const Socios = [
     dni: "85296374S",
     email: "javier.moreno@outlook.com",
     telefono: "622334455",
-    fechaNacimiento: "1975-06-25", // ~51 años
+    fechaNacimiento: "1975-06-25",
     fechaAlta: "2019-05-14",
     actividades: ["musculación", "spinning", "pádel"],
     cuota: 50,
@@ -103,7 +103,7 @@ const Socios = [
     dni: "74185296W",
     email: "paula.jimenez@correo.es",
     telefono: "633445566",
-    fechaNacimiento: "2004-10-05", // ~22 años
+    fechaNacimiento: "2004-10-05",
     fechaAlta: "2020-08-30",
     actividades: ["yoga"],
     cuota: 28,
@@ -115,7 +115,7 @@ const Socios = [
     dni: "36925814J",
     email: "alejandro.ruiz@gmail.com",
     telefono: "644556677",
-    fechaNacimiento: "1969-04-11", // ~57 años
+    fechaNacimiento: "1969-04-11",
     fechaAlta: "2015-02-28",
     actividades: ["pilates", "natación"],
     cuota: 35,
@@ -127,7 +127,7 @@ const Socios = [
     dni: "15975348R",
     email: "carmen.alonso@correo.es",
     telefono: "666778899",
-    fechaNacimiento: "2007-11-15", // ~19 años
+    fechaNacimiento: "2007-11-15",
     fechaAlta: "2021-09-15",
     actividades: ["spinning"],
     cuota: 30,
@@ -139,7 +139,7 @@ const Socios = [
     dni: "75395126D",
     email: "adrian.gutierrez@yahoo.com",
     telefono: "677889900",
-    fechaNacimiento: "1983-01-30", // ~43 años
+    fechaNacimiento: "1983-01-30",
     fechaAlta: "2018-07-19",
     actividades: ["pádel", "musculación"],
     cuota: 45,
@@ -151,7 +151,7 @@ const Socios = [
     dni: "35795142X",
     email: "sara.dominguez@correo.es",
     telefono: "688990011",
-    fechaNacimiento: "1991-08-08", // ~35 años
+    fechaNacimiento: "1991-08-08",
     fechaAlta: "2020-10-04",
     actividades: ["yoga", "pilates", "natación"],
     cuota: 48,
@@ -163,7 +163,7 @@ const Socios = [
     dni: "25814736N",
     email: "mario.vazquez@gmail.com",
     telefono: "699001122",
-    fechaNacimiento: "1970-12-12", // ~56 años
+    fechaNacimiento: "1970-12-12",
     fechaAlta: "2016-06-11",
     actividades: ["musculación"],
     cuota: 32,
@@ -175,7 +175,7 @@ const Socios = [
     dni: "95135748B",
     email: "claudia.ramos@outlook.es",
     telefono: "611002233",
-    fechaNacimiento: "2006-07-21", // ~20 años
+    fechaNacimiento: "2006-07-21",
     fechaAlta: "2022-02-14",
     actividades: ["spinning", "yoga"],
     cuota: 36,
@@ -187,7 +187,7 @@ const Socios = [
     dni: "65412387Z",
     email: "hector.gil@correo.es",
     telefono: "622113344",
-    fechaNacimiento: "1978-05-03", // ~48 años
+    fechaNacimiento: "1978-05-03",
     fechaAlta: "2019-12-01",
     actividades: ["pádel", "natación"],
     cuota: 40,
@@ -199,7 +199,7 @@ const Socios = [
     dni: "45632178G",
     email: "irene.serrano@gmail.com",
     telefono: "633224455",
-    fechaNacimiento: "2008-09-17", // ~18 años
+    fechaNacimiento: "2008-09-17",
     fechaAlta: "2021-04-25",
     actividades: ["pilates"],
     cuota: 27,
@@ -211,7 +211,7 @@ const Socios = [
     dni: "78945612L",
     email: "marcos.molina@yahoo.es",
     telefono: "644335566",
-    fechaNacimiento: "1967-03-09", // ~59 años
+    fechaNacimiento: "1967-03-09",
     fechaAlta: "2017-10-30",
     actividades: ["musculación", "spinning"],
     cuota: 42,
@@ -223,7 +223,7 @@ const Socios = [
     dni: "12378945E",
     email: "natalia.iglesias@correo.es",
     telefono: "655446677",
-    fechaNacimiento: "2003-10-31", // ~23 años
+    fechaNacimiento: "2003-10-31",
     fechaAlta: "2023-05-18",
     actividades: ["yoga", "natación"],
     cuota: 35,
@@ -235,7 +235,7 @@ const Socios = [
     dni: "98732164Y",
     email: "jorge.ortega@gmail.com",
     telefono: "666557788",
-    fechaNacimiento: "1974-11-04", // ~52 años
+    fechaNacimiento: "1974-11-04",
     fechaAlta: "2018-08-22",
     actividades: ["pádel", "spinning", "musculación"],
     cuota: 55,

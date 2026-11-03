@@ -19,122 +19,94 @@ import {
   abreviarApellido,
   esconderCorreo,
 } from "../util/functions/socio.js";
+import { Actividades } from "../data/actividades.js";
 
-// 1. FUNCIÓN PARA PINTAR LA TABLA Y ACTUALIZAR BOTONES
-function renderizarTabla({
-  busqueda: paramBusqueda = textoBusqueda,
-  filtro: paramFiltro = actividadFiltro,
-  orden: orden = ordenFiltro,
-} = {}) {
-  // Sincronizar estados globales
-  textoBusqueda = paramBusqueda;
-  actividadFiltro = paramFiltro;
-  ordenFiltro = orden;
+const normalizar = (texto) =>
+  texto
+    ? texto
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+    : "";
 
-  // Limpiar la tabla antes de pintar
-  tabla.innerHTML = "";
+function obtenerSociosProcesados() {
+  let resultado = [...Socios];
 
-  let sociosFiltrados = Socios;
-
-  // Filtrar por texto de búsqueda (nombre, apellidos o email)
   if (textoBusqueda) {
-    let query = textoBusqueda
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-    sociosFiltrados = sociosFiltrados.filter((socio) => {
-      const matchNombre = socio.nombre
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .includes(query);
-      const matchApellidos = socio.apellidos
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .includes(query);
-      const matchEmail = socio.email
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .includes(query);
-      return matchNombre || matchApellidos || matchEmail;
+    const query = normalizar(textoBusqueda);
+    resultado = resultado.filter((socio) => {
+      return (
+        normalizar(socio.nombre).includes(query) ||
+        normalizar(socio.apellidos).includes(query) ||
+        normalizar(socio.email).includes(query)
+      );
     });
   }
 
-  // Filtrar por actividad seleccionada
   if (
     actividadFiltro &&
-    actividadFiltro.toLowerCase() != "todas las actividades"
+    actividadFiltro.toLowerCase() !== "todas las actividades"
   ) {
-    let queryFiltro = actividadFiltro
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-    sociosFiltrados = sociosFiltrados.filter((socio) =>
-      socio.actividades.some((v) =>
-        v
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .includes(queryFiltro),
-      ),
+    const queryFiltro = normalizar(actividadFiltro);
+    resultado = resultado.filter((socio) =>
+      socio.actividades.some((v) => normalizar(v).includes(queryFiltro)),
     );
   }
 
   if (ordenFiltro) {
     switch (ordenFiltro.toLowerCase()) {
       case "default":
-        sociosFiltrados.sort((a, b) => a.id.localeCompare(b.id));
+        resultado.sort((a, b) => a.id.localeCompare(b.id));
         break;
       case "nombre":
-        sociosFiltrados.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
         break;
       case "apellidos":
-        sociosFiltrados.sort((a, b) => a.apellidos.localeCompare(b.apellidos));
+        resultado.sort((a, b) => a.apellidos.localeCompare(b.apellidos));
         break;
       case "jovenes":
-        sociosFiltrados.sort(
-          (a, b) => new Date(a.fechaNacimiento) - new Date(b.fechaNacimiento),
+        resultado.sort(
+          (a, b) => new Date(b.fechaNacimiento) - new Date(a.fechaNacimiento),
         );
         break;
       case "antiguos":
-        sociosFiltrados.sort(
-          (a, b) => new Date(a.fechaNacimiento) + new Date(b.fechaNacimiento),
+        resultado.sort(
+          (a, b) => new Date(a.fechaNacimiento) - new Date(b.fechaNacimiento),
         );
         break;
       case "cuota":
-        sociosFiltrados.sort((a, b) => a.cuota - b.cuota);
+        resultado.sort((a, b) => a.cuota - b.cuota);
         break;
       default:
         throw new Error("Ese orden no existe.");
     }
   }
+  return resultado;
+}
 
-  // Calcular páginas totales en base a los resultados filtrados
+function renderizarTabla() {
+  const sociosFiltrados = obtenerSociosProcesados();
   let paginasTotales = Math.ceil(sociosFiltrados.length / sociosPagina);
 
-  // Control de seguridad por si la página actual excede el total tras filtrar
   if (paginaActual >= paginasTotales && paginasTotales > 0) {
     paginaActual = paginasTotales - 1;
   } else if (paginasTotales === 0) {
     paginaActual = 0;
   }
 
-  // Calcular los índices del corte para la página actual
   let inicio = paginaActual * sociosPagina;
   let fin = inicio + sociosPagina;
   let sociosPaginaActual = sociosFiltrados.slice(inicio, fin);
 
-  // Renderizar filas o mensaje de "sin resultados"
+  tabla.innerHTML = "";
+
   if (sociosPaginaActual.length === 0) {
     tabla.innerHTML = `<tr><td colspan="6" style="text-align: center;">No se encontraron socios</td></tr>`;
   } else {
     sociosPaginaActual.forEach((value) => {
       const apellidosAbreviados = abreviarApellido(value.apellidos);
       const email = esconderCorreo(value.email);
+      const iniciales = obtenerIniciales(value.nombre, value.apellidos);
 
       let actividadesHtml = value.actividades
         .map(
@@ -143,17 +115,11 @@ function renderizarTabla({
         )
         .join(" ");
 
-      // Dentro del bucle sociosPaginaActual.forEach de renderizarTabla:
-
-      let iniciales = obtenerIniciales(value.nombre, value.apellidos);
-
       tabla.innerHTML += `
         <tr>
           <td>
             <div class="socio-id-container">
-              <div class="avatar-iniciales">
-                ${iniciales}
-              </div>
+              <div class="avatar-iniciales">${iniciales}</div>
               <span class="id-numero">${value.id}</span>
             </div>
           </td>
@@ -167,17 +133,14 @@ function renderizarTabla({
     });
   }
 
-  // Actualizar el texto del contador
   contadorPaginas.innerHTML =
     paginasTotales === 0 ? "0 / 0" : `${paginaActual + 1} / ${paginasTotales}`;
 
-  // Control de estados de los botones
   botonAnterior.disabled = paginaActual === 0;
   botonSiguiente.disabled =
     paginaActual >= paginasTotales - 1 || paginasTotales === 0;
 }
 
-// 2. EVENTOS PARA LOS BOTONES DE PAGINACIÓN
 botonAnterior.addEventListener("click", () => {
   if (paginaActual > 0) {
     paginaActual--;
@@ -186,48 +149,7 @@ botonAnterior.addEventListener("click", () => {
 });
 
 botonSiguiente.addEventListener("click", () => {
-  // Recalcular el total de páginas considerando los filtros actuales
-  let sociosFiltrados = Socios;
-  if (textoBusqueda) {
-    let q = textoBusqueda
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-    sociosFiltrados = sociosFiltrados.filter(
-      (s) =>
-        s.nombre
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .includes(q) ||
-        s.apellidos
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .includes(q) ||
-        s.email
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .includes(q),
-    );
-  }
-  if (actividadFiltro) {
-    let qF = actividadFiltro
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-    sociosFiltrados = sociosFiltrados.filter((s) =>
-      s.actividades.some((v) =>
-        v
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .includes(qF),
-      ),
-    );
-  }
-
+  let sociosFiltrados = obtenerSociosProcesados();
   let paginasTotales = Math.ceil(sociosFiltrados.length / sociosPagina);
 
   if (paginaActual < paginasTotales - 1) {
@@ -236,46 +158,26 @@ botonSiguiente.addEventListener("click", () => {
   }
 });
 
-// 3. EVENTO DE BÚSQUEDA EN TIEMPO REAL
-buscarSocio.addEventListener("input", function (input) {
-  texto = input.target.value.trim().length;
-  paginaActual = 0; // Volver a la primera página al buscar
-  renderizarTabla();
-  if (texto < 2) {
-    textoBusqueda = "";
-  } else {
-    textoBusqueda = input.target.value.trim();
-  }
+buscarSocio.addEventListener("input", (e) => {
+  textoBusqueda = e.target.value.trim();
+  paginaActual = 0;
   renderizarTabla();
 });
 
-// 4. EVENTO DE FILTRO POR ACTIVIDAD
-selectFiltro.addEventListener("change", function (e) {
+selectFiltro.addEventListener("change", (e) => {
   const indiceSeleccionado = e.target.value;
-
-  // Si selecciona la opción por defecto (vacía), limpiamos el filtro
-  if (indiceSeleccionado === "") {
-    actividadFiltro = "";
-  } else {
-    actividadFiltro = Actividades[indiceSeleccionado];
-  }
-  paginaActual = 0; // Volver a la primera página al filtrar
+  actividadFiltro =
+    indiceSeleccionado === ""
+      ? ""
+      : Object.values(Actividades)[indiceSeleccionado];
+  paginaActual = 0;
   renderizarTabla();
 });
 
-ordenarFiltro.addEventListener("change", function (e) {
-  const indiceSeleccionado = e.target.value;
-
-  // Si selecciona la opción por defecto (vacía), limpiamos el filtro
-  if (indiceSeleccionado === "") {
-    ordenFiltro = "";
-  } else {
-    ordenFiltro = indiceSeleccionado;
-  }
-
-  paginaActual = 0; // Volver a la primera página al filtrar
+ordenarFiltro.addEventListener("change", (e) => {
+  ordenFiltro = e.target.value;
+  paginaActual = 0;
   renderizarTabla();
 });
 
-// 5. EJECUCIÓN INICIAL
 renderizarTabla();
