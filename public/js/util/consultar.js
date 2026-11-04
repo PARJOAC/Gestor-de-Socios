@@ -17,6 +17,8 @@ btnBuscar.addEventListener("click", function (e) {
     let datosConsulta = document.getElementById("datosConsulta");
     const fechaActual = new Date();
     const fechaAlta = new Date(busqueda.fechaAlta);
+    const diasAlta = Math.floor((fechaActual - fechaAlta) / (1000 * 60 * 60 * 24));
+    const proximoCumple = new Date(fechaActual.getFullYear(), fecha.getDay(), fecha.getDate());
     datosConsulta.innerHTML = `
         <p><strong>ID:</strong> ${busqueda.id}</p>
         <p><strong>Nombre Completo:</strong> ${busqueda.nombre} ${busqueda.apellidos}</p>
@@ -24,10 +26,10 @@ btnBuscar.addEventListener("click", function (e) {
         <p><strong>Email:</strong> ${busqueda.email} (dominio: ${dominio})</p>
         <p><strong>Teléfono:</strong> ${busqueda.telefono.split(" ", 3)}</p>
         <p><strong>Fecha de nacimiento:</strong> ${DiasSemana[fecha.getDay()]}, ${fecha.getDate()} de ${Meses[fecha.getMonth()]} de ${fecha.getFullYear()} · ${calcularEdad(busqueda.fechaNacimiento)} años</p>
-        <p><strong>Fecha de alta:</strong> ${busqueda.fechaAlta} (${fechaActual - fechaAlta} días de alta)</p>
+        <p><strong>Fecha de alta:</strong> ${busqueda.fechaAlta} (${diasAlta} días de alta)</p>
         <p><strong>Actividades:</strong> ${busqueda.actividades.join(", ")}</p>
         <p><strong>Cuota:</strong> ${busqueda.cuota}</p>
-        <p><strong>Próximo cumpleaños:</strong></p>
+        <p><strong>Próximo cumpleaños:</strong> ${DiasSemana[proximoCumple.getDay()]}, ${proximoCumple.getDate()} de ${Meses[proximoCumple.getMonth()]} de ${proximoCumple.getFullYear()}</p>
     `;
   } catch (e) {
     mostrarToastError(e.message);
