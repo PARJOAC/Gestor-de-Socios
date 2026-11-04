@@ -127,7 +127,7 @@ function renderizarTabla() {
           <td>${email}</td>
           <td><div class="contenedor-actividades">${actividadesHtml}</div></td>
           <td>${calcularEdad(value.fechaNacimiento)} años</td>
-          <td>${value.cuota} €</td>
+          <td>${value.cuota.toFixed(2)} €</td>
         </tr>
       `;
     });
