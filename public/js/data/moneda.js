@@ -1,0 +1,3 @@
+const Moneda = "€";
+
+export { Moneda };

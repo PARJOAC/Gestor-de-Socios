@@ -240,6 +240,19 @@ const Socios = [
     actividades: ["pádel", "spinning", "musculación"],
     cuota: 55,
   },
+  {
+    id: "SOC-0021",
+    nombre: "Pablo",
+    apellidos: "Gómez López",
+    dni: "87654311M",
+    email: "pablo.lopez@gmail.com",
+    telefono: "689123256",
+    fechaNacimiento: "2009-11-22",
+    fechaAlta: "2020-01-15",
+    actividades: ["pádel", "musculación"],
+    cuota: 40,
+  },
 ];
 
+// Exportarlo para poder usarlo en otros archivos
 export { Socios };

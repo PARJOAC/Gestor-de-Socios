@@ -18,3 +18,5 @@ import "./util/addSocio.js";
 import "./util/consultar.js";
 
 import "./windows/fullScreen.js";
+
+import "./util/estadisticas.js";

@@ -1,3 +1,4 @@
+// Listado de todas las actividades disponibles
 const Actividades = {
   TODAS: "Todas las actividades",
   MUSCULACION: "Musculación",
@@ -7,4 +8,6 @@ const Actividades = {
   SPINNING: "Spinning",
   YOGA: "Yoga",
 };
+
+// Exportarlo para poder usarlo en otros archivos
 export { Actividades };

@@ -1,3 +1,5 @@
+const toastTiempo = 3 * 1000; // 3 segundos
+// Función para mostrar un toast de error con un mensaje personalizado
 function mostrarToastError(mensaje) {
   const container = document.getElementById("toast-container");
   if (!container) return;
@@ -14,10 +16,11 @@ function mostrarToastError(mensaje) {
 
   container.appendChild(toast);
 
+  // Agregar la clase "hiding" para eliminar el toast después de 5 segundos
   setTimeout(() => {
     toast.classList.add("hiding");
     toast.addEventListener("animationend", () => toast.remove());
-  }, 5000);
+  }, toastTiempo);
 }
 
 export { mostrarToastError };

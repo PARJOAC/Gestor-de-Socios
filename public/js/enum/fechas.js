@@ -1,3 +1,4 @@
+// Enumeraciones para los días de la semana
 const DiasSemana = {
   0: "Domingo",
   1: "Lunes",
@@ -8,6 +9,7 @@ const DiasSemana = {
   6: "Sábado",
 };
 
+// Enumeraciones para los meses del año
 const Meses = {
   0: "Enero",
   1: "Febrero",
@@ -24,4 +26,5 @@ const Meses = {
   12: "Diciembre",
 };
 
+// Exportarlo para poder usarlo en otros archivos
 export { DiasSemana, Meses };

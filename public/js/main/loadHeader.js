@@ -1,14 +1,19 @@
+// Obtener los elementos de la fecha y el tiempo
 let fecha = document.getElementById("current-date");
 let tiempo = document.getElementById("current-time");
-import { DiasSemana, Meses } from "../enum/fechas.js";
 
+// Importar la función para formatear la fecha completa
+import { fechaCompleta } from "../util/functions/fechaCompleta.js";
+
+// Obtener la fecha actual y formatearla
 let fechaActual = new Date();
-fecha.innerText =
-  `${DiasSemana[fechaActual.getDay()]}, ${fechaActual.getDate()} de ${Meses[fechaActual.getMonth()].toLowerCase()} de ${fechaActual.getFullYear()}`;
+fecha.innerText = fechaCompleta(fechaActual);
 
+// Cargar la hora actual y actualizarla cada segundo
 loadHora();
 setInterval(() => loadHora(), 1000);
 
+// Función para cargar la hora actual y actualizar el elemento correspondiente
 function loadHora() {
   const fechaActual = new Date();
   let horas = fechaActual.getHours();

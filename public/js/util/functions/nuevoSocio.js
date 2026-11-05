@@ -1,3 +1,4 @@
+// Funciones de validación para los campos del formulario de nuevo socio
 function comprobarID(id) {
   const sintaxis = /^SOC-\d{4}$/;
   return sintaxis.test(id);

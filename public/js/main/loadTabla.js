@@ -1,3 +1,4 @@
+// Importar los elementos de la tabla para rellenarlas
 let tabla = document.getElementById("tbody-socios");
 let botonAnterior = document.getElementById("pagina-anterior");
 let botonSiguiente = document.getElementById("pagina-siguiente");
@@ -6,12 +7,14 @@ let buscarSocio = document.getElementById("input-search");
 let selectFiltro = document.getElementById("select-activity-filter");
 let ordenarFiltro = document.getElementById("select-order");
 
+// Variables para hacer un control de la paginación y filtrado
 let paginaActual = 0;
 let sociosPagina = 5;
 let textoBusqueda = "";
 let actividadFiltro = "";
 let ordenFiltro = "";
 
+// Importar los datos de los socios y las funciones para procesarlos
 import { Socios } from "../data/socios.js";
 import {
   calcularEdad,
@@ -19,19 +22,27 @@ import {
   abreviarApellido,
   esconderCorreo,
 } from "../util/functions/socio.js";
-import { Actividades } from "../data/actividades.js";
 
+// Importar las actividades desde el archivo de datos
+import { Actividades } from "../data/actividades.js";
+import { Moneda } from "../data/moneda.js";
+
+// Función para normalizar el texto y eliminar acentos y mayúsculas
 const normalizar = (texto) =>
   texto
     ? texto
         .toLowerCase()
+        // Normalizar el texto para eliminar acentos y caracteres especiales
         .normalize("NFD")
+        //Borrar las tildes de las vocales
         .replace(/[\u0300-\u036f]/g, "")
     : "";
 
-function obtenerSociosProcesados() {
+// Función para obtener los socios filtrados y ordenados según lo que se seleccione
+function obtenerSocios() {
   let resultado = [...Socios];
 
+  // Filtrar por texto de búsqueda si se ha introducido algo en el input
   if (textoBusqueda) {
     const query = normalizar(textoBusqueda);
     resultado = resultado.filter((socio) => {
@@ -43,6 +54,7 @@ function obtenerSociosProcesados() {
     });
   }
 
+  // Filtrar por actividad si se ha seleccionado una opción distinta a "Todas las actividades"
   if (
     actividadFiltro &&
     actividadFiltro.toLowerCase() !== "todas las actividades"
@@ -53,6 +65,7 @@ function obtenerSociosProcesados() {
     );
   }
 
+  // Ordenar los resultados según el filtro seleccionado
   if (ordenFiltro) {
     switch (ordenFiltro.toLowerCase()) {
       case "default":
@@ -84,8 +97,10 @@ function obtenerSociosProcesados() {
   return resultado;
 }
 
+// Función para renderizar la tabla con los socios filtrados y ordenados
 function renderizarTabla() {
-  const sociosFiltrados = obtenerSociosProcesados();
+  // Obtener los socios filtrados y calcular el número de páginas totales
+  const sociosFiltrados = obtenerSocios();
   let paginasTotales = Math.ceil(sociosFiltrados.length / sociosPagina);
 
   if (paginaActual >= paginasTotales && paginasTotales > 0) {
@@ -127,7 +142,7 @@ function renderizarTabla() {
           <td>${email}</td>
           <td><div class="contenedor-actividades">${actividadesHtml}</div></td>
           <td>${calcularEdad(value.fechaNacimiento)} años</td>
-          <td>${value.cuota.toFixed(2)} €</td>
+          <td>${value.cuota.toFixed(2)}${Moneda}</td>
         </tr>
       `;
     });
@@ -149,7 +164,7 @@ botonAnterior.addEventListener("click", () => {
 });
 
 botonSiguiente.addEventListener("click", () => {
-  let sociosFiltrados = obtenerSociosProcesados();
+  let sociosFiltrados = obtenerSocios();
   let paginasTotales = Math.ceil(sociosFiltrados.length / sociosPagina);
 
   if (paginaActual < paginasTotales - 1) {
