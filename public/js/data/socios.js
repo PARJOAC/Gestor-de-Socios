@@ -1,6 +1,7 @@
-// Datos de todos los socios
+import { Actividades } from "./actividades.js";
+
+// Datos de todos los socios actualizados con el enum Actividades
 const Socios = [
-  /*
   {
     id: "SOC-0001",
     nombre: "Lucía",
@@ -10,10 +11,9 @@ const Socios = [
     telefono: "612345678",
     fechaNacimiento: "1972-03-14",
     fechaAlta: "2019-09-02",
-    actividades: ["natación", "yoga"],
+    actividades: [Actividades.NATACION, Actividades.YOGA],
     cuota: 35,
   },
-  */
   {
     id: "SOC-0002",
     nombre: "Álvaro",
@@ -23,7 +23,7 @@ const Socios = [
     telefono: "689123456",
     fechaNacimiento: "2006-11-22",
     fechaAlta: "2020-01-15",
-    actividades: ["pádel", "musculación"],
+    actividades: [Actividades.PADEL, Actividades.MUSCULACION],
     cuota: 40,
   },
   {
@@ -35,19 +35,19 @@ const Socios = [
     telefono: "671234567",
     fechaNacimiento: "1968-05-10",
     fechaAlta: "2021-03-10",
-    actividades: ["spinning", "pilates"],
+    actividades: [Actividades.SPINNING, Actividades.PILATES],
     cuota: 38,
   },
   {
     id: "SOC-0004",
     nombre: "Carlos",
-    apellidos: "Sánchez ĺvarez",
+    apellidos: "Sánchez Álvarez",
     dni: "78912345J",
     email: "carlos.sanchez@correo.es",
     telefono: "634567890",
     fechaNacimiento: "2008-07-19",
     fechaAlta: "2018-11-05",
-    actividades: ["natación", "musculación"],
+    actividades: [Actividades.NATACION, Actividades.MUSCULACION],
     cuota: 45,
   },
   {
@@ -59,7 +59,7 @@ const Socios = [
     telefono: "655443322",
     fechaNacimiento: "1980-12-01",
     fechaAlta: "2022-06-20",
-    actividades: ["yoga", "pilates"],
+    actividades: [Actividades.YOGA, Actividades.PILATES],
     cuota: 30,
   },
   {
@@ -71,7 +71,7 @@ const Socios = [
     telefono: "698765432",
     fechaNacimiento: "1966-09-30",
     fechaAlta: "2017-04-12",
-    actividades: ["pádel"],
+    actividades: [Actividades.PADEL],
     cuota: 25,
   },
   {
@@ -83,7 +83,7 @@ const Socios = [
     telefono: "611223344",
     fechaNacimiento: "2005-02-18",
     fechaAlta: "2023-01-09",
-    actividades: ["natación", "spinning"],
+    actividades: [Actividades.NATACION, Actividades.SPINNING],
     cuota: 42,
   },
   {
@@ -95,7 +95,11 @@ const Socios = [
     telefono: "622334455",
     fechaNacimiento: "1975-06-25",
     fechaAlta: "2019-05-14",
-    actividades: ["musculación", "spinning", "pádel"],
+    actividades: [
+      Actividades.MUSCULACION,
+      Actividades.SPINNING,
+      Actividades.PADEL,
+    ],
     cuota: 50,
   },
   {
@@ -107,7 +111,7 @@ const Socios = [
     telefono: "633445566",
     fechaNacimiento: "2004-10-05",
     fechaAlta: "2020-08-30",
-    actividades: ["yoga"],
+    actividades: [Actividades.YOGA],
     cuota: 28,
   },
   {
@@ -119,7 +123,7 @@ const Socios = [
     telefono: "644556677",
     fechaNacimiento: "1969-04-11",
     fechaAlta: "2015-02-28",
-    actividades: ["pilates", "natación"],
+    actividades: [Actividades.PILATES, Actividades.NATACION],
     cuota: 35,
   },
 ];
