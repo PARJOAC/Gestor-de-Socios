@@ -34,6 +34,7 @@ btnBuscar.addEventListener("click", function (e) {
       fecha.getMonth(),
       fecha.getDate(),
     );
+
     datosConsulta.innerHTML = `
     <div class="socio-card">
         <div class="socio-header">
@@ -54,7 +55,7 @@ btnBuscar.addEventListener("click", function (e) {
             </div>
             <div class="socio-field">
                 <span class="socio-label">Teléfono</span>
-                <span class="socio-value">${busqueda.telefono}</span>
+                <span class="socio-value">${busqueda.telefono.substring(0, 3)} ${busqueda.telefono.substring(3, 6)} ${busqueda.telefono.substring(6, 9)}</span>
             </div>
             <div class="socio-field socio-full">
                 <span class="socio-label">Edad y Nacimiento</span>
