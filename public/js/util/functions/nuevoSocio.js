@@ -39,7 +39,7 @@ function comprobarEmail(email) {
 
 function comprobarTelefono(telefono) {
   const telefonoSinEspacios = telefono.trim();
-  const sintaxis = /^\d{9}$/;
+  const sintaxis = /^[6789]{1}\d{8}$/;
   return sintaxis.test(telefonoSinEspacios);
 }
 
@@ -47,17 +47,12 @@ function comprobarFechaNacimiento(fechaNacimiento) {
   const formatoRegex = /^\d{2}\/\d{2}\/\d{4}$/;
   if (!formatoRegex.test(fechaNacimiento)) return false;
 
-  // 1. Separar día, mes y año del string
   const [diaStr, mesStr, anioStr] = fechaNacimiento.split("/");
   const dia = parseInt(diaStr, 10);
-  const mes = parseInt(mesStr, 10) - 1; // En JavaScript los meses van de 0 a 11
+  const mes = parseInt(mesStr, 10) - 1;
   const anio = parseInt(anioStr, 10);
 
-  // 2. Crear la fecha usando año, mes y día por separado
   const fecha = new Date(anio, mes, dia);
-
-  // 3. Comprobar que la fecha sea real
-  // (Ej: JS convierte "31/04/2024" en "01/05/2024", esto evita fechas inválidas)
   if (
     fecha.getFullYear() !== anio ||
     fecha.getMonth() !== mes ||
@@ -66,7 +61,6 @@ function comprobarFechaNacimiento(fechaNacimiento) {
     return false;
   }
 
-  // 4. Comparar con la fecha actual
   const fechaActual = new Date();
   return fecha < fechaActual;
 }

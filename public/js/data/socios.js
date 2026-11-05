@@ -2,6 +2,7 @@ import { Actividades } from "./actividades.js";
 
 // Datos de todos los socios actualizados con el enum Actividades
 const Socios = [
+  /*
   {
     id: "SOC-0001",
     nombre: "Lucía",
@@ -14,6 +15,7 @@ const Socios = [
     actividades: [Actividades.NATACION, Actividades.YOGA],
     cuota: 35,
   },
+  */
   {
     id: "SOC-0002",
     nombre: "Álvaro",

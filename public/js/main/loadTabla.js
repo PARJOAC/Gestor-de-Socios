@@ -19,14 +19,12 @@ import {
 } from "../util/functions/socio.js";
 
 // Importar las actividades desde el archivo de datos
-import { Actividades } from "../data/actividades.js";
 import { Moneda } from "../data/moneda.js";
-import { calculoLetraDNI } from "../util/functions/nuevoSocio.js";
 
 // Función para normalizar el texto y eliminar acentos y mayúsculas
 const normalizar = (texto) =>
   texto
-    ? texto
+    ? String(texto)
         .toLowerCase()
         // Normalizar el texto para eliminar acentos y caracteres especiales
         .normalize("NFD")
@@ -52,7 +50,7 @@ function obtenerSocios() {
     resultado = resultado.sort((a, b) => a.id.localeCompare(b.id));
   }
 
-  // Filtrar por actividad si se ha seleccionado una opción distinta a "Todas las actividades"
+  // Filtrar por actividad si se ha seleccionado una opción distinta a vacía o "todas"
   if (
     actividadFiltro &&
     actividadFiltro.toLowerCase() !== "todas las actividades"
@@ -142,11 +140,7 @@ buscarSocio.addEventListener("input", (e) => {
 });
 
 selectFiltro.addEventListener("change", (e) => {
-  const indiceSeleccionado = e.target.value;
-  actividadFiltro =
-    indiceSeleccionado === ""
-      ? ""
-      : Object.values(Actividades)[indiceSeleccionado];
+  actividadFiltro = e.target.value;
   renderizarTabla();
 });
 

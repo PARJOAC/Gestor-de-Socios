@@ -13,6 +13,7 @@ import {
 import { Socios } from "../data/socios.js";
 import { Actividades } from "../data/actividades.js";
 import { renderizarTabla } from "../main/loadTabla.js";
+import { recargarEstadisticas } from "./estadisticas.js";
 
 const formulario = document.getElementById("form-alta");
 const modal = document.getElementById("modal");
@@ -80,7 +81,11 @@ if (formulario) {
       }
 
       const telefono =
-        document.getElementById("alta-telefono").value.trim() || "";
+        document
+          .getElementById("alta-telefono")
+          .value.trim()
+          .replaceAll(" ", "") || "";
+      console.log(telefono);
       if (!telefono) {
         errores.push({ nombreCampo: "TELÉFONO", razon: "Incluir Teléfono" });
       } else {
@@ -105,11 +110,26 @@ if (formulario) {
           });
       }
 
+      // 1. Obtenemos las actividades válidas (excluyendo "TODAS")
+      const listaActividadesValidas = Object.values(Actividades).filter(
+        (act) => act !== Actividades.TODAS,
+      );
+
+      // 2. Capturamos los checkboxes seleccionados y obtenemos su nombre real
       const checkboxesSeleccionados = document.querySelectorAll(
         '#alta-actividades input[type="checkbox"]:checked',
       );
+
       const actividades = Array.from(checkboxesSeleccionados).map(
-        (cb) => Actividades[cb.value],
+        (checkbox) => {
+          // Si el value del HTML es un índice numérico (0, 1, 2...), lo mapeamos al nombre:
+          const indice = Number(checkbox.value);
+          if (!isNaN(indice) && listaActividadesValidas[indice]) {
+            return listaActividadesValidas[indice];
+          }
+          // Si el value ya es el texto directamente, lo devolvemos tal cual
+          return checkbox.value;
+        },
       );
 
       if (actividades.length === 0) {
@@ -139,11 +159,20 @@ if (formulario) {
         throw new Error(mensaje);
       }
 
-      const nacimientoFecha = new Date(nacimiento, "dd/mm/yyyy");
+      const nacimientoFecha = new Date(nacimiento);
       const fecha = new Date();
 
       const nuevoSocio = {
-        id: "SOC-" + String(Socios.length + 1).padStart(4, "0"),
+        id:
+          "SOC-" +
+          String(
+            Number(
+              Socios.sort((a, b) => b.id.localeCompare(a.id))[0].id.replace(
+                "SOC-",
+                "",
+              ),
+            ) + 1,
+          ).padStart(4, "0"),
         nombre: nombre,
         apellidos: apellidos,
         dni: dni,
@@ -162,9 +191,44 @@ if (formulario) {
       if (modal) modal.classList.add("hidden");
       formulario.reset();
 
-      renderizarTabla();
+      Promise.all[(renderizarTabla(), recargarEstadisticas())];
     } catch (e) {
       mostrarToastError("Falta por añadir esta información:<br>" + e.message);
     }
   });
 }
+
+const fechaNacimiento = document.getElementById("alta-nacimiento");
+
+fechaNacimiento.addEventListener("input", function (e) {
+  // Obtenemos el valor actual y eliminamos todo lo que no sea un número
+  let valor = e.target.value.replace(/\D/g, "");
+  let formatoFinal = "";
+
+  // Construimos el formato paso a paso de forma limpia
+  if (valor.length > 0) formatoFinal += valor.substring(0, 2); // Día (máx 2 dígitos)
+
+  if (valor.length >= 3) formatoFinal += "/" + valor.substring(2, 4); // Mes (máx 2 dígitos)
+
+  if (valor.length >= 5) formatoFinal += "/" + valor.substring(4, 8); // Año (máx 4 dígitos)
+
+  // Actualizamos el valor del input reflejándolo en pantalla
+  e.target.value = formatoFinal;
+});
+
+const telefono = document.getElementById("alta-telefono");
+telefono.addEventListener("input", function (e) {
+  // Obtenemos el valor actual y eliminamos todo lo que no sea un número
+  let valor = e.target.value.replace(/\D/g, "");
+  let formatoFinal = "";
+
+  // Construimos el formato paso a paso de forma limpia
+  if (valor.length > 0) formatoFinal += valor.substring(0, 3); // Primer trio Día (máx 3 dígitos)
+
+  if (valor.length >= 4) formatoFinal += " " + valor.substring(3, 6); // Mes (máx 2 dígitos)
+
+  if (valor.length >= 7) formatoFinal += " " + valor.substring(6, 9); // Año (máx 4 dígitos)
+
+  // Actualizamos el valor del input reflejándolo en pantalla
+  e.target.value = formatoFinal;
+});

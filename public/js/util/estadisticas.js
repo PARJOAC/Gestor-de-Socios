@@ -1,5 +1,7 @@
-import { Socios } from "../data/socios.js";
 import { calcularEdad } from "../util/functions/socio.js";
+import { Moneda } from "../data/moneda.js";
+import { Actividades } from "../data/actividades.js";
+import { Socios } from "../data/socios.js";
 
 let totalSociosHTML = document.getElementById("stat-total-socios");
 let ingresosMensualesHTML = document.getElementById("stat-ingresos");
@@ -13,50 +15,83 @@ let todosConActividadHTML = document.getElementById("stat-todos-actividad");
 let top3Socios = document.getElementById("stat-veteranos-list");
 let dominiosCorreo = document.getElementById("stat-dominios-list");
 
-totalSociosHTML.textContent = Socios.length;
-import { Moneda } from "../data/moneda.js";
+function recargarEstadisticas() {
+  totalSociosHTML.textContent = Socios.length;
 
-let totalIngresos = Socios.reduce(
-  (total, socio) => total + socio.cuota,
-  0,
-).toFixed(2);
-ingresosMensualesHTML.textContent = totalIngresos + Moneda;
+  let totalIngresos = Socios.reduce(
+    (total, socio) => total + socio.cuota,
+    0,
+  ).toFixed(2);
+  ingresosMensualesHTML.textContent = totalIngresos + Moneda;
 
-cuotaMediaHTML.textContent = (totalIngresos / Socios.length).toFixed(2) + Moneda;
+  cuotaMediaHTML.textContent =
+    (totalIngresos / Socios.length).toFixed(2) + Moneda;
 
-edadMinHTML.textContent = calcularEdad(
-  Socios.sort(
-    (a, b) => new Date(b.fechaNacimiento) - new Date(a.fechaNacimiento),
-  )[0].fechaNacimiento,
-);
+  let sumaEdades = Socios.reduce(
+    (total, socio) => total + calcularEdad(socio.fechaNacimiento),
+    0,
+  );
 
-edadMaxHTML.textContent = calcularEdad(
-  Socios.sort(
-    (a, b) => new Date(a.fechaNacimiento) - new Date(b.fechaNacimiento),
-  )[0].fechaNacimiento,
-);
+  edadMediaHTML.innerHTML = Math.round(sumaEdades / Socios.length).toFixed(2);
 
-hayMenoresDeEdadHTML.textContent = Socios.some(
-  (socio) => calcularEdad(socio.fechaNacimiento) < 18,
-)
-  ? "Sí"
-  : "No";
+  edadMinHTML.textContent = calcularEdad(
+    Socios.sort(
+      (a, b) => new Date(b.fechaNacimiento) - new Date(a.fechaNacimiento),
+    )[0].fechaNacimiento,
+  );
 
-todosConActividadHTML.textContent = Socios.every(
-  (socio) => socio.actividades.length > 0,
-)
-  ? "Sí"
-  : "No";
+  edadMaxHTML.textContent = calcularEdad(
+    Socios.sort(
+      (a, b) => new Date(a.fechaNacimiento) - new Date(b.fechaNacimiento),
+    )[0].fechaNacimiento,
+  );
 
-top3Socios.innerHTML = Socios.sort(
-  (a, b) => new Date(a.fechaAlta) - new Date(b.fechaAlta),
-)
-  .slice(0, 3)
-  .map((socio) => `<li>${socio.nombre} ${socio.apellidos}</li>`)
-  .join("");
+  let tipos = {
+    [Actividades.MUSCULACION]: 0,
+    [Actividades.NATACION]: 0,
+    [Actividades.PADEL]: 0,
+    [Actividades.PILATES]: 0,
+    [Actividades.SPINNING]: 0,
+    [Actividades.YOGA]: 0,
+  };
 
-dominiosCorreo.innerHTML = Array.from(
-  new Set(Socios.map((socio) => socio.email.split("@")[1])),
-)
-  .map((dominio) => `<li>${dominio}</li>`)
-  .join("");
+  Socios.forEach((socio) => {
+    socio.actividades.forEach((actividad) => {
+      tipos[actividad]++;
+    });
+  });
+
+  let actividadMasPopular = Object.entries(tipos).reduce((max, actual) => {
+    return actual[1] > max[1] ? actual : max;
+  });
+
+  actividadMasPopularHTML.innerHTML = `${actividadMasPopular[0]} (${actividadMasPopular[1]} clientes)`;
+  console.log(tipos);
+
+  hayMenoresDeEdadHTML.textContent = Socios.some(
+    (socio) => calcularEdad(socio.fechaNacimiento) < 18,
+  )
+    ? "Sí"
+    : "No";
+
+  todosConActividadHTML.textContent = Socios.every(
+    (socio) => socio.actividades.length > 0,
+  )
+    ? "Sí"
+    : "No";
+
+  top3Socios.innerHTML = Socios.sort(
+    (a, b) => new Date(a.fechaAlta) - new Date(b.fechaAlta),
+  )
+    .slice(0, 3)
+    .map((socio) => `<li>${socio.nombre} ${socio.apellidos}</li>`)
+    .join("");
+
+  dominiosCorreo.innerHTML = Array.from(
+    new Set(Socios.map((socio) => socio.email.split("@")[1])),
+  )
+    .map((dominio) => `<li>${dominio}</li>`)
+    .join("");
+}
+recargarEstadisticas();
+export { recargarEstadisticas };
