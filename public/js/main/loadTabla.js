@@ -21,6 +21,7 @@ import {
 // Importar las actividades desde el archivo de datos
 import { Actividades } from "../data/actividades.js";
 import { Moneda } from "../data/moneda.js";
+import { calculoLetraDNI } from "../util/functions/nuevoSocio.js";
 
 // Función para normalizar el texto y eliminar acentos y mayúsculas
 const normalizar = (texto) =>
@@ -109,10 +110,11 @@ function renderizarTabla() {
       const iniciales = obtenerIniciales(value.nombre, value.apellidos);
 
       let actividadesHtml = value.actividades
-        .map(
-          (actividad) =>
-            `<span class="badge-actividad">${actividad.toUpperCase()}</span>`,
-        )
+        .map((actividad) => {
+          const texto =
+            typeof actividad === "string" ? actividad : actividad?.nombre || "";
+          return `<span class="badge-actividad">${texto.toUpperCase()}</span>`;
+        })
         .join(" ");
 
       tabla.innerHTML += `
@@ -127,7 +129,7 @@ function renderizarTabla() {
           <td>${email}</td>
           <td><div class="contenedor-actividades">${actividadesHtml}</div></td>
           <td>${calcularEdad(value.fechaNacimiento)} años</td>
-          <td>${value.cuota.toFixed(2)}${Moneda}</td>
+          <td>${parseFloat(value.cuota).toFixed(2)}${Moneda}</td>
         </tr>
       `;
     });
@@ -154,3 +156,5 @@ ordenarFiltro.addEventListener("change", (e) => {
 });
 
 renderizarTabla();
+
+export { renderizarTabla };

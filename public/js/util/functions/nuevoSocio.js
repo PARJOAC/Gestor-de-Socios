@@ -21,6 +21,17 @@ function comprobarDNI(dni) {
   return sintaxis.test(dni);
 }
 
+function calculoLetraDNI(dni) {
+  const dniSinLetra = dni.replace(/\D/g, "");
+
+  const cadenaLetraCorrecta = "TRWAGMYFPDXBNJZSQVHLCKE";
+  const indiceResto = Number(dniSinLetra) % 23;
+
+  const letraCorrecta = cadenaLetraCorrecta.charAt(indiceResto);
+
+  return letraCorrecta;
+}
+
 function comprobarEmail(email) {
   const sintaxis = /^[a-z0-9._]+@[a-z0-9._]+\.[a-z]{2,}$/;
   return sintaxis.test(email);
@@ -33,10 +44,29 @@ function comprobarTelefono(telefono) {
 }
 
 function comprobarFechaNacimiento(fechaNacimiento) {
-  const formatoRegex = /^\d{4}-\d{2}-\d{2}$/;
+  const formatoRegex = /^\d{2}\/\d{2}\/\d{4}$/;
   if (!formatoRegex.test(fechaNacimiento)) return false;
 
-  const fecha = new Date(fechaNacimiento);
+  // 1. Separar día, mes y año del string
+  const [diaStr, mesStr, anioStr] = fechaNacimiento.split("/");
+  const dia = parseInt(diaStr, 10);
+  const mes = parseInt(mesStr, 10) - 1; // En JavaScript los meses van de 0 a 11
+  const anio = parseInt(anioStr, 10);
+
+  // 2. Crear la fecha usando año, mes y día por separado
+  const fecha = new Date(anio, mes, dia);
+
+  // 3. Comprobar que la fecha sea real
+  // (Ej: JS convierte "31/04/2024" en "01/05/2024", esto evita fechas inválidas)
+  if (
+    fecha.getFullYear() !== anio ||
+    fecha.getMonth() !== mes ||
+    fecha.getDate() !== dia
+  ) {
+    return false;
+  }
+
+  // 4. Comparar con la fecha actual
   const fechaActual = new Date();
   return fecha < fechaActual;
 }
@@ -64,6 +94,7 @@ export {
   comprobarNombre,
   comprobarApellidos,
   comprobarDNI,
+  calculoLetraDNI,
   comprobarEmail,
   comprobarTelefono,
   comprobarFechaNacimiento,
