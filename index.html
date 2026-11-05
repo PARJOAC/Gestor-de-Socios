@@ -20,9 +20,9 @@
     </header>
 
     <main class="container" id="main">
-      <!-- CONTENEDOR EN DOS COLUMNAS (TABLA A LA IZQUIERDA, FICHA A LA DERECHA) -->
+      <!-- CONTENEDOR EN DOS COLUMNAS -->
       <div class="dashboard-grid">
-        <!-- 3.2 LISTADO DE SOCIOS -->
+        <!-- COLUMNA IZQUIERDA: LISTADO DE SOCIOS -->
         <section id="section-socios" class="card">
           <div class="section-header">
             <h2>Listado de Socios</h2>
@@ -67,7 +67,7 @@
             </div>
           </div>
 
-          <!-- Controles de búsqueda, filtro y orden mejorados -->
+          <!-- Controles de búsqueda, filtro y orden -->
           <div class="controls-bar">
             <div class="control-card">
               <label for="input-search">
@@ -87,7 +87,7 @@
               <input
                 type="text"
                 id="input-search"
-                placeholder="Nombre, email (mín. 2 carac.)"
+                placeholder="Nombre, email..."
               />
             </div>
 
@@ -158,127 +158,91 @@
               </tbody>
             </table>
           </div>
-
-          <!-- Contenedor de paginación centrado -->
-          <div id="botones" class="pagination-container">
-            <button id="pagina-anterior" class="btn-secondary">
-              <svg
-                fill="#000000"
-                width="15px"
-                height="15px"
-                viewBox="0 0 24 24"
-                id="previous"
-                data-name="Flat Color"
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon flat-color"
-              >
-                <path
-                  id="primary"
-                  d="M17.45,2.11a1,1,0,0,0-1.05.09l-12,9a1,1,0,0,0,0,1.6l12,9a1,1,0,0,0,1.05.09A1,1,0,0,0,18,21V3A1,1,0,0,0,17.45,2.11Z"
-                  style="fill: rgb(0, 0, 0)"
-                ></path>
-              </svg>
-            </button>
-            <span id="pagina-actual">0</span>
-            <button id="pagina-siguiente" class="btn-secondary">
-              <svg
-                fill="#000000"
-                width="15px"
-                height="15px"
-                viewBox="0 0 24 24"
-                id="next"
-                data-name="Flat Color"
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon flat-color"
-              >
-                <path
-                  id="primary"
-                  d="M18.6,11.2l-12-9A1,1,0,0,0,5,3V21a1,1,0,0,0,.55.89,1,1,0,0,0,1-.09l12-9a1,1,0,0,0,0-1.6Z"
-                  style="fill: rgb(0, 0, 0)"
-                ></path>
-              </svg>
-            </button>
-          </div>
         </section>
 
-        <!-- 3.3 FICHA DE SOCIO (A la derecha en escritorio) -->
-        <section id="section-ficha" class="card">
-          <h2>Ficha de Socio</h2>
-          <div class="control-group" style="width: 100%">
-            <label for="input-dni-search">Consultar por DNI:</label>
-            <div class="search-inline">
-              <input
-                type="text"
-                id="input-dni-search"
-                placeholder="Introduce un DNI..."
-              />
-              <button id="btn-search-dni" class="btn-primary">Consultar</button>
+        <!-- COLUMNA DERECHA: FICHA DE SOCIO + ESTADÍSTICAS -->
+        <div class="sidebar-column">
+          <!-- Ficha de Socio (Consultas) -->
+          <section id="section-ficha" class="card">
+            <h2>Ficha de Socio</h2>
+            <div class="control-group" style="width: 100%">
+              <label for="input-dni-search">Consultar por DNI:</label>
+              <div class="search-inline">
+                <input
+                  type="text"
+                  id="input-dni-search"
+                  placeholder="Introduce un DNI..."
+                />
+                <button id="btn-search-dni" class="btn-primary">
+                  Consultar
+                </button>
+              </div>
+              <div id="datosConsulta"></div>
             </div>
-            <div id="datosConsulta"></div>
-          </div>
 
-          <p id="ficha-error-msg" class="error-text hidden">
-            El DNI no corresponde a ningún socio.
-          </p>
-        </section>
+            <p id="ficha-error-msg" class="error-text hidden">
+              El DNI no corresponde a ningún socio.
+            </p>
+          </section>
+
+          <!-- Estadísticas del Club -->
+          <section id="section-stats" class="card">
+            <h2>Estadísticas del Club</h2>
+            <div class="stats-grid">
+              <div class="stat-box">
+                <h3>Total Socios</h3>
+                <p id="stat-total-socios">0</p>
+              </div>
+              <div class="stat-box">
+                <h3>Ingresos Mensuales</h3>
+                <p id="stat-ingresos">0.00 €</p>
+              </div>
+              <div class="stat-box">
+                <h3>Cuota Media</h3>
+                <p id="stat-cuota-media">0.00 €</p>
+              </div>
+              <div class="stat-box">
+                <h3>Edad Media</h3>
+                <p id="stat-edad-media">0.0 años</p>
+              </div>
+              <div class="stat-box">
+                <h3>Rango de Edad</h3>
+                <p>
+                  <span id="stat-edad-min">0</span> -
+                  <span id="stat-edad-max">0</span> años
+                </p>
+              </div>
+              <div class="stat-box">
+                <h3>Actividad Más Popular</h3>
+                <p id="stat-populares">-</p>
+              </div>
+              <div class="stat-box">
+                <h3>¿Menores de edad?</h3>
+                <p id="stat-menores">-</p>
+              </div>
+              <div class="stat-box">
+                <h3>¿Todos con actividad?</h3>
+                <p id="stat-todos-actividad">-</p>
+              </div>
+            </div>
+
+            <div class="stats-extra-grid">
+              <div class="stat-box-large">
+                <h3>Top 3 Socios más veteranos</h3>
+                <ol id="stat-veteranos-list"></ol>
+              </div>
+              <div class="stat-box-large">
+                <h3>Dominios de correo utilizados</h3>
+                <ul id="stat-dominios-list"></ul>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
       <!-- Fin de dashboard-grid -->
-
-      <!-- 3.5 ESTADÍSTICAS -->
-      <section id="section-stats" class="card">
-        <h2>Estadísticas del Club</h2>
-        <div class="stats-grid">
-          <div class="stat-box">
-            <h3>Total Socios</h3>
-            <p id="stat-total-socios">0</p>
-          </div>
-          <div class="stat-box">
-            <h3>Ingresos Mensuales</h3>
-            <p id="stat-ingresos">0.00 €</p>
-          </div>
-          <div class="stat-box">
-            <h3>Cuota Media</h3>
-            <p id="stat-cuota-media">0.00 €</p>
-          </div>
-          <div class="stat-box">
-            <h3>Edad Media</h3>
-            <p id="stat-edad-media">0.0 años</p>
-          </div>
-          <div class="stat-box">
-            <h3>Rango de Edad</h3>
-            <p>
-              <span id="stat-edad-min">0</span> -
-              <span id="stat-edad-max">0</span> años
-            </p>
-          </div>
-          <div class="stat-box">
-            <h3>Actividad Más Popular</h3>
-            <p id="stat-populares">-</p>
-          </div>
-          <div class="stat-box">
-            <h3>¿Menores de edad?</h3>
-            <p id="stat-menores">-</p>
-          </div>
-          <div class="stat-box">
-            <h3>¿Todos con actividad?</h3>
-            <p id="stat-todos-actividad">-</p>
-          </div>
-        </div>
-
-        <div class="stats-extra-grid">
-          <div class="stat-box-large">
-            <h3>Top 3 Socios más veteranos</h3>
-            <ol id="stat-veteranos-list"></ol>
-          </div>
-          <div class="stat-box-large">
-            <h3>Dominios de correo utilizados</h3>
-            <ul id="stat-dominios-list"></ul>
-          </div>
-        </div>
-      </section>
     </main>
 
-    <!-- 3.4 MODAL DE ALTA DE SOCIO -->
+    <!-- MODAL DE ALTA DE SOCIO -->
     <div id="modal-alta" class="custom-modal-backdrop hidden">
       <div class="modal custom-modal-content">
         <div class="modal-header">
@@ -344,9 +308,7 @@
             </div>
 
             <div class="form-group">
-              <label for="alta-nacimiento"
-                >Fecha de Nacimiento (dd/mm/aaaa):</label
-              >
+              <label for="alta-nacimiento">Fecha de Nacimiento:</label>
               <input
                 type="text"
                 id="alta-nacimiento"
@@ -385,7 +347,7 @@
       <h1 id="mensaje-error"></h1>
     </div>
 
-    <!-- CONTENEDOR DE TOASTS GLOBAL AL FINAL DEL BODY -->
+    <!-- CONTENEDOR DE TOASTS GLOBAL -->
     <div id="toast-container" class="toast-container" aria-live="polite"></div>
   </body>
 </html>

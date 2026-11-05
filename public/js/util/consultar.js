@@ -12,7 +12,7 @@ btnBuscar.addEventListener("click", function (e) {
     );
 
     let datosConsulta = document.getElementById("datosConsulta");
-    if(dni.value.length === 0) {
+    if (dni.value.length === 0) {
       datosConsulta.innerHTML = "";
       throw new Error("Debes escribir un DNI.");
     }
@@ -50,7 +50,7 @@ btnBuscar.addEventListener("click", function (e) {
             </div>
             <div class="socio-field socio-full">
                 <span class="socio-label">Email</span>
-                <span class="socio-value">${busqueda.email} <span class="text-muted">(Dominio: ${dominio})</span></span>
+                <span class="socio-value">${busqueda.email} <span class="text-muted">(dominio: ${dominio})</span></span>
             </div>
             <div class="socio-field">
                 <span class="socio-label">Teléfono</span>
@@ -58,11 +58,15 @@ btnBuscar.addEventListener("click", function (e) {
             </div>
             <div class="socio-field socio-full">
                 <span class="socio-label">Edad y Nacimiento</span>
-                <span class="socio-value">${fechaCompleta(fecha)} - ${calcularEdad(busqueda.fechaNacimiento)} años</span>
+                <span class="socio-value">${fechaCompleta(fecha)} (${fecha.getDate()}/${fecha.getMonth()}/${fecha.getYear()}) - ${calcularEdad(busqueda.fechaNacimiento)} años</span>
             </div>
             <div class="socio-field socio-full">
                 <span class="socio-label">Fecha de Alta</span>
-                <span class="socio-value">${fechaCompleta(fechaAlta)} <strong class="text-muted">(${diasAlta} días)</strong></span>
+                <span class="socio-value">${fechaCompleta(fechaAlta)} (${fechaAlta.getDate()}/${fechaAlta.getMonth()}/${fechaAlta.getYear()}) - <strong class="text-muted">(${diasAlta} días)</strong></span>
+            </div>
+            <div class="socio-field socio-full">
+                <span class="socio-label">Fecha de Cumpleaños</span>
+                <span class="socio-value">${fechaCompleta(proximoCumple)}</span>
             </div>
             <div class="socio-field socio-full">
                 <span class="socio-label">Actividades</span>
@@ -74,9 +78,6 @@ btnBuscar.addEventListener("click", function (e) {
         <div class="socio-footer">
             <span class="socio-footer-label">Cuota Mensual</span>
             <span class="socio-cuota">${busqueda.cuota} €</span>
-        </div>
-        <div style="margin-top: 0.75 font-size: 0.85rem;" class="text-muted">
-            Próximo cumpleaños: ${fechaCompleta(proximoCumple)}
         </div>
     </div>
     `;

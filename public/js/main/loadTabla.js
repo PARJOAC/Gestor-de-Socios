@@ -1,15 +1,10 @@
 // Importar los elementos de la tabla para rellenarlas
 let tabla = document.getElementById("tbody-socios");
-let botonAnterior = document.getElementById("pagina-anterior");
-let botonSiguiente = document.getElementById("pagina-siguiente");
-let contadorPaginas = document.getElementById("pagina-actual");
 let buscarSocio = document.getElementById("input-search");
 let selectFiltro = document.getElementById("select-activity-filter");
 let ordenarFiltro = document.getElementById("select-order");
 
-// Variables para hacer un control de la paginación y filtrado
-let paginaActual = 0;
-let sociosPagina = 5;
+// Variables para hacer un control del filtrado
 let textoBusqueda = "";
 let actividadFiltro = "";
 let ordenFiltro = "";
@@ -34,7 +29,7 @@ const normalizar = (texto) =>
         .toLowerCase()
         // Normalizar el texto para eliminar acentos y caracteres especiales
         .normalize("NFD")
-        //Borrar las tildes de las vocales
+        // Borrar las tildes de las vocales
         .replace(/[\u0300-\u036f]/g, "")
     : "";
 
@@ -43,7 +38,7 @@ function obtenerSocios() {
   let resultado = [...Socios];
 
   // Filtrar por texto de búsqueda si se ha introducido algo en el input
-  if (textoBusqueda) {
+  if (textoBusqueda.length > 2) {
     const query = normalizar(textoBusqueda);
     resultado = resultado.filter((socio) => {
       return (
@@ -52,6 +47,8 @@ function obtenerSocios() {
         normalizar(socio.email).includes(query)
       );
     });
+  } else {
+    resultado = resultado.sort((a, b) => a.id.localeCompare(b.id));
   }
 
   // Filtrar por actividad si se ha seleccionado una opción distinta a "Todas las actividades"
@@ -99,26 +96,14 @@ function obtenerSocios() {
 
 // Función para renderizar la tabla con los socios filtrados y ordenados
 function renderizarTabla() {
-  // Obtener los socios filtrados y calcular el número de páginas totales
   const sociosFiltrados = obtenerSocios();
-  let paginasTotales = Math.ceil(sociosFiltrados.length / sociosPagina);
-
-  if (paginaActual >= paginasTotales && paginasTotales > 0) {
-    paginaActual = paginasTotales - 1;
-  } else if (paginasTotales === 0) {
-    paginaActual = 0;
-  }
-
-  let inicio = paginaActual * sociosPagina;
-  let fin = inicio + sociosPagina;
-  let sociosPaginaActual = sociosFiltrados.slice(inicio, fin);
 
   tabla.innerHTML = "";
 
-  if (sociosPaginaActual.length === 0) {
+  if (sociosFiltrados.length === 0) {
     tabla.innerHTML = `<tr><td colspan="6" style="text-align: center;">No se encontraron socios</td></tr>`;
   } else {
-    sociosPaginaActual.forEach((value) => {
+    sociosFiltrados.forEach((value) => {
       const apellidosAbreviados = abreviarApellido(value.apellidos);
       const email = esconderCorreo(value.email);
       const iniciales = obtenerIniciales(value.nombre, value.apellidos);
@@ -147,35 +132,10 @@ function renderizarTabla() {
       `;
     });
   }
-
-  contadorPaginas.innerHTML =
-    paginasTotales === 0 ? "0 / 0" : `${paginaActual + 1} / ${paginasTotales}`;
-
-  botonAnterior.disabled = paginaActual === 0;
-  botonSiguiente.disabled =
-    paginaActual >= paginasTotales - 1 || paginasTotales === 0;
 }
-
-botonAnterior.addEventListener("click", () => {
-  if (paginaActual > 0) {
-    paginaActual--;
-    renderizarTabla();
-  }
-});
-
-botonSiguiente.addEventListener("click", () => {
-  let sociosFiltrados = obtenerSocios();
-  let paginasTotales = Math.ceil(sociosFiltrados.length / sociosPagina);
-
-  if (paginaActual < paginasTotales - 1) {
-    paginaActual++;
-    renderizarTabla();
-  }
-});
 
 buscarSocio.addEventListener("input", (e) => {
   textoBusqueda = e.target.value.trim();
-  paginaActual = 0;
   renderizarTabla();
 });
 
@@ -185,13 +145,11 @@ selectFiltro.addEventListener("change", (e) => {
     indiceSeleccionado === ""
       ? ""
       : Object.values(Actividades)[indiceSeleccionado];
-  paginaActual = 0;
   renderizarTabla();
 });
 
 ordenarFiltro.addEventListener("change", (e) => {
   ordenFiltro = e.target.value;
-  paginaActual = 0;
   renderizarTabla();
 });
 

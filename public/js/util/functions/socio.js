@@ -9,8 +9,13 @@ function calcularEdad(fechaNacimiento) {
 }
 
 function abreviarApellido(apellidos) {
-  let eliminar = /\s([A-Za-zÁ-ÿ])[A-Za-zÁ-ÿ]*/g;
-  return apellidos.replace(eliminar, " $1.");
+  // Aseguramos que el string esté normalizado para evitar problemas con tildes
+  const normalizado = apellidos.normalize("NFD");
+  // Expresión regular ajustada para capturar la primera letra del segundo apellido (incluso con tilde)
+  let eliminar = /\s([A-Za-z\u0300-\u036f])[A-Za-z\u0300-\u036f]*$/;
+
+  // Aplicamos el replace y volvemos a normalizar la forma compuesta (NFC)
+  return normalizado.replace(eliminar, " $1.");
 }
 
 function esconderCorreo(correo) {

@@ -848,3 +848,10 @@ body:-moz-full-screen {
   overflow-y: auto !important;
   padding: 1.5rem !important;
 }
+
+/* Contenedor secundario para la columna derecha */
+.sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
