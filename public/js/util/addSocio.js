@@ -18,12 +18,43 @@ import { mostrarToastCorrecto } from "../toast/correcto.js";
 
 const formulario = document.getElementById("form-alta");
 const modal = document.getElementById("modal-alta");
+const camposError = {
+  NOMBRE: ["alta-nombre", "error-nombre"],
+  APELLIDOS: ["alta-apellidos", "error-apellidos"],
+  DNI: ["alta-dni", "error-dni"],
+  EMAIL: ["alta-email", "error-email"],
+  "TELÉFONO": ["alta-telefono", "error-telefono"],
+  "FECHA DE NACIMIENTO": ["alta-nacimiento", "error-nacimiento"],
+  ACTIVIDADES: ["alta-actividades", "error-actividades"],
+  CUOTA: ["alta-cuota", "error-cuota"],
+};
+
+function limpiarErrores() {
+  Object.values(camposError).forEach(([idCampo, idError]) => {
+    document.getElementById(idCampo).classList.remove("input-error");
+    document.getElementById(idError).textContent = "";
+  });
+}
 
 if (formulario) {
+  formulario.addEventListener("input", (e) => {
+    const campo = Object.values(camposError).find(
+      ([idCampo]) =>
+        idCampo === e.target.id ||
+        (idCampo === "alta-actividades" &&
+          e.target.closest("#alta-actividades")),
+    );
+    if (campo) {
+      document.getElementById(campo[0]).classList.remove("input-error");
+      document.getElementById(campo[1]).textContent = "";
+    }
+  });
+
   formulario.addEventListener("submit", function (e) {
     e.preventDefault();
 
     try {
+      limpiarErrores();
       let errores = [];
 
       const nombre = document.getElementById("alta-nombre").value.trim() || "";
@@ -154,9 +185,17 @@ if (formulario) {
       }
 
       if (errores.length > 0) {
-        let mensaje = "";
-        errores.forEach((a) => (mensaje += `${a.nombreCampo}: ${a.razon}<br>`));
-        throw new Error(mensaje);
+        errores.forEach(({ nombreCampo, razon }) => {
+          const [idCampo, idError] = camposError[nombreCampo];
+          document.getElementById(idCampo).classList.add("input-error");
+          document.getElementById(idError).textContent = razon;
+        });
+        mostrarToastError(
+          errores
+            .map(({ nombreCampo, razon }) => `${nombreCampo}: ${razon}`)
+            .join("<br>"),
+        );
+        return;
       }
 
       const fecha = new Date();
@@ -176,8 +215,11 @@ if (formulario) {
         
       const nuevoSocio = {
         id: nuevoID,
-        nombre: nombre,
-        apellidos: apellidos,
+        nombre: nombre.charAt(0).toUpperCase() + nombre.slice(1),
+        apellidos: apellidos
+          .split(" ")
+          .map((apellido) => apellido.charAt(0).toUpperCase() + apellido.slice(1))
+          .join(" "),
         dni: dni,
         email: email,
         telefono: telefono,
@@ -187,10 +229,13 @@ if (formulario) {
         cuota: Number(cuota),
       };
 
+      console.log(nuevoSocio);
+
       Socios.push(nuevoSocio);
 
       if (modal) modal.classList.add("hidden");
       formulario.reset();
+      limpiarErrores();
 
       renderizarTabla();
       recargarEstadisticas();

@@ -524,6 +524,12 @@ tbody tr:hover {
   border-color: var(--error-color) !important;
 }
 
+.tags-container.input-error {
+  border: 1px solid var(--error-color);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+}
+
 .error-msg {
   font-size: 0.75rem;
   color: var(--error-color);

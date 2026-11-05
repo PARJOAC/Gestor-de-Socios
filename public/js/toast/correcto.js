@@ -1,4 +1,4 @@
-const toastTiempo = 3 * 1000; // 3 segundos
+const toastTiempo = 5 * 1000; // 5 segundos
 // Función para mostrar un toast de correcto con un mensaje personalizado
 function mostrarToastCorrecto(mensaje) {
   const container = document.getElementById("toast-container");

@@ -32,7 +32,7 @@ function recargarEstadisticas() {
     0,
   );
 
-  edadMediaHTML.innerHTML = Math.round(sumaEdades / Socios.length).toFixed(2);
+  edadMediaHTML.innerHTML = Math.round(sumaEdades / Socios.length).toFixed(1);
 
   edadMinHTML.textContent = calcularEdad(
     [...Socios].sort(
