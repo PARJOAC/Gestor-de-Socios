@@ -14,9 +14,10 @@ import { Socios } from "../data/socios.js";
 import { Actividades } from "../data/actividades.js";
 import { renderizarTabla } from "../main/loadTabla.js";
 import { recargarEstadisticas } from "./estadisticas.js";
+import { mostrarToastCorrecto } from "../toast/correcto.js";
 
 const formulario = document.getElementById("form-alta");
-const modal = document.getElementById("modal");
+const modal = document.getElementById("modal-alta");
 
 if (formulario) {
   formulario.addEventListener("submit", function (e) {
@@ -47,7 +48,7 @@ if (formulario) {
           });
       }
 
-      const dni = document.getElementById("alta-dni").value.trim() || "";
+      const dni = document.getElementById("alta-dni").value.trim().toUpperCase() || "";
       const letraDniUsuario = dni.charAt(8).toUpperCase();
       const numeroDni = dni.slice(0, 8);
 
@@ -85,7 +86,6 @@ if (formulario) {
           .getElementById("alta-telefono")
           .value.trim()
           .replaceAll(" ", "") || "";
-      console.log(telefono);
       if (!telefono) {
         errores.push({ nombreCampo: "TELÉFONO", razon: "Incluir Teléfono" });
       } else {
@@ -159,39 +159,44 @@ if (formulario) {
         throw new Error(mensaje);
       }
 
-      const nacimientoFecha = new Date(nacimiento);
       const fecha = new Date();
+      const [diaNacimiento, mesNacimiento, anioNacimiento] =
+        nacimiento.split("/");
 
+      const nuevoID =
+        "SOC-" +
+        String(
+          Number(
+            Socios.sort((a, b) => b.id.localeCompare(a.id))[0].id.replace(
+              "SOC-",
+              "",
+            ),
+          ) + 1,
+        ).padStart(4, "0");
+        
       const nuevoSocio = {
-        id:
-          "SOC-" +
-          String(
-            Number(
-              Socios.sort((a, b) => b.id.localeCompare(a.id))[0].id.replace(
-                "SOC-",
-                "",
-              ),
-            ) + 1,
-          ).padStart(4, "0"),
+        id: nuevoID,
         nombre: nombre,
         apellidos: apellidos,
         dni: dni,
         email: email,
         telefono: telefono,
-        fechaNacimiento: `${nacimientoFecha.getFullYear()}-${String(nacimientoFecha.getMonth() + 1).padStart(2, "0")}-${String(nacimientoFecha.getDate()).padStart(2, "0")}`,
+        fechaNacimiento: `${anioNacimiento}-${mesNacimiento}-${diaNacimiento}`,
         fechaAlta: `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, "0")}-${String(fecha.getDate()).padStart(2, "0")}`,
         actividades: actividades,
-        cuota: cuota,
+        cuota: Number(cuota),
       };
-
-      console.log(nuevoSocio);
 
       Socios.push(nuevoSocio);
 
       if (modal) modal.classList.add("hidden");
       formulario.reset();
 
-      Promise.all[(renderizarTabla(), recargarEstadisticas())];
+      renderizarTabla();
+      recargarEstadisticas();
+      mostrarToastCorrecto(
+        `Socio ${nombre.toUpperCase()} dado de alta con id ${nuevoID}`,
+      );
     } catch (e) {
       mostrarToastError("Falta por añadir esta información:<br>" + e.message);
     }

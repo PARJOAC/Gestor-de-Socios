@@ -5,7 +5,15 @@ function obtenerIniciales(nombre, apellidos) {
 }
 
 function calcularEdad(fechaNacimiento) {
-  return new Date().getFullYear() - new Date(fechaNacimiento).getFullYear();
+  const [anioNacimiento, mesNacimiento, diaNacimiento] = fechaNacimiento
+    .split("-")
+    .map(Number);
+  const hoy = new Date();
+  const aunNoCumpleAnios =
+    hoy.getMonth() + 1 < mesNacimiento ||
+    (hoy.getMonth() + 1 === mesNacimiento && hoy.getDate() < diaNacimiento);
+
+  return hoy.getFullYear() - anioNacimiento - Number(aunNoCumpleAnios);
 }
 
 function abreviarApellido(apellidos) {

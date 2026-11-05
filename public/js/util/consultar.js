@@ -31,7 +31,7 @@ btnBuscar.addEventListener("click", function (e) {
     );
     const proximoCumple = new Date(
       fechaActual.getFullYear(),
-      fecha.getDay(),
+      fecha.getMonth(),
       fecha.getDate(),
     );
     datosConsulta.innerHTML = `
@@ -58,11 +58,11 @@ btnBuscar.addEventListener("click", function (e) {
             </div>
             <div class="socio-field socio-full">
                 <span class="socio-label">Edad y Nacimiento</span>
-                <span class="socio-value">${fechaCompleta(fecha)} (${fecha.getDate()}/${fecha.getMonth()}/${fecha.getYear()}) - ${calcularEdad(busqueda.fechaNacimiento)} años</span>
+                <span class="socio-value">${fechaCompleta(fecha)} (${fecha.getDate()}/${fecha.getMonth() + 1}/${fecha.getFullYear()}) - ${calcularEdad(busqueda.fechaNacimiento)} años</span>
             </div>
             <div class="socio-field socio-full">
                 <span class="socio-label">Fecha de Alta</span>
-                <span class="socio-value">${fechaCompleta(fechaAlta)} (${fechaAlta.getDate()}/${fechaAlta.getMonth()}/${fechaAlta.getYear()}) - <strong class="text-muted">(${diasAlta} días)</strong></span>
+                <span class="socio-value">${fechaCompleta(fechaAlta)} (${fechaAlta.getDate()}/${fechaAlta.getMonth() + 1}/${fechaAlta.getFullYear()}) - <strong class="text-muted">(${diasAlta} días)</strong></span>
             </div>
             <div class="socio-field socio-full">
                 <span class="socio-label">Fecha de Cumpleaños</span>

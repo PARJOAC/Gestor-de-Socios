@@ -19,7 +19,7 @@ function recargarEstadisticas() {
   totalSociosHTML.textContent = Socios.length;
 
   let totalIngresos = Socios.reduce(
-    (total, socio) => total + socio.cuota,
+    (total, socio) => total + Number(socio.cuota),
     0,
   ).toFixed(2);
   ingresosMensualesHTML.textContent = totalIngresos + Moneda;
@@ -35,13 +35,13 @@ function recargarEstadisticas() {
   edadMediaHTML.innerHTML = Math.round(sumaEdades / Socios.length).toFixed(2);
 
   edadMinHTML.textContent = calcularEdad(
-    Socios.sort(
+    [...Socios].sort(
       (a, b) => new Date(b.fechaNacimiento) - new Date(a.fechaNacimiento),
     )[0].fechaNacimiento,
   );
 
   edadMaxHTML.textContent = calcularEdad(
-    Socios.sort(
+    [...Socios].sort(
       (a, b) => new Date(a.fechaNacimiento) - new Date(b.fechaNacimiento),
     )[0].fechaNacimiento,
   );
@@ -66,8 +66,6 @@ function recargarEstadisticas() {
   });
 
   actividadMasPopularHTML.innerHTML = `${actividadMasPopular[0]} (${actividadMasPopular[1]} clientes)`;
-  console.log(tipos);
-
   hayMenoresDeEdadHTML.textContent = Socios.some(
     (socio) => calcularEdad(socio.fechaNacimiento) < 18,
   )
@@ -80,7 +78,7 @@ function recargarEstadisticas() {
     ? "Sí"
     : "No";
 
-  top3Socios.innerHTML = Socios.sort(
+  top3Socios.innerHTML = [...Socios].sort(
     (a, b) => new Date(a.fechaAlta) - new Date(b.fechaAlta),
   )
     .slice(0, 3)
