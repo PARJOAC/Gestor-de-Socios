@@ -60,9 +60,23 @@ function comprobarFechaNacimiento(fechaNacimiento) {
   ) {
     return false;
   }
+  if (minimaEdadSocio(fecha))
+    throw new Error("El socio debe tener más de 14 años");
 
   const fechaActual = new Date();
   return fecha < fechaActual;
+}
+
+function minimaEdadSocio(fechaNacimiento) {
+  const fechaActual = new Date();
+  let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
+  const aunNoCumpleAnios =
+    fechaActual.getMonth() < fechaNacimiento.getMonth() ||
+    (fechaActual.getMonth() === fechaNacimiento.getMonth() &&
+      fechaActual.getDate() < fechaNacimiento.getDate());
+
+  if (aunNoCumpleAnios) edad--;
+  return edad <= 14;
 }
 
 function comprobarFechaAlta(fechaAlta) {

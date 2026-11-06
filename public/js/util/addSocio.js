@@ -9,7 +9,7 @@ import {
   comprobarActividades,
   comprobarCuota,
   calculoLetraDNI,
-} from "./functions/nuevoSocio.js";
+} from "./functions/comprobacionesNuevoSocio.js";
 import { Socios } from "../data/socios.js";
 import { Actividades } from "../data/actividades.js";
 import { renderizarTabla } from "../main/loadTabla.js";
