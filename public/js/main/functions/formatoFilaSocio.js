@@ -41,7 +41,7 @@ function esconderCorreo(correo) {
   return (
     correo.charAt(0) +
     correo.charAt(1) +
-    correo.slice(3, arroba).replace(/./g, "*") +
+    correo.slice(2, arroba).replace(/./g, "*") +
     correo.slice(arroba)
   );
 }
