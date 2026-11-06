@@ -24,11 +24,11 @@
       </div>
     </header>
 
-    <main class="container" id="main">
+    <main class="container">
       <!-- Agrupa el listado y el panel lateral del club. -->
       <div class="dashboard-grid">
         <!-- Presenta el listado de socios y sus controles. -->
-        <section id="section-socios" class="card">
+        <section class="card">
           <div class="section-header">
             <h2>Listado de Socios</h2>
             <div class="header-actions">
@@ -112,9 +112,7 @@
                 </svg>
                 Filtrar por actividad
               </label>
-              <div class="select-wrapper">
-                <select id="select-activity-filter"></select>
-              </div>
+              <select id="select-activity-filter"></select>
             </div>
 
             <div class="control-card">
@@ -132,22 +130,20 @@
                 </svg>
                 Ordenar listado
               </label>
-              <div class="select-wrapper">
-                <select id="select-order">
-                  <option value="default">Por defecto</option>
-                  <option value="nombre">Por Nombre</option>
-                  <option value="apellidos">Por Apellidos</option>
-                  <option value="jovenes">Más jóvenes primero</option>
-                  <option value="antiguos">Más antiguos primero</option>
-                  <option value="cuota">Por cuota (Menor a mayor)</option>
-                </select>
-              </div>
+              <select id="select-order">
+                <option value="default">Por defecto</option>
+                <option value="nombre">Por Nombre</option>
+                <option value="apellidos">Por Apellidos</option>
+                <option value="jovenes">Más jóvenes primero</option>
+                <option value="antiguos">Más antiguos primero</option>
+                <option value="cuota">Por cuota (Menor a mayor)</option>
+              </select>
             </div>
           </div>
 
           <!-- Muestra los socios en una tabla adaptable. -->
           <div class="table-responsive">
-            <table id="table-socios">
+            <table>
               <thead>
                 <tr>
                   <th>ID</th>
@@ -168,9 +164,9 @@
         <!-- Agrupa la consulta individual y las estadísticas del club. -->
         <div class="sidebar-column">
           <!-- Permite consultar la ficha de un socio por su DNI. -->
-          <section id="section-ficha" class="card">
+          <section class="card">
             <h2>Ficha de Socio</h2>
-            <div class="control-group" style="width: 100%">
+            <div class="control-group">
               <label for="input-dni-search">Consultar por DNI:</label>
               <div class="search-inline">
                 <input
@@ -184,14 +180,10 @@
               </div>
               <div id="datosConsulta"></div>
             </div>
-
-            <p id="ficha-error-msg" class="error-text hidden">
-              El DNI no corresponde a ningún socio.
-            </p>
           </section>
 
           <!-- Muestra los totales y resúmenes de los socios. -->
-          <section id="section-stats" class="card">
+          <section class="card">
             <h2>Estadísticas del Club</h2>
             <div class="stats-grid">
               <div class="stat-box">
@@ -248,13 +240,12 @@
 
     <!-- Contiene el formulario para registrar un socio nuevo. -->
     <div id="modal-alta" class="custom-modal-backdrop hidden">
-      <div class="modal custom-modal-content">
+      <div class="custom-modal-content">
         <div class="modal-header">
           <h2>Dar de Alta Nuevo Socio</h2>
           <button id="btn-close-alta" class="btn-close">&times;</button>
         </div>
         <div class="modal-body">
-          <span class="error-msg" id="error-msg"></span>
           <!-- Recoge los datos necesarios para crear el socio. -->
           <form id="form-alta" novalidate>
             <!-- Solicita el nombre del socio. -->
@@ -355,11 +346,6 @@
           </form>
         </div>
       </div>
-    </div>
-
-    <!-- Reserva un modal para mostrar errores generales. -->
-    <div id="error" class="custom-modal-backdrop hidden">
-      <h1 id="mensaje-error"></h1>
     </div>
 
     <!-- Recibe los avisos temporales de éxito y error. -->

@@ -588,13 +588,6 @@ tbody tr:hover {
   min-height: 1rem;
 }
 
-/* Destaca los mensajes de error generales. */
-.error-text {
-  color: var(--error-color);
-  font-weight: 500;
-  margin-top: 0.5rem;
-}
-
 /* Distribuye las estadísticas en tarjetas adaptables. */
 .stats-grid {
   display: grid;
