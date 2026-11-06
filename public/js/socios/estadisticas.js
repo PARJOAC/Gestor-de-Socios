@@ -104,14 +104,14 @@ function recargarEstadisticas() {
   top3Socios.innerHTML = [...Socios]
     .sort((a, b) => new Date(a.fechaAlta) - new Date(b.fechaAlta))
     .slice(0, 3)
-    .map((socio) => `<li>${socio.nombre} ${socio.apellidos}</li>`)
+    .map((socio) => `<li><strong>${socio.nombre} ${socio.apellidos}</strong></li>`)
     .join("");
 
   // Obtiene y muestra una lista sin duplicados de dominios de correo.
   dominiosCorreo.innerHTML = Array.from(
     new Set(Socios.map((socio) => socio.email.split("@")[1])),
   )
-    .map((dominio) => `<li>${dominio}</li>`)
+    .map((dominio) => `<li><strong>${dominio}</strong></li>`)
     .join("");
 }
 
