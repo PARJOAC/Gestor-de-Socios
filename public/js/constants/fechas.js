@@ -1,4 +1,4 @@
-// Nombres de los días de la semana
+// Relaciona cada número de día con su nombre.
 const DiasSemana = {
   0: "Domingo",
   1: "Lunes",
@@ -9,7 +9,7 @@ const DiasSemana = {
   6: "Sábado",
 };
 
-// Nombres de los meses del año
+// Relaciona cada número de mes con su nombre.
 const Meses = {
   0: "Enero",
   1: "Febrero",
@@ -26,5 +26,5 @@ const Meses = {
   12: "Diciembre",
 };
 
-// Exportarlo para poder usarlo en otros archivos
+// Permite usar los nombres de días y meses en otros módulos.
 export { DiasSemana, Meses };

@@ -1,42 +1,56 @@
+// Importa la lista de socios que se mostrará en la tabla.
 import { Socios } from "../data/socios.js";
+// Importa la función que calcula la edad de cada socio.
 import { calcularEdad } from "../socios/functions/edad.js";
+// Importa las funciones que preparan los datos para las filas.
 import {
   obtenerIniciales,
   abreviarApellido,
   esconderCorreo,
 } from "./functions/formatoFilaSocio.js";
-import { Moneda } from "../constants/moneda.js";
+// Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
 
-// Importar los elementos de la tabla para rellenarlas
+// Busca los controles que muestran y filtran la tabla.
 let tabla = document.getElementById("tbody-socios");
 let buscarSocio = document.getElementById("input-search");
 let selectFiltro = document.getElementById("select-activity-filter");
 let ordenarFiltro = document.getElementById("select-order");
 
-// Variables para hacer un control del filtrado
+// Guarda los valores actuales de búsqueda, actividad y orden.
 let textoBusqueda = "";
 let actividadFiltro = "";
 let ordenFiltro = "";
 
-// Función para normalizar el texto y eliminar acentos y mayúsculas
+/**
+ * Convierte un texto a minúsculas y quita las tildes para facilitar la búsqueda.
+ * @param {string} texto - Texto que se va a normalizar.
+ * @returns {string} Texto en minúsculas y sin marcas de acento.
+ */
 const normalizar = (texto) =>
   texto
     ? String(texto)
         .toLowerCase()
-        // Normalizar el texto para eliminar acentos y caracteres especiales
+        // Separa las letras de sus marcas de acento.
         .normalize("NFD")
-        // Borrar las tildes de las vocales
+        // Elimina las marcas de acento.
         .replace(/[\u0300-\u036f]/g, "")
     : "";
 
-// Función para obtener los socios filtrados y ordenados según lo que se seleccione
+/**
+ * Filtra y ordena una copia de la lista de socios según los controles de la tabla.
+ * @returns {Object[]} Socios que coinciden con la búsqueda y el orden seleccionados.
+ * @throws {Error} Si el control solicita un criterio de orden desconocido.
+ */
 function obtenerSocios() {
+  // Copia la lista para ordenar sin cambiar el orden de los datos originales.
   let resultado = [...Socios];
 
-  // Filtrar por texto de búsqueda si se ha introducido algo en el input
+  // Aplica la búsqueda si alcanza la longitud mínima configurada.
   if (textoBusqueda.length >= config.cadenaMinimaBusqueda) {
+    // Normaliza el texto para que la búsqueda ignore mayúsculas y tildes.
     const query = normalizar(textoBusqueda);
+    // Conserva los socios cuyo nombre, apellido o correo contiene el texto.
     resultado = resultado.filter((socio) => {
       return (
         normalizar(socio.nombre).includes(query) ||
@@ -45,74 +59,99 @@ function obtenerSocios() {
       );
     });
   } else {
+    // Mantiene el orden por identificador cuando no hay búsqueda suficiente.
     resultado = resultado.sort((a, b) => a.id.localeCompare(b.id));
   }
 
-  // Filtrar por actividad si se ha seleccionado una opción distinta a vacía o "todas"
+  // Filtra por actividad cuando se ha elegido una opción concreta.
   if (
     actividadFiltro &&
     actividadFiltro.toLowerCase() !== "todas las actividades"
   ) {
+    // Normaliza la actividad seleccionada antes de compararla.
     const queryFiltro = normalizar(actividadFiltro);
+    // Conserva los socios que tienen la actividad seleccionada.
     resultado = resultado.filter((socio) =>
       socio.actividades.some((v) => normalizar(v).includes(queryFiltro)),
     );
   }
 
-  // Ordenar los resultados según el filtro seleccionado
+  // Ordena los resultados según la opción elegida.
   if (ordenFiltro) {
+    // Aplica el comparador correspondiente al tipo de orden.
     switch (ordenFiltro.toLowerCase()) {
       case "default":
+        // Ordena por identificador.
         resultado.sort((a, b) => a.id.localeCompare(b.id));
         break;
       case "nombre":
+        // Ordena alfabéticamente por nombre.
         resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
         break;
       case "apellidos":
+        // Ordena alfabéticamente por apellidos.
         resultado.sort((a, b) => a.apellidos.localeCompare(b.apellidos));
         break;
       case "jovenes":
+        // Ordena desde la fecha de nacimiento más reciente.
         resultado.sort(
           (a, b) => new Date(b.fechaNacimiento) - new Date(a.fechaNacimiento),
         );
         break;
       case "antiguos":
+        // Ordena desde la fecha de nacimiento más antigua.
         resultado.sort(
           (a, b) => new Date(a.fechaNacimiento) - new Date(b.fechaNacimiento),
         );
         break;
       case "cuota":
+        // Ordena de menor a mayor cuota.
         resultado.sort((a, b) => a.cuota - b.cuota);
         break;
       default:
+        // Informa si se recibe una opción de orden desconocida.
         throw new Error("Ese orden no existe.");
     }
   }
+  // Devuelve el resultado después de aplicar los filtros y el orden.
   return resultado;
 }
 
-// Función para renderizar la tabla con los socios filtrados y ordenados
+/**
+ * Dibuja las filas de la tabla con los socios filtrados y ordenados.
+ * No recibe parámetros ni devuelve un valor; actualiza el contenido de la tabla.
+ * @returns {void}
+ */
 function renderizarTabla() {
+  // Obtiene los datos que deben aparecer en la tabla.
   const sociosFiltrados = obtenerSocios();
 
+  // Limpia las filas anteriores antes de mostrar los nuevos resultados.
   tabla.innerHTML = "";
 
+  // Muestra un aviso dentro de la tabla si ningún socio coincide.
   if (sociosFiltrados.length === 0) {
     tabla.innerHTML = `<tr><td colspan="6" style="text-align: center;">No se encontraron socios</td></tr>`;
   } else {
+    // Crea una fila para cada socio encontrado.
     sociosFiltrados.forEach((value) => {
+      // Prepara los datos que necesitan un formato especial en la fila.
       const apellidosAbreviados = abreviarApellido(value.apellidos);
       const email = esconderCorreo(value.email);
       const iniciales = obtenerIniciales(value.nombre, value.apellidos);
 
+      // Convierte las actividades del socio en etiquetas HTML.
       let actividadesHtml = value.actividades
         .map((actividad) => {
+          // Acepta tanto actividades guardadas como texto como objetos con nombre.
           const texto =
             typeof actividad === "string" ? actividad : actividad?.nombre || "";
+          // Devuelve la etiqueta de una actividad en mayúsculas.
           return `<span class="badge-actividad">${texto.toUpperCase()}</span>`;
         })
         .join(" ");
 
+      // Añade a la tabla una fila con los datos preparados del socio.
       tabla.innerHTML += `
         <tr>
           <td>
@@ -125,28 +164,33 @@ function renderizarTabla() {
           <td>${email}</td>
           <td><div class="contenedor-actividades">${actividadesHtml}</div></td>
           <td>${calcularEdad(value.fechaNacimiento)} años</td>
-          <td>${parseFloat(value.cuota).toFixed(2)}${Moneda}</td>
+          <td>${parseFloat(value.cuota).toFixed(2)}${config.moneda}</td>
         </tr>
       `;
     });
   }
 }
 
+// Actualiza la búsqueda y vuelve a dibujar la tabla al escribir.
 buscarSocio.addEventListener("input", (e) => {
   textoBusqueda = e.target.value.trim();
   renderizarTabla();
 });
 
+// Actualiza el filtro por actividad y vuelve a dibujar la tabla.
 selectFiltro.addEventListener("change", (e) => {
   actividadFiltro = e.target.value;
   renderizarTabla();
 });
 
+// Actualiza el orden y vuelve a dibujar la tabla.
 ordenarFiltro.addEventListener("change", (e) => {
   ordenFiltro = e.target.value;
   renderizarTabla();
 });
 
+// Dibuja la tabla por primera vez al cargar el módulo.
 renderizarTabla();
 
+// Permite volver a dibujar la tabla desde otros módulos.
 export { renderizarTabla };

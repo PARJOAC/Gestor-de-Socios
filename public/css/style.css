@@ -1,3 +1,4 @@
+/* Guarda los colores, bordes y medidas compartidos por la interfaz. */
 :root {
   --primary-color: #ebac25;
   --primary-hover: #d8a61d;
@@ -11,6 +12,7 @@
   --radius: 8px;
 }
 
+/* Elimina márgenes por defecto y usa un modelo de caja predecible. */
 *,
 *::before,
 *::after {
@@ -19,6 +21,7 @@
   padding: 0;
 }
 
+/* Define la tipografía, el fondo y el color general de la página. */
 body {
   font-family:
     system-ui,
@@ -37,11 +40,12 @@ body {
   overflow-x: hidden;
 }
 
+/* Evita el desplazamiento del fondo mientras hay un modal abierto. */
 body:has(.custom-modal-backdrop:not(.hidden)) {
   overflow: hidden;
 }
 
-/* Tipografía y Textos */
+/* Da jerarquía visual a los títulos de sección. */
 h2 {
   margin-bottom: 1.25rem;
   font-size: 1.25rem;
@@ -50,12 +54,7 @@ h2 {
   padding-bottom: 0.5rem;
 }
 
-.text-center {
-  text-align: center;
-  color: var(--text-muted);
-  padding: 1.5rem;
-}
-
+/* Atenúa los textos secundarios y los títulos de estadísticas. */
 .text-muted,
 .stat-box h3,
 .stat-box-large h3 {
@@ -63,11 +62,12 @@ h2 {
   font-size: 0.9rem;
 }
 
+/* Oculta elementos marcados como no visibles. */
 .hidden {
   display: none !important;
 }
 
-/* Cabecera general */
+/* Destaca la cabecera principal con el color de marca. */
 #main-header {
   background-color: var(--primary-color);
   color: white;
@@ -75,19 +75,15 @@ h2 {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
+/* Centra la cabecera y el contenedor con un ancho máximo común. */
 .header-content,
 .container {
-  max-width: 1400px; /* Ampliamos el ancho máximo global de la página */
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-@media (min-width: 1024px) {
-  .dashboard-grid {
-    grid-template-columns: 2.5fr 1fr; /* Damos más proporción a la tabla (izquierda) frente a la ficha (derecha) */
-  }
-}
-
+/* Alinea el título y el reloj de la cabecera. */
 .header-content {
   display: flex;
   justify-content: space-between;
@@ -96,6 +92,7 @@ h2 {
   gap: 1rem;
 }
 
+/* Apila la fecha y la hora al lado derecho de la cabecera. */
 .datetime-container {
   display: flex;
   flex-direction: column;
@@ -103,12 +100,14 @@ h2 {
   gap: 0.15rem;
 }
 
+/* Ajusta el tamaño y el color de la fecha. */
 #current-date {
   font-size: 0.9rem;
   font-weight: 500;
   color: #e2e8f0;
 }
 
+/* Destaca la hora y mantiene alineadas sus cifras. */
 #current-time {
   font-size: 1.15rem;
   font-weight: 700;
@@ -116,7 +115,7 @@ h2 {
   font-variant-numeric: tabular-nums;
 }
 
-/* Contenedor principal y Tarjetas */
+/* Separa verticalmente el contenido principal de la página. */
 .container {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
@@ -126,7 +125,7 @@ h2 {
   gap: 1.5rem;
 }
 
-/* Rejilla de Dos Columnas para Tabla y Ficha de Socio */
+/* Apila el listado y el panel lateral en pantallas estrechas. */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -134,12 +133,15 @@ h2 {
   align-items: start;
 }
 
+/* Coloca el listado y el panel lateral en columnas amplias. */
 @media (min-width: 1024px) {
+  /* Da más espacio al listado y reserva una columna para el panel lateral. */
   .dashboard-grid {
     grid-template-columns: 2fr 1fr;
   }
 }
 
+/* Presenta cada sección dentro de una tarjeta. */
 .card {
   background: var(--card-bg);
   border-radius: var(--radius);
@@ -148,13 +150,15 @@ h2 {
   overflow: hidden;
 }
 
+/* Aumenta el espacio interior de las tarjetas en pantallas medianas. */
 @media (min-width: 768px) {
+  /* Añade más espacio interior cuando aumenta el ancho de pantalla. */
   .card {
     padding: 1.5rem;
   }
 }
 
-/* Secciones y Controles */
+/* Alinea el título de la sección con sus botones. */
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -164,6 +168,7 @@ h2 {
   gap: 1rem;
 }
 
+/* Distribuye las acciones del encabezado y permite que se ajusten. */
 .header-actions {
   display: flex;
   gap: 0.75rem;
@@ -172,12 +177,15 @@ h2 {
   width: 100%;
 }
 
+/* Coloca las acciones en una fila cuando hay espacio suficiente. */
 @media (min-width: 640px) {
+  /* Ajusta el ancho del grupo de acciones al contenido. */
   .header-actions {
     width: auto;
   }
 }
 
+/* Alinea los botones del encabezado y reparte su espacio. */
 .header-actions button {
   display: inline-flex;
   align-items: center;
@@ -187,12 +195,15 @@ h2 {
   justify-content: center;
 }
 
+/* Evita que los botones se estiren en pantallas amplias. */
 @media (min-width: 640px) {
+  /* Evita que los botones conserven el crecimiento flexible. */
   .header-actions button {
     flex: initial;
   }
 }
 
+/* Distribuye los controles de búsqueda en una cuadrícula adaptable. */
 .controls-bar {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -204,12 +215,14 @@ h2 {
   border: 1px solid #e2e8f0;
 }
 
+/* Apila cada etiqueta encima de su control. */
 .control-card {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
+/* Da formato a las etiquetas de búsqueda y filtro. */
 .control-card label {
   display: flex;
   align-items: center;
@@ -221,17 +234,19 @@ h2 {
   letter-spacing: 0.025em;
 }
 
+/* Aplica el color principal a los iconos de los controles. */
 .control-card label svg {
   color: var(--primary-color);
 }
 
-/* Formularios, Inputs y Selects */
+/* Da un estilo común a las etiquetas de los formularios. */
 label {
   font-weight: 500;
   font-size: 0.8rem;
   color: var(--text-muted);
 }
 
+/* Apila los campos y separa sus etiquetas de sus valores. */
 .control-group,
 .form-group {
   display: flex;
@@ -240,6 +255,7 @@ label {
   margin-bottom: 0.25rem;
 }
 
+/* Unifica el tamaño, el borde y el color de los campos de entrada. */
 .control-card input,
 .control-card select,
 input[type="text"],
@@ -257,17 +273,20 @@ select {
   transition: all 0.2s ease-in-out;
 }
 
+/* Amplía los campos dentro de la barra de controles. */
 .control-card input,
 .control-card select {
   padding: 0.65rem 0.875rem;
   font-size: 0.95rem;
 }
 
+/* Resalta los campos de control al pasar el puntero. */
 .control-card input:hover,
 .control-card select:hover {
   border-color: #94a3b8;
 }
 
+/* Resalta los campos cuando reciben el foco. */
 .control-card input:focus,
 .control-card select:focus,
 input:focus,
@@ -276,6 +295,7 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
+/* Personaliza la flecha y el espacio interior de los selectores. */
 select {
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -286,16 +306,18 @@ select {
   cursor: pointer;
 }
 
+/* Coloca el campo y el botón de consulta en una misma fila. */
 .search-inline {
   display: flex;
   gap: 0.5rem;
 }
 
+/* Permite que el campo de consulta use el espacio sobrante. */
 .search-inline input {
   flex: 1;
 }
 
-/* Botones */
+/* Define el estilo común y los estados de los botones. */
 button {
   cursor: pointer;
   font-family: inherit;
@@ -306,6 +328,7 @@ button {
   transition: background-color 0.2s;
 }
 
+/* Atenúa los botones deshabilitados y bloquea el cursor de acción. */
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -313,29 +336,34 @@ button:disabled {
   color: #64748b !important;
 }
 
+/* Destaca los botones de acción principal. */
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
 }
 
+/* Cambia el tono del botón principal al pasar el puntero. */
 .btn-primary:hover {
   background-color: var(--primary-hover);
 }
 
+/* Da un estilo neutro a las acciones secundarias. */
 .btn-secondary {
   background-color: #e2e8f0;
   color: var(--text-color);
 }
 
+/* Oscurece el botón secundario al pasar el puntero. */
 .btn-secondary:hover {
   background-color: #cbd5e1;
 }
 
+/* Extiende el botón a todo el ancho disponible. */
 .btn-block {
   width: 100%;
 }
 
-/* Ventana Modal Personalizada */
+/* Cubre la pantalla y centra la ventana modal. */
 .custom-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -348,6 +376,7 @@ button:disabled {
   animation: fadeIn 0.2s ease-in-out;
 }
 
+/* Limita el tamaño de la ventana y permite que su contenido se recorte. */
 .custom-modal-content {
   background: var(--card-bg);
   border-radius: var(--radius);
@@ -361,6 +390,7 @@ button:disabled {
   overflow: hidden;
 }
 
+/* Alinea el título y el botón de cierre del modal. */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -369,6 +399,7 @@ button:disabled {
   border-bottom: 1px solid var(--bg-color);
 }
 
+/* Ajusta el título para integrarlo en la cabecera del modal. */
 .modal-header h2 {
   margin-bottom: 0;
   border-bottom: none;
@@ -376,6 +407,7 @@ button:disabled {
   font-size: 1.15rem;
 }
 
+/* Da formato al botón que cierra el modal. */
 .btn-close {
   background: transparent;
   font-size: 1.5rem;
@@ -385,32 +417,38 @@ button:disabled {
   border: none;
 }
 
+/* Marca el botón de cierre como una acción de salida. */
 .btn-close:hover {
   color: var(--error-color);
 }
 
+/* Permite desplazar el contenido del modal si supera su altura. */
 .modal-body {
   padding: 1rem 1.25rem;
   max-height: calc(90vh - 65px);
   overflow-y: auto;
 }
 
+/* Hace aparecer el fondo del modal mediante una transición. */
 @keyframes fadeIn {
+  /* Inicia la animación con el fondo transparente. */
   from {
     opacity: 0;
   }
+  /* Termina la animación con el fondo visible. */
   to {
     opacity: 1;
   }
 }
 
-/* Formulario de Alta */
+/* Organiza los campos del formulario de alta en una cuadrícula. */
 #form-alta {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
 }
 
+/* Distribuye los campos en dos columnas en pantallas amplias. */
 @media (min-width: 640px) {
   #form-alta {
     grid-template-columns: repeat(2, 1fr);
@@ -418,36 +456,41 @@ button:disabled {
   }
 }
 
+/* Quita el margen adicional de los campos dentro del formulario. */
 #form-alta .form-group {
   margin-bottom: 0;
 }
 
+/* Hace que los controles marcados ocupen todas las columnas. */
 .form-full {
   grid-column: 1 / -1;
 }
 
+/* Mantiene el botón de envío al final y a todo el ancho. */
 #form-alta button[type="submit"] {
   grid-column: 1 / -1;
   margin-top: 0.5rem;
 }
 
-/* Etiquetas y Chips de Actividades */
+/* Organiza las actividades como etiquetas flexibles. */
 .tags-container,
-.socio-actividades,
 .contenedor-actividades {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
 }
 
+/* Separa el selector de actividades de su etiqueta. */
 .tags-container {
   margin-top: 0.25rem;
 }
 
+/* Oculta la casilla original que controla cada etiqueta. */
 .hidden-checkbox {
   display: none;
 }
 
+/* Presenta cada opción de actividad como una etiqueta seleccionable. */
 .tag-chip {
   display: inline-flex;
   align-items: center;
@@ -464,11 +507,13 @@ button:disabled {
   transition: all 0.2s ease-in-out;
 }
 
+/* Resalta la etiqueta al pasar el puntero. */
 .tag-chip:hover {
   background-color: #e2e8f0;
   border-color: #94a3b8;
 }
 
+/* Marca la etiqueta cuando su casilla está seleccionada. */
 .tag-chip:has(.hidden-checkbox:checked) {
   background-color: #dbeafe;
   border-color: var(--primary-color);
@@ -476,6 +521,7 @@ button:disabled {
   font-weight: 600;
 }
 
+/* Da formato a las actividades mostradas en la tabla y en la ficha. */
 .badge-actividad {
   background-color: #fdebc3;
   color: #ebac25;
@@ -487,13 +533,14 @@ button:disabled {
   white-space: nowrap;
 }
 
-/* Tablas */
+/* Permite desplazar horizontalmente la tabla en pantallas estrechas. */
 .table-responsive {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
+/* Extiende la tabla y junta los bordes de sus celdas. */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -502,6 +549,7 @@ table {
   color: #334155;
 }
 
+/* Separa las celdas y mantiene sus valores en una sola línea. */
 th,
 td {
   padding: 0.75rem 1rem;
@@ -509,50 +557,45 @@ td {
   white-space: nowrap;
 }
 
+/* Destaca la cabecera de la tabla. */
 th {
   background-color: #f8fafc;
   font-weight: 600;
   color: #475569;
 }
 
+/* Resalta la fila de la tabla sobre la que está el puntero. */
 tbody tr:hover {
   background-color: #f1f5f9;
 }
 
-/* Mensajes de error y éxito */
+/* Marca los campos y mensajes que requieren atención. */
 .input-error {
   border-color: var(--error-color) !important;
 }
 
+/* Enmarca el selector de actividades cuando tiene un error. */
 .tags-container.input-error {
   border: 1px solid var(--error-color);
   border-radius: var(--radius);
   padding: 0.5rem;
 }
 
+/* Da formato a los mensajes de error junto a los campos. */
 .error-msg {
   font-size: 0.75rem;
   color: var(--error-color);
   min-height: 1rem;
 }
 
+/* Destaca los mensajes de error generales. */
 .error-text {
   color: var(--error-color);
   font-weight: 500;
   margin-top: 0.5rem;
 }
 
-.success-msg {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background-color: #dcfce7;
-  color: var(--success-color);
-  border-radius: var(--radius);
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-/* Estadísticas */
+/* Distribuye las estadísticas en tarjetas adaptables. */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -560,12 +603,14 @@ tbody tr:hover {
   margin-bottom: 1.5rem;
 }
 
+/* Organiza las listas secundarias de estadísticas. */
 .stats-extra-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1rem;
 }
 
+/* Da fondo y espacio interior a las tarjetas de estadísticas. */
 .stat-box,
 .stat-box-large {
   background: var(--bg-color);
@@ -573,48 +618,38 @@ tbody tr:hover {
   border-radius: var(--radius);
 }
 
+/* Centra los valores de las estadísticas principales. */
 .stat-box {
   text-align: center;
 }
 
+/* Ajusta el tamaño de los títulos en las tarjetas pequeñas. */
 .stat-box h3 {
   font-size: 0.85rem;
   margin-bottom: 0.25rem;
 }
 
+/* Destaca los valores principales de las estadísticas. */
 .stat-box p {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--primary-color);
 }
 
+/* Ajusta el título de las tarjetas de listas. */
 .stat-box-large h3 {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
+/* Alinea y dimensiona las listas de las tarjetas de estadísticas. */
 .stat-box-large ol,
 .stat-box-large ul {
   padding-left: 1.25rem;
   font-size: 0.9rem;
 }
 
-/* Paginación */
-.pagination-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin: 1.5rem 0 0.5rem 0;
-  flex-wrap: wrap;
-}
-
-#pagina-actual {
-  padding: 0 0.5rem;
-  font-weight: 600;
-}
-
-/* Tarjeta y Detalles de Socio */
+/* Presenta las iniciales del socio dentro de un avatar circular. */
 .avatar-iniciales {
   width: 36px;
   height: 36px;
@@ -631,24 +666,26 @@ tbody tr:hover {
   flex-shrink: 0;
 }
 
+/* Alinea el avatar y el identificador de socio. */
 .socio-id-container {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
+/* Usa un color secundario para identificadores y etiquetas de la ficha. */
 .id-numero,
-.socio-edad,
-.socio-footer-label,
 .socio-label {
   color: var(--text-muted);
 }
 
+/* Ajusta el tamaño y el peso del identificador. */
 .id-numero {
   font-weight: 500;
   font-size: 0.85rem;
 }
 
+/* Da formato a la tarjeta con los detalles del socio consultado. */
 .socio-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -661,15 +698,7 @@ tbody tr:hover {
   width: 100%;
 }
 
-.socio-error {
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #991b1b;
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: 0.95rem;
-}
-
+/* Organiza el nombre del socio en la cabecera de su ficha. */
 .socio-header {
   display: flex;
   align-items: center;
@@ -679,21 +708,14 @@ tbody tr:hover {
   padding-bottom: 0.5rem;
 }
 
+/* Ajusta el nombre dentro de la cabecera de la ficha. */
 .socio-header h3 {
   margin: 0;
   font-size: 1.15rem;
   color: var(--text-color);
 }
 
-.socio-badge-activo {
-  font-size: 0.8rem;
-  background: #e0f2fe;
-  color: #0369a1;
-  padding: 0.2rem 0.6rem;
-  border-radius: 9999px;
-  font-weight: 500;
-}
-
+/* Distribuye los datos de la ficha en dos columnas. */
 .socio-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -701,16 +723,18 @@ tbody tr:hover {
   font-size: 0.9rem;
 }
 
+/* Apila la etiqueta y el valor de cada dato de la ficha. */
 .socio-field {
   display: flex;
   flex-direction: column;
 }
 
-.socio-full,
-.socio-footer {
+/* Hace que los datos marcados ocupen todo el ancho de la ficha. */
+.socio-full {
   grid-column: span 2;
 }
 
+/* Presenta los títulos de datos como etiquetas secundarias. */
 .socio-label {
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -718,56 +742,12 @@ tbody tr:hover {
   margin-bottom: 0.15rem;
 }
 
+/* Define el color de los valores de la ficha. */
 .socio-value {
   color: #0f172a;
 }
 
-.socio-dni {
-  color: #334155;
-  font-family: monospace;
-  background: #f8fafc;
-  padding: 0.1rem 0.3rem;
-  border-radius: 4px;
-  border: 1px solid #e2e8f0;
-}
-
-.socio-email {
-  color: #2563eb;
-  text-decoration: underline;
-}
-
-.socio-tag {
-  background: #f1f5f9;
-  color: #334155;
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  border: 1px solid #e2e8f0;
-}
-
-.socio-footer {
-  border-top: 1px solid #f1f5f9;
-  padding-top: 0.75rem;
-  margin-top: 0.25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.socio-footer-label {
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.socio-cuota {
-  color: #059669;
-  font-size: 1.1rem;
-  background: #ecfdf5;
-  padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  border: 1px solid #a7f3d0;
-}
-/* Notificaciones Toast */
+/* Mantiene los avisos visibles en la esquina inferior derecha. */
 .toast-container {
   position: fixed;
   bottom: 1.5rem;
@@ -781,12 +761,13 @@ tbody tr:hover {
   pointer-events: none;
 }
 
+/* Organiza el icono y el mensaje de cada aviso temporal. */
 .toast {
   background: var(--card-bg, #ffffff);
   color: var(--text-color, #1e293b);
   padding: 0.85rem 1rem;
   border-radius: var(--radius, 8px);
-  border-left: 4px solid transparent; /* Asegura el borde izquierdo */
+  border-left: 4px solid transparent;
   box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -799,65 +780,76 @@ tbody tr:hover {
   overflow: hidden;
 }
 
-/* Variación: Error */
+/* Colorea los avisos que informan de un error. */
 .toast.toast-error {
   border-left-color: var(--error-color, #dc2626);
   background-color: #fef2f2;
   color: #991b1b;
 }
 
+/* Colorea el icono del aviso de error. */
 .toast.toast-error svg {
   color: var(--error-color, #dc2626);
 }
 
-/* Variación: Correcto / Éxito */
+/* Colorea los avisos que confirman una acción correcta. */
 .toast.toast-correcto {
   border-left-color: var(--success-color, #16a34a);
   background-color: #f0fdf4;
   color: #166534;
 }
 
+/* Colorea el icono del aviso de éxito. */
 .toast.toast-correcto svg {
   color: var(--success-color, #16a34a);
 }
 
+/* Evita que el icono del aviso se encoja. */
 .toast svg {
   flex-shrink: 0;
 }
 
+/* Permite que el mensaje ocupe el espacio restante del aviso. */
 .toast-message {
   font-size: 0.9rem;
   font-weight: 500;
   flex: 1;
 }
 
+/* Activa la animación de salida del aviso. */
 .toast.hiding {
   animation: toastFadeOut 0.25s ease-in forwards;
 }
 
+/* Desliza y muestra el aviso al aparecer. */
 @keyframes toastSlideIn {
+  /* Inicia el aviso desplazado y ligeramente reducido. */
   from {
     opacity: 0;
     transform: translateY(1rem) scale(0.95);
   }
+  /* Termina con el aviso en su posición y tamaño normales. */
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
+/* Desvanece el aviso al retirarlo. */
 @keyframes toastFadeOut {
+  /* Inicia la salida con el aviso todavía visible. */
   from {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+  /* Termina con el aviso transparente y desplazado. */
   to {
     opacity: 0;
     transform: translateY(0.5rem) scale(0.95);
   }
 }
 
-/* Pantalla completa */
+/* Conserva los colores y el tamaño de la página en pantalla completa. */
 html:fullscreen,
 html:-webkit-full-screen,
 html:-moz-full-screen,
@@ -872,11 +864,12 @@ body:-moz-full-screen {
   padding: 1.5rem !important;
 }
 
+/* Evita que el fondo del navegador se vea negro detrás de la página. */
 body:fullscreen::backdrop {
   background-color: var(--bg-color);
 }
 
-/* Contenedor secundario para la columna derecha */
+/* Apila la ficha y las estadísticas de la columna lateral. */
 .sidebar-column {
   display: flex;
   flex-direction: column;

@@ -1,14 +1,19 @@
 <!doctype html>
 <html lang="es">
   <head>
+    <!-- Define la codificación de texto del documento. -->
     <meta charset="UTF-8" />
+    <!-- Ajusta la página al ancho del dispositivo. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Establece el título que aparece en la pestaña del navegador. -->
     <title>Gestor de Socios - Club Deportivo</title>
+    <!-- Carga los estilos de la aplicación. -->
     <link rel="stylesheet" href="public/css/style.css" />
+    <!-- Inicia los módulos JavaScript de la aplicación. -->
     <script type="module" src="public/js/main.js"></script>
   </head>
   <body>
-    <!-- CABECERA -->
+    <!-- Muestra el nombre del club, la fecha y la hora. -->
     <header id="main-header">
       <div class="header-content">
         <h1>Club Deportivo</h1>
@@ -20,9 +25,9 @@
     </header>
 
     <main class="container" id="main">
-      <!-- CONTENEDOR EN DOS COLUMNAS -->
+      <!-- Agrupa el listado y el panel lateral del club. -->
       <div class="dashboard-grid">
-        <!-- COLUMNA IZQUIERDA: LISTADO DE SOCIOS -->
+        <!-- Presenta el listado de socios y sus controles. -->
         <section id="section-socios" class="card">
           <div class="section-header">
             <h2>Listado de Socios</h2>
@@ -67,7 +72,7 @@
             </div>
           </div>
 
-          <!-- Controles de búsqueda, filtro y orden -->
+          <!-- Permite buscar socios, filtrar actividades y ordenar resultados. -->
           <div class="controls-bar">
             <div class="control-card">
               <label for="input-search">
@@ -140,7 +145,7 @@
             </div>
           </div>
 
-          <!-- Tabla de socios -->
+          <!-- Muestra los socios en una tabla adaptable. -->
           <div class="table-responsive">
             <table id="table-socios">
               <thead>
@@ -154,15 +159,15 @@
                 </tr>
               </thead>
               <tbody id="tbody-socios">
-                <!-- Las filas se inyectarán por JS -->
+                <!-- JavaScript inserta aquí las filas de socios. -->
               </tbody>
             </table>
           </div>
         </section>
 
-        <!-- COLUMNA DERECHA: FICHA DE SOCIO + ESTADÍSTICAS -->
+        <!-- Agrupa la consulta individual y las estadísticas del club. -->
         <div class="sidebar-column">
-          <!-- Ficha de Socio (Consultas) -->
+          <!-- Permite consultar la ficha de un socio por su DNI. -->
           <section id="section-ficha" class="card">
             <h2>Ficha de Socio</h2>
             <div class="control-group" style="width: 100%">
@@ -185,7 +190,7 @@
             </p>
           </section>
 
-          <!-- Estadísticas del Club -->
+          <!-- Muestra los totales y resúmenes de los socios. -->
           <section id="section-stats" class="card">
             <h2>Estadísticas del Club</h2>
             <div class="stats-grid">
@@ -239,10 +244,9 @@
           </section>
         </div>
       </div>
-      <!-- Fin de dashboard-grid -->
     </main>
 
-    <!-- MODAL DE ALTA DE SOCIO -->
+    <!-- Contiene el formulario para registrar un socio nuevo. -->
     <div id="modal-alta" class="custom-modal-backdrop hidden">
       <div class="modal custom-modal-content">
         <div class="modal-header">
@@ -251,7 +255,9 @@
         </div>
         <div class="modal-body">
           <span class="error-msg" id="error-msg"></span>
+          <!-- Recoge los datos necesarios para crear el socio. -->
           <form id="form-alta" novalidate>
+            <!-- Solicita el nombre del socio. -->
             <div class="form-group">
               <label for="alta-nombre">Nombre:</label>
               <input
@@ -263,6 +269,7 @@
               <span class="error-msg" id="error-nombre"></span>
             </div>
 
+            <!-- Solicita los apellidos del socio. -->
             <div class="form-group">
               <label for="alta-apellidos">Apellidos:</label>
               <input
@@ -274,6 +281,7 @@
               <span class="error-msg" id="error-apellidos"></span>
             </div>
 
+            <!-- Solicita el documento de identidad del socio. -->
             <div class="form-group">
               <label for="alta-dni">DNI:</label>
               <input
@@ -285,6 +293,7 @@
               <span class="error-msg" id="error-dni"></span>
             </div>
 
+            <!-- Solicita el correo de contacto del socio. -->
             <div class="form-group">
               <label for="alta-email">Email:</label>
               <input
@@ -296,6 +305,7 @@
               <span class="error-msg" id="error-email"></span>
             </div>
 
+            <!-- Solicita el teléfono de contacto del socio. -->
             <div class="form-group">
               <label for="alta-telefono">Teléfono:</label>
               <input
@@ -307,6 +317,7 @@
               <span class="error-msg" id="error-telefono"></span>
             </div>
 
+            <!-- Solicita la fecha de nacimiento para validar la edad. -->
             <div class="form-group">
               <label for="alta-nacimiento">Fecha de Nacimiento:</label>
               <input
@@ -318,12 +329,14 @@
               <span class="error-msg" id="error-nacimiento"></span>
             </div>
 
+            <!-- Permite elegir las actividades del socio. -->
             <div class="form-group form-full">
               <label>Actividades:</label>
               <div class="tags-container" id="alta-actividades"></div>
               <span class="error-msg" id="error-actividades"></span>
             </div>
 
+            <!-- Solicita la cuota mensual del socio. -->
             <div class="form-group form-full" style="max-width: 50%">
               <label for="alta-cuota">Cuota Mensual (€):</label>
               <input
@@ -344,11 +357,12 @@
       </div>
     </div>
 
+    <!-- Reserva un modal para mostrar errores generales. -->
     <div id="error" class="custom-modal-backdrop hidden">
       <h1 id="mensaje-error"></h1>
     </div>
 
-    <!-- CONTENEDOR DE TOASTS GLOBAL -->
+    <!-- Recibe los avisos temporales de éxito y error. -->
     <div id="toast-container" class="toast-container" aria-live="polite"></div>
   </body>
 </html>

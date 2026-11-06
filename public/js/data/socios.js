@@ -1,6 +1,8 @@
+// Importa los nombres de actividades para asignarlos a los socios.
 import { Actividades } from "../constants/actividades.js";
 
-// Datos iniciales de los socios
+// Guarda los datos iniciales con los que se carga la aplicación.
+// Cada registro contiene la identificación y los datos de un socio.
 const Socios = [
   {
     id: "SOC-0001",
@@ -128,5 +130,5 @@ const Socios = [
   },
 ];
 
-// Exportarlo para poder usarlo en otros archivos
+// Permite consultar y actualizar la lista de socios en otros módulos.
 export { Socios };

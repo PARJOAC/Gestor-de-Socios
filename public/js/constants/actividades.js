@@ -1,4 +1,4 @@
-// Listado de todas las actividades disponibles
+// Guarda los nombres de las actividades que puede elegir un socio.
 const Actividades = {
   TODAS: "Todas las actividades",
   MUSCULACION: "Musculación",
@@ -9,5 +9,5 @@ const Actividades = {
   YOGA: "Yoga",
 };
 
-// Exportarlo para poder usarlo en otros archivos
+// Permite usar la lista de actividades en otros módulos.
 export { Actividades };
