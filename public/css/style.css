@@ -858,15 +858,22 @@ tbody tr:hover {
 }
 
 /* Pantalla completa */
+html:fullscreen,
+html:-webkit-full-screen,
+html:-moz-full-screen,
 body:fullscreen,
 body:-webkit-full-screen,
 body:-moz-full-screen {
-  background-color: #ffffff !important;
+  background-color: var(--bg-color) !important;
   color: var(--text-color) !important;
   width: 100vw !important;
   height: 100vh !important;
   overflow-y: auto !important;
   padding: 1.5rem !important;
+}
+
+body:fullscreen::backdrop {
+  background-color: var(--bg-color);
 }
 
 /* Contenedor secundario para la columna derecha */

@@ -1,4 +1,5 @@
 import { fechaCompleta } from "../utils/fechaCompleta.js";
+import config from "../../../config.json" with { type: "json" };
 
 // Obtener los elementos de la fecha y el tiempo
 let fecha = document.getElementById("current-date");
@@ -10,7 +11,7 @@ fecha.innerText = fechaCompleta(fechaActual);
 
 // Cargar la hora actual y actualizarla cada segundo
 loadHora();
-setInterval(() => loadHora(), 1000);
+setInterval(() => loadHora(), config.actualizacionHoraMilisegundos);
 
 // Función para cargar la hora actual y actualizar el elemento correspondiente
 function loadHora() {

@@ -6,6 +6,7 @@ import {
   esconderCorreo,
 } from "./functions/formatoFilaSocio.js";
 import { Moneda } from "../constants/moneda.js";
+import config from "../../../config.json" with { type: "json" };
 
 // Importar los elementos de la tabla para rellenarlas
 let tabla = document.getElementById("tbody-socios");
@@ -34,7 +35,7 @@ function obtenerSocios() {
   let resultado = [...Socios];
 
   // Filtrar por texto de búsqueda si se ha introducido algo en el input
-  if (textoBusqueda.length > 2) {
+  if (textoBusqueda.length >= config.cadenaMinimaBusqueda) {
     const query = normalizar(textoBusqueda);
     resultado = resultado.filter((socio) => {
       return (

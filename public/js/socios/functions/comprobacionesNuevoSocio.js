@@ -1,3 +1,4 @@
+import config from "../../../../config.json" with { type: "json" };
 // Funciones de validación para los campos del formulario de nuevo socio
 function comprobarID(id) {
   const sintaxis = /^SOC-\d{4}$/;
@@ -76,7 +77,7 @@ function minimaEdadSocio(fechaNacimiento) {
       fechaActual.getDate() < fechaNacimiento.getDate());
 
   if (aunNoCumpleAnios) edad--;
-  return edad <= 14;
+  return edad <= config.edadMinimaSocio;
 }
 
 function comprobarFechaAlta(fechaAlta) {
