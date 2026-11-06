@@ -101,9 +101,8 @@ function recargarEstadisticas() {
     : "No";
 
   // Muestra los tres socios con la fecha de alta más antigua.
-  top3Socios.innerHTML = [...Socios].sort(
-    (a, b) => new Date(a.fechaAlta) - new Date(b.fechaAlta),
-  )
+  top3Socios.innerHTML = [...Socios]
+    .sort((a, b) => new Date(a.fechaAlta) - new Date(b.fechaAlta))
     .slice(0, 3)
     .map((socio) => `<li>${socio.nombre} ${socio.apellidos}</li>`)
     .join("");

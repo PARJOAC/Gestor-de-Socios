@@ -1,6 +1,6 @@
 {
-    "actualizacionHoraMilisegundos": 1000,
-    "cadenaMinimaBusqueda": 2,
-    "edadMinimaSocio": 14,
-    "moneda": "€"
+  "actualizacionHoraMilisegundos": 1000,
+  "cadenaMinimaBusqueda": 2,
+  "edadMinimaSocio": 14,
+  "moneda": "€"
 }

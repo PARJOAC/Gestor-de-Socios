@@ -32,7 +32,7 @@ const camposError = {
   APELLIDOS: ["alta-apellidos", "error-apellidos"],
   DNI: ["alta-dni", "error-dni"],
   EMAIL: ["alta-email", "error-email"],
-  "TELÉFONO": ["alta-telefono", "error-telefono"],
+  TELÉFONO: ["alta-telefono", "error-telefono"],
   "FECHA DE NACIMIENTO": ["alta-nacimiento", "error-nacimiento"],
   ACTIVIDADES: ["alta-actividades", "error-actividades"],
   CUOTA: ["alta-cuota", "error-cuota"],
@@ -107,7 +107,8 @@ if (formulario) {
       }
 
       // Lee el DNI en mayúsculas y separa sus cifras y su letra.
-      const dni = document.getElementById("alta-dni").value.trim().toUpperCase() || "";
+      const dni =
+        document.getElementById("alta-dni").value.trim().toUpperCase() || "";
       const letraDniUsuario = dni.charAt(8).toUpperCase();
       const numeroDni = dni.slice(0, 8);
 
@@ -254,14 +255,16 @@ if (formulario) {
             ),
           ) + 1,
         ).padStart(4, "0");
-        
+
       // Prepara el nuevo socio con los datos validados y normalizados.
       const nuevoSocio = {
         id: nuevoID,
         nombre: nombre.charAt(0).toUpperCase() + nombre.slice(1),
         apellidos: apellidos
           .split(" ")
-          .map((apellido) => apellido.charAt(0).toUpperCase() + apellido.slice(1))
+          .map(
+            (apellido) => apellido.charAt(0).toUpperCase() + apellido.slice(1),
+          )
           .join(" "),
         dni: dni.toUpperCase(),
         email: email.toLowerCase(),
