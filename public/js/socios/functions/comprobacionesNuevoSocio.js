@@ -1,6 +1,10 @@
 // Importa la edad mínima que debe cumplir un socio.
 import config from "../../../../config.json" with { type: "json" };
 
+// Permite palabras separadas por un solo espacio, tildes y la ñ y ü.
+const sintaxisNombreApellidos =
+  /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+(?: [A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+)*$/;
+
 /**
  * Comprueba que el identificador tenga el formato SOC- seguido de cuatro cifras.
  * @param {string} id - Identificador que se va a validar.
@@ -14,31 +18,30 @@ function comprobarID(id) {
 }
 
 /**
- * Comprueba que el nombre no esté vacío y contenga solo letras y espacios.
+ * Comprueba que el nombre use letras españolas y un solo espacio entre palabras.
  * @param {string} nombre - Nombre que se va a validar.
  * @returns {boolean} Indica si el nombre tiene contenido y caracteres permitidos.
  */
 function comprobarNombre(nombre) {
   // Elimina los espacios sobrantes al principio y al final.
   const nombreLimpio = nombre.trim();
-  // Permite letras españolas y espacios.
-  const sintaxis = /^[A-ZÁÉÍÓÚÑa-záéíóúñ\s]+$/;
-  // Exige que el nombre tenga contenido y use solo caracteres válidos.
-  return nombreLimpio.length > 0 && sintaxis.test(nombreLimpio);
+  // Exige contenido y permite un solo espacio entre palabras.
+  return nombreLimpio.length > 0 && sintaxisNombreApellidos.test(nombreLimpio);
 }
 
 /**
- * Comprueba que los apellidos no estén vacíos y contengan solo letras y espacios.
+ * Comprueba que los apellidos usen letras españolas y un solo espacio entre palabras.
  * @param {string} apellidos - Apellidos que se van a validar.
  * @returns {boolean} Indica si los apellidos tienen contenido y caracteres permitidos.
  */
 function comprobarApellidos(apellidos) {
   // Elimina los espacios sobrantes al principio y al final.
   const apellidosLimpios = apellidos.trim();
-  // Permite letras españolas y espacios.
-  const sintaxis = /^[A-ZÁÉÍÓÚÑa-záéíóúñ\s]+$/;
-  // Exige que los apellidos tengan contenido y usen solo caracteres válidos.
-  return apellidosLimpios.length > 0 && sintaxis.test(apellidosLimpios);
+  // Exige contenido y permite un solo espacio entre palabras.
+  return (
+    apellidosLimpios.length > 0 &&
+    sintaxisNombreApellidos.test(apellidosLimpios)
+  );
 }
 
 /**
