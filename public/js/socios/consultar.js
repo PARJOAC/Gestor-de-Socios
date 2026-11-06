@@ -12,28 +12,32 @@ import config from "../../../config.json" with { type: "json" };
 // Busca el botón que inicia la consulta por DNI.
 const btnBuscar = document.getElementById("btn-search-dni");
 
+// Guardar la última búsqueda por si vuelve a buscar el mismo 2 veces seguidas
+let ultimaBusqueda = "";
+
 // Ejecuta la búsqueda cuando se pulsa el botón.
 btnBuscar.addEventListener("click", function (e) {
   // Captura posibles errores de búsqueda para mostrarlos al usuario.
+  // Lee el DNI escrito
+  const dni = document.getElementById("input-dni-search");
+
+  // Busca el contenedor donde aparecerán los datos del socio.
+  let datosConsulta = document.getElementById("datosConsulta");
   try {
-    // Lee el DNI escrito y busca una coincidencia sin distinguir mayúsculas.
-    const dni = document.getElementById("input-dni-search");
+    // Vacía el resultado y avisa si no se escribió un DNI.
+    if (dni.value.length === 0) throw new Error("Debes escribir un DNI.");
+
+    // Busca una coincidencia sin distinguir mayúsculas.
     let busqueda = Socios.find(
       (socio) => socio.dni.toLowerCase() === dni.value.toLowerCase(),
     );
 
-    // Busca el contenedor donde aparecerán los datos del socio.
-    let datosConsulta = document.getElementById("datosConsulta");
-    // Vacía el resultado y avisa si no se escribió un DNI.
-    if (dni.value.length === 0) {
-      datosConsulta.innerHTML = "";
-      throw new Error("Debes escribir un DNI.");
-    }
+    if (dni.value.toLowerCase() === ultimaBusqueda.toLowerCase())
+      throw new Error("Ya estás viendo a ese socio.");
+
     // Vacía el resultado y avisa si no existe un socio con ese DNI.
-    if (!busqueda) {
-      datosConsulta.innerHTML = "";
-      throw new Error("El socio no se ha encontrado.");
-    }
+    if (!busqueda) throw new Error("El socio no se ha encontrado.");
+
     // Separa el dominio del correo para mostrarlo como dato adicional.
     const arroba = busqueda.email.indexOf("@");
     const dominio = busqueda.email.slice(arroba);
@@ -57,6 +61,7 @@ btnBuscar.addEventListener("click", function (e) {
     const telefono = `${busqueda.telefono.substring(0, 3)} ${busqueda.telefono.substring(3, 6)} ${busqueda.telefono.substring(6, 9)}`;
     // Prepara la fecha de nacimiento con su nombre de día y mes.
     const edadNacimiento = `${fechaCompleta(fecha)} (${fecha.getDate()}/${fecha.getMonth() + 1}/${fecha.getFullYear()})`;
+    ultimaBusqueda = busqueda.dni;
     // Dibuja la ficha con los datos del socio encontrado.
     datosConsulta.innerHTML = `
     <div class="socio-card">
@@ -77,8 +82,10 @@ btnBuscar.addEventListener("click", function (e) {
     </div>
     `;
   } catch (e) {
+    //Limpieza de datos y la última búsqueda
+    ultimaBusqueda = "";
+    datosConsulta.innerHTML = "";
     // Muestra el motivo por el que no se pudo completar la búsqueda.
-    console.log(e);
     mostrarToastError(e.message);
   }
 });
