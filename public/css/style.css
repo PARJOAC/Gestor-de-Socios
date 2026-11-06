@@ -255,6 +255,20 @@ label {
   margin-bottom: 0.25rem;
 }
 
+/* Quita el borde nativo del grupo de casillas y mantiene el diseño del formulario. */
+#form-alta fieldset {
+  border: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+/* Da a la leyenda del grupo el mismo estilo que a las etiquetas del formulario. */
+#form-alta legend {
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
 /* Unifica el tamaño, el borde y el color de los campos de entrada. */
 .control-card input,
 .control-card select,
