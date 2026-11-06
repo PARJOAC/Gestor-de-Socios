@@ -86,10 +86,27 @@ h2 {
 /* Alinea el título y el reloj de la cabecera. */
 .header-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 1rem;
+}
+
+/* Mantiene el título junto al logo y empuja la fecha hacia el extremo derecho. */
+.header-content h1 {
+  margin-right: auto;
+}
+
+/* Ajusta el logo al tamaño de la cabecera sin deformarlo. */
+.header-logo {
+  width: 3.5rem;
+  height: 3.5rem;
+  padding: 0.25rem;
+  object-fit: contain;
+  flex: 0 0 auto;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
 }
 
 /* Apila la fecha y la hora al lado derecho de la cabecera. */
@@ -338,23 +355,32 @@ select {
   }
 
   .header-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.25rem 0.75rem;
     padding: 0;
+  }
+
+  .header-logo {
+    grid-row: 1 / span 2;
+    width: 3rem;
+    height: 3rem;
   }
 
   .header-content h1 {
     font-size: 1.5rem;
     line-height: 1.2;
+    margin-right: 0;
   }
 
   .datetime-container {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     column-gap: 0.75rem;
     row-gap: 0.15rem;
+    grid-column: 2;
   }
 
   .header-actions {
