@@ -1,5 +1,5 @@
 // Importa los nombres de actividades para asignarlos a los socios.
-import { Actividades } from "../constants/actividades.js";
+import { Actividades } from "../_constants/actividades.js";
 
 // Guarda los datos iniciales con los que se carga la aplicación.
 // Cada registro contiene la identificación y los datos de un socio.

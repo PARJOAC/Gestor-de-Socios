@@ -1,5 +1,5 @@
 // Importa los nombres de días y meses usados al escribir una fecha.
-import { DiasSemana, Meses } from "../constants/fechas.js";
+import { DiasSemana, Meses } from "../_constants/fechas.js";
 
 /**
  * Escribe una fecha con el día de la semana, el día, el mes y el año.

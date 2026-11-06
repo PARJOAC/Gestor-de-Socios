@@ -1,5 +1,5 @@
 // Importa la lista de socios que se mostrará en la tabla.
-import { Socios } from "../data/socios.js";
+import { Socios } from "../_data/socios.js";
 // Importa la función que calcula la edad de cada socio.
 import { calcularEdad } from "../socios/functions/edad.js";
 // Importa las funciones que preparan los datos para las filas.

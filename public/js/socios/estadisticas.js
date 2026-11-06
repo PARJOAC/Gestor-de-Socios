@@ -2,9 +2,9 @@
 import { calcularEdad } from "./functions/edad.js";
 // Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
-import { Actividades } from "../constants/actividades.js";
+import { Actividades } from "../_constants/actividades.js";
 // Importa la lista de socios que se resume en las estadísticas.
-import { Socios } from "../data/socios.js";
+import { Socios } from "../_data/socios.js";
 
 // Busca los elementos donde se mostrarán las estadísticas.
 let totalSociosHTML = document.getElementById("stat-total-socios");

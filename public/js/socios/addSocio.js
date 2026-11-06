@@ -13,11 +13,11 @@ import {
   calculoLetraDNI,
 } from "./functions/comprobacionesNuevoSocio.js";
 // Importa los datos actuales para comprobar duplicados y crear el nuevo socio.
-import { Socios } from "../data/socios.js";
+import { Socios } from "../_data/socios.js";
 // Importa la lista de actividades disponibles.
-import { Actividades } from "../constants/actividades.js";
+import { Actividades } from "../_constants/actividades.js";
 // Importa la función que actualiza la tabla después del alta.
-import { renderizarTabla } from "../main/loadTabla.js";
+import { renderizarTabla } from "../_main/loadTabla.js";
 // Importa la función que actualiza las estadísticas.
 import { recargarEstadisticas } from "./estadisticas.js";
 // Importa el aviso que confirma el alta.

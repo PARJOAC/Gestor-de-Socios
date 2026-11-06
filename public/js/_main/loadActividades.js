@@ -1,5 +1,5 @@
 // Importa la lista de actividades que se muestra en los controles.
-import { Actividades } from "../constants/actividades.js";
+import { Actividades } from "../_constants/actividades.js";
 import { mostrarToastError } from "../ui/toast/error.js";
 try {
   // Busca el selector de filtro y el contenedor de actividades del formulario.
