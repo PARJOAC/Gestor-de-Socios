@@ -2,30 +2,43 @@
 import { fechaCompleta } from "../utils/fechaCompleta.js";
 // Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
+// Importa el aviso que se muestra si falla la inicialización de la cabecera.
 import { mostrarToastError } from "../ui/toast/error.js";
+let errorFecha = false;
+let errorHora = false;
+
+let intervaloFecha;
+let intervaloHora;
+// Actualiza la fecha y la hora al iniciar y luego según sus intervalos configurados.
 try {
-  // Muestra la hora de inmediato y la actualiza con el intervalo configurado por si se abre la página en un cambio de día.
   loadFecha();
-  setInterval(() => loadHora(), config.actualizacionFechaMilisegundos);
-  // Muestra la hora de inmediato y la actualiza con el intervalo configurado.
   loadHora();
-  setInterval(() => loadHora(), config.actualizacionHoraMilisegundos);
+  intervaloFecha = setInterval(
+    loadFecha,
+    config.actualizacionFechaMilisegundos,
+  );
+  intervaloHora = setInterval(loadHora, config.actualizacionHoraMilisegundos);
 } catch (e) {
+  // Informa si la fecha o la hora no se pudieron mostrar al iniciar.
   mostrarToastError(e.message);
 }
 
 /**
- * Obtiene la fecha actual, con una sintaxis de "{DÍA SEMANA}, {DÍA MES} de {MES} de {AÑO}.
- * No recibe parámetros ni devuelve un valor; actualiza el elemento de hora de la página.
+ * Actualiza la fecha que aparece en la cabecera con el día y el mes escritos.
+ * No recibe parámetros ni devuelve un valor; actualiza el elemento de fecha de la página.
  * @returns {void}
  */
 function loadFecha() {
   // Busca el elemento donde se mostrará la fecha.
-  let fecha = document.getElementById("current-date");
-
+  const fecha = document.getElementById("current-date");
+  if (!fecha) {
+    errorFecha = true;
+    clearInterval(intervaloFecha);
+    return mostrarToastError("No se encontró el elemento de fecha.");
+  }
   // Obtiene la fecha actual y la muestra en la cabecera.
-  let fechaActual = new Date();
-  fecha.innerText = fechaCompleta(fechaActual);
+  const fechaActual = new Date();
+  fecha.textContent = fechaCompleta(fechaActual);
 }
 
 /**
@@ -35,7 +48,13 @@ function loadFecha() {
  */
 function loadHora() {
   // Busca el elemento donde se mostrará la hora.
-  let tiempo = document.getElementById("current-time");
+  const tiempo = document.getElementById("current-time");
+  if (!tiempo) {
+    errorHora = true;
+    clearInterval(intervaloHora);
+    return mostrarToastError("No se encontró el elemento de hora.");
+  }
+
   // Lee la fecha y la hora actuales del sistema.
   const fechaActual = new Date();
   let horas = fechaActual.getHours();
@@ -48,5 +67,5 @@ function loadHora() {
   if (segundos <= 9) segundos = `0${segundos}`;
 
   // Muestra la hora en formato de 24 horas.
-  tiempo.innerHTML = `${horas}:${minutos}:${segundos}`;
+  tiempo.textContent = `${horas}:${minutos}:${segundos}`;
 }
