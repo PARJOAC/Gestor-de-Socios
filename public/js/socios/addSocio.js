@@ -1,4 +1,4 @@
-import { mostrarToastError } from "../toast/error.js";
+import { mostrarToastError } from "../ui/toast/error.js";
 import {
   comprobarNombre,
   comprobarApellidos,
@@ -11,10 +11,10 @@ import {
   calculoLetraDNI,
 } from "./functions/comprobacionesNuevoSocio.js";
 import { Socios } from "../data/socios.js";
-import { Actividades } from "../data/actividades.js";
+import { Actividades } from "../constants/actividades.js";
 import { renderizarTabla } from "../main/loadTabla.js";
 import { recargarEstadisticas } from "./estadisticas.js";
-import { mostrarToastCorrecto } from "../toast/correcto.js";
+import { mostrarToastCorrecto } from "../ui/toast/correcto.js";
 
 const formulario = document.getElementById("form-alta");
 const modal = document.getElementById("modal-alta");

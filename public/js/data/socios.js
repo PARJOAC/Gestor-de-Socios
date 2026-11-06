@@ -1,6 +1,6 @@
-import { Actividades } from "./actividades.js";
+import { Actividades } from "../constants/actividades.js";
 
-// Datos de todos los socios actualizados con el enum Actividades
+// Datos iniciales de los socios
 const Socios = [
   {
     id: "SOC-0001",

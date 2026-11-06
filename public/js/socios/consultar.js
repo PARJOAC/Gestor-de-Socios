@@ -1,8 +1,9 @@
-const btnBuscar = document.getElementById("btn-search-dni");
-import { mostrarToastError } from "../toast/error.js";
+import { mostrarToastError } from "../ui/toast/error.js";
 import { Socios } from "../data/socios.js";
-import { calcularEdad } from "../util/functions/socio.js";
-import { fechaCompleta } from "./functions/fechaCompleta.js";
+import { calcularEdad } from "./functions/edad.js";
+import { fechaCompleta } from "../utils/fechaCompleta.js";
+
+const btnBuscar = document.getElementById("btn-search-dni");
 
 btnBuscar.addEventListener("click", function (e) {
   try {

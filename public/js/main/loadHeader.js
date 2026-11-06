@@ -1,9 +1,8 @@
+import { fechaCompleta } from "../utils/fechaCompleta.js";
+
 // Obtener los elementos de la fecha y el tiempo
 let fecha = document.getElementById("current-date");
 let tiempo = document.getElementById("current-time");
-
-// Importar la función para formatear la fecha completa
-import { fechaCompleta } from "../util/functions/fechaCompleta.js";
 
 // Obtener la fecha actual y formatearla
 let fechaActual = new Date();

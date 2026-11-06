@@ -1,5 +1,6 @@
-let btnFullScreen = document.getElementById("btn-fullscreen");
 import { mostrarToastError } from "../toast/error.js";
+
+let btnFullScreen = document.getElementById("btn-fullscreen");
 
 btnFullScreen.addEventListener("click", function () {
   try {

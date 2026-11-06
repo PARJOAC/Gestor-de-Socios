@@ -1,5 +1,5 @@
 // Importar los enumerados de días de la semana y meses
-import { DiasSemana, Meses } from "../../enum/fechas.js";
+import { DiasSemana, Meses } from "../constants/fechas.js";
 
 // Función para formatear una fecha completa
 function fechaCompleta(fecha) {

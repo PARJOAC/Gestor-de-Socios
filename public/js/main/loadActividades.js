@@ -1,9 +1,8 @@
+import { Actividades } from "../constants/actividades.js";
+
 // Obtener los elementos de la tabla para añadir las actividades al filtrado y al modal
 let listaActividades = document.getElementById("select-activity-filter");
 let altaActividades = document.getElementById("alta-actividades");
-
-// Importar las actividades desde el archivo de datos
-import { Actividades } from "../data/actividades.js";
 
 // Añadir las actividades al select y al modal
 Object.values(Actividades).forEach((value, index) => {

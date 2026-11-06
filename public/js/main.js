@@ -1,22 +1,13 @@
-// Archivos de datos
-import "./data/actividades.js";
-import "./data/socios.js";
+// Componentes de interfaz
+import "./ui/dialog/modal.js";
+import "./ui/windows/fullScreen.js";
 
-// Archivos del modal
-import "./dialog/modal.js";
-
-// Archivos de Inicio
+// Inicialización de la página
 import "./main/loadActividades.js";
 import "./main/loadHeader.js";
 import "./main/loadTabla.js";
 
-// Archivos Toast
-import "./toast/error.js";
-
-// Archivos de utilidad
-import "./util/addSocio.js";
-import "./util/consultar.js";
-
-import "./windows/fullScreen.js";
-
-import "./util/estadisticas.js";
+// Módulos de socios
+import "./socios/addSocio.js";
+import "./socios/consultar.js";
+import "./socios/estadisticas.js";

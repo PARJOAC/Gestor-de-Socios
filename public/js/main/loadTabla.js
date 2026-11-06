@@ -1,3 +1,12 @@
+import { Socios } from "../data/socios.js";
+import { calcularEdad } from "../socios/functions/edad.js";
+import {
+  obtenerIniciales,
+  abreviarApellido,
+  esconderCorreo,
+} from "./functions/formatoFilaSocio.js";
+import { Moneda } from "../constants/moneda.js";
+
 // Importar los elementos de la tabla para rellenarlas
 let tabla = document.getElementById("tbody-socios");
 let buscarSocio = document.getElementById("input-search");
@@ -8,18 +17,6 @@ let ordenarFiltro = document.getElementById("select-order");
 let textoBusqueda = "";
 let actividadFiltro = "";
 let ordenFiltro = "";
-
-// Importar los datos de los socios y las funciones para procesarlos
-import { Socios } from "../data/socios.js";
-import {
-  calcularEdad,
-  obtenerIniciales,
-  abreviarApellido,
-  esconderCorreo,
-} from "../util/functions/socio.js";
-
-// Importar las actividades desde el archivo de datos
-import { Moneda } from "../data/moneda.js";
 
 // Función para normalizar el texto y eliminar acentos y mayúsculas
 const normalizar = (texto) =>

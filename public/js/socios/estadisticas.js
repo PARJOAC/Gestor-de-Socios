@@ -1,6 +1,6 @@
-import { calcularEdad } from "../util/functions/socio.js";
-import { Moneda } from "../data/moneda.js";
-import { Actividades } from "../data/actividades.js";
+import { calcularEdad } from "./functions/edad.js";
+import { Moneda } from "../constants/moneda.js";
+import { Actividades } from "../constants/actividades.js";
 import { Socios } from "../data/socios.js";
 
 let totalSociosHTML = document.getElementById("stat-total-socios");
