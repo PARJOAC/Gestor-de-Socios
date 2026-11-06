@@ -46,7 +46,7 @@ function recargarEstadisticas() {
   );
 
   // Muestra la edad media redondeada a un año entero.
-  edadMediaHTML.innerHTML = Math.round(sumaEdades / Socios.length).toFixed(1);
+  edadMediaHTML.innerHTML = (sumaEdades / Socios.length).toFixed(1);
 
   // Encuentra y muestra la edad más baja.
   edadMinHTML.textContent = calcularEdad(
