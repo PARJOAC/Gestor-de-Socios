@@ -46,7 +46,7 @@ function recargarEstadisticas() {
   );
 
   // Muestra la edad media redondeada a un año entero.
-  edadMediaHTML.innerHTML = (sumaEdades / Socios.length).toFixed(1);
+  edadMediaHTML.textContent = (sumaEdades / Socios.length).toFixed(1);
 
   // Encuentra y muestra la edad más baja.
   edadMinHTML.textContent = calcularEdad(
@@ -85,7 +85,7 @@ function recargarEstadisticas() {
   });
 
   // Muestra el nombre de la actividad más popular y su cantidad de socios.
-  actividadMasPopularHTML.innerHTML = `${actividadMasPopular[0]} (${actividadMasPopular[1]} clientes)`;
+  actividadMasPopularHTML.textContent = `${actividadMasPopular[0]} (${actividadMasPopular[1]} clientes)`;
   // Indica si hay al menos un socio menor de edad.
   hayMenoresDeEdadHTML.textContent = Socios.some(
     (socio) => calcularEdad(socio.fechaNacimiento) < 18,

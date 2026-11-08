@@ -127,7 +127,7 @@ function renderizarTabla() {
   const sociosFiltrados = obtenerSocios();
 
   // Limpia las filas anteriores antes de mostrar los nuevos resultados.
-  tabla.innerHTML = "";
+  tabla.textC = "";
 
   // Muestra un aviso dentro de la tabla si ningún socio coincide.
   if (sociosFiltrados.length === 0) {
