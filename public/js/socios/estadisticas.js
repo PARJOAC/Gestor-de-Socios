@@ -107,21 +107,20 @@ function recargarEstadisticas() {
   top3Socios.innerHTML = [...Socios]
     .sort((a, b) => new Date(a.fechaAlta) - new Date(b.fechaAlta))
     .slice(0, 3)
-    .map((socio) => {
-      const colores = colorAleatorioRangoRGB();
-      return `<li style="color:rgb(${colores.R}, ${colores.G}, ${colores.B})"><strong>${socio.nombre} ${socio.apellidos}</strong></li>`;
-    })
+    .map((socio) => liConRGB(`${socio.nombre} ${socio.apellidos}`))
     .join("");
 
   // Obtiene y muestra una lista sin duplicados de dominios de correo.
   dominiosCorreo.innerHTML = Array.from(
     new Set(Socios.map((socio) => socio.email.split("@")[1])),
   )
-    .map((dominio) => {
-      const colores = colorAleatorioRangoRGB();
-      return `<li style="color:rgb(${colores.R}, ${colores.G}, ${colores.B})"><strong>${dominio}</strong></li>`;
-    })
+    .map((dominio) => liConRGB(dominio))
     .join("");
+}
+
+function liConRGB(texto) {
+  const colores = colorAleatorioRangoRGB();
+  return `<li style="color:rgb(${colores.R}, ${colores.G}, ${colores.B})"><strong>${texto}</strong></li>`;
 }
 
 // Carga las estadísticas iniciales al iniciar el módulo.

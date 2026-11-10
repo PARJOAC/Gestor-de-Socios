@@ -23,7 +23,6 @@ const Meses = {
   9: "Octubre",
   10: "Noviembre",
   11: "Diciembre",
-  12: "Diciembre",
 };
 
 // Permite usar los nombres de días y meses en otros módulos.

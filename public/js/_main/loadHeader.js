@@ -3,7 +3,7 @@ import { fechaCompleta } from "../utils/fechaCompleta.js";
 // Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
 // Importa el aviso que se muestra si falla la inicialización de la cabecera.
-import { mostrarToastError } from "../ui/toast/error.js";
+import { mostrarToastError } from "../ui/toast/toast.js";
 
 // Conserva el identificador para detener la actualización periódica de la fecha.
 let intervaloFecha;

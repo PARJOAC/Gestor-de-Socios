@@ -1,5 +1,5 @@
 // Importa el aviso que se muestra cuando la búsqueda no puede completarse.
-import { mostrarToastError } from "../ui/toast/error.js";
+import { mostrarToastError } from "../ui/toast/toast.js";
 // Importa la lista donde se busca el socio.
 import { Socios } from "../_data/socios.js";
 // Importa la función que calcula la edad del socio.

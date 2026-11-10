@@ -1,5 +1,5 @@
 // Importa los avisos que se muestran cuando hay errores.
-import { mostrarToastError } from "../ui/toast/error.js";
+import { mostrarToastError, mostrarToastCorrecto } from "../ui/toast/toast.js";
 // Importa las comprobaciones necesarias para validar el formulario.
 import {
   comprobarNombre,
@@ -20,8 +20,6 @@ import { Actividades } from "../_constants/actividades.js";
 import { renderizarTabla } from "../_main/loadTabla.js";
 // Importa la función que actualiza las estadísticas.
 import { recargarEstadisticas } from "./estadisticas.js";
-// Importa el aviso que confirma el alta.
-import { mostrarToastCorrecto } from "../ui/toast/correcto.js";
 
 // Busca el formulario y la ventana modal de alta.
 const formulario = document.getElementById("form-alta");

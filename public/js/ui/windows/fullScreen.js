@@ -1,5 +1,5 @@
 // Importa el aviso que se muestra si falla el cambio de pantalla.
-import { mostrarToastError } from "../toast/error.js";
+import { mostrarToastError } from "../toast/toast.js";
 
 // Busca el botón que activa o desactiva la pantalla completa.
 let btnFullScreen = document.getElementById("btn-fullscreen");
