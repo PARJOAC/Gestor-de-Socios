@@ -6,6 +6,9 @@ import { Actividades } from "../_constants/actividades.js";
 // Importa la lista de socios que se resume en las estadísticas.
 import { Socios } from "../_data/socios.js";
 
+// Importar la librería para poder generar un color aleatorio.
+import { colorAleatorioRangoRGB } from "../utils/colorRandomRGB.js";
+
 // Busca los elementos donde se mostrarán las estadísticas.
 let totalSociosHTML = document.getElementById("stat-total-socios");
 let ingresosMensualesHTML = document.getElementById("stat-ingresos");
@@ -104,14 +107,20 @@ function recargarEstadisticas() {
   top3Socios.innerHTML = [...Socios]
     .sort((a, b) => new Date(a.fechaAlta) - new Date(b.fechaAlta))
     .slice(0, 3)
-    .map((socio) => `<li><strong>${socio.nombre} ${socio.apellidos}</strong></li>`)
+    .map((socio) => {
+      const colores = colorAleatorioRangoRGB();
+      return `<li style="color:rgb(${colores.R}, ${colores.G}, ${colores.B})"><strong>${socio.nombre} ${socio.apellidos}</strong></li>`;
+    })
     .join("");
 
   // Obtiene y muestra una lista sin duplicados de dominios de correo.
   dominiosCorreo.innerHTML = Array.from(
     new Set(Socios.map((socio) => socio.email.split("@")[1])),
   )
-    .map((dominio) => `<li><strong>${dominio}</strong></li>`)
+    .map((dominio) => {
+      const colores = colorAleatorioRangoRGB();
+      return `<li style="color:rgb(${colores.R}, ${colores.G}, ${colores.B})"><strong>${dominio}</strong></li>`;
+    })
     .join("");
 }
 
