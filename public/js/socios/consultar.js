@@ -6,8 +6,19 @@ import { Socios } from "../_data/socios.js";
 import { calcularEdad } from "./functions/edad.js";
 // Importa la función que escribe las fechas de forma legible.
 import { fechaCompleta } from "../utils/fechaCompleta.js";
+// Importa la función que formatea números de teléfono.
+import { formatearTelefono } from "../utils/formatearTelefono.js";
 // Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
+
+/**
+ * Escribe una fecha con su descripción completa y en formato numérico entre paréntesis.
+ * @param {Date} f - Fecha a formatear.
+ * @returns {string} Fecha con formato legible y numérico.
+ */
+function fechaLegibleYNumero(f) {
+  return `${fechaCompleta(f)} (${f.getDate()}/${f.getMonth() + 1}/${f.getFullYear()})`;
+}
 
 // Busca el botón que inicia la consulta por DNI.
 const btnBuscar = document.getElementById("btn-search-dni");
@@ -58,9 +69,9 @@ btnBuscar.addEventListener("click", function (e) {
     );
 
     // Agrupa las cifras del teléfono para facilitar su lectura.
-    const telefono = `${busqueda.telefono.substring(0, 3)} ${busqueda.telefono.substring(3, 6)} ${busqueda.telefono.substring(6, 9)}`;
+    const telefono = formatearTelefono(busqueda.telefono);
     // Prepara la fecha de nacimiento con su nombre de día y mes.
-    const edadNacimiento = `${fechaCompleta(fecha)} (${fecha.getDate()}/${fecha.getMonth() + 1}/${fecha.getFullYear()})`;
+    const edadNacimiento = fechaLegibleYNumero(fecha);
     ultimaBusqueda = busqueda.dni;
     // Dibuja la ficha con los datos del socio encontrado.
     datosConsulta.innerHTML = `
@@ -74,7 +85,7 @@ btnBuscar.addEventListener("click", function (e) {
             ${socioFila("Email", busqueda.email, { extra: `(dominio: ${dominio})` })}
             ${socioFila("Teléfono", telefono, {})}
             ${socioFila("Edad y Nacimiento", edadNacimiento, { extra: `Edad: ${calcularEdad(busqueda.fechaNacimiento)}` })}
-            ${socioFila("Fecha de Alta", `${fechaCompleta(fechaAlta)} (${fechaAlta.getDate()}/${fechaAlta.getMonth() + 1}/${fechaAlta.getFullYear()})`, { extra: `(${diasAlta} días)` })}
+            ${socioFila("Fecha de Alta", fechaLegibleYNumero(fechaAlta), { extra: `(${diasAlta} días)` })}
             ${socioFila("Fecha de Cumpleaños", fechaCompleta(proximoCumple), {})}
             ${socioFila("Actividades", busqueda.actividades.map((act) => act).join(", "), { extra: `(${busqueda.actividades.length} en total)` })}
         </div>

@@ -28,59 +28,35 @@ let dominiosCorreo = document.getElementById("stat-dominios-list");
  * @returns {void}
  */
 function recargarEstadisticas() {
-  // Muestra cuántos socios hay registrados.
   totalSociosHTML.textContent = Socios.length;
 
-  // Suma las cuotas y muestra el ingreso mensual total.
-  let totalIngresos = Socios.reduce(
-    (total, socio) => total + Number(socio.cuota),
-    0,
-  ).toFixed(2);
-  ingresosMensualesHTML.textContent = totalIngresos + config.moneda;
+  let totalIngresos = 0;
+  let sumaEdades = 0;
+  let tipos = {};
 
-  // Divide los ingresos por el número de socios para obtener la cuota media.
-  cuotaMediaHTML.textContent =
-    (totalIngresos / Socios.length).toFixed(2) + config.moneda;
-
-  // Suma las edades para calcular la edad media.
-  let sumaEdades = Socios.reduce(
-    (total, socio) => total + calcularEdad(socio.fechaNacimiento),
-    0,
-  );
-
-  // Muestra la edad media redondeada a un año entero.
-  edadMediaHTML.textContent = (sumaEdades / Socios.length).toFixed(1);
-
-  // Encuentra y muestra la edad más baja.
-  edadMinHTML.textContent = calcularEdad(
-    [...Socios].sort(
-      (a, b) => new Date(b.fechaNacimiento) - new Date(a.fechaNacimiento),
-    )[0].fechaNacimiento,
-  );
-
-  // Encuentra y muestra la edad más alta.
-  edadMaxHTML.textContent = calcularEdad(
-    [...Socios].sort(
-      (a, b) => new Date(a.fechaNacimiento) - new Date(b.fechaNacimiento),
-    )[0].fechaNacimiento,
-  );
-
-  // Prepara un contador para cada actividad disponible.
-  let tipos = {
-    [Actividades.MUSCULACION]: 0,
-    [Actividades.NATACION]: 0,
-    [Actividades.PADEL]: 0,
-    [Actividades.PILATES]: 0,
-    [Actividades.SPINNING]: 0,
-    [Actividades.YOGA]: 0,
-  };
-
-  // Cuenta cuántos socios están inscritos en cada actividad.
+  // Calcula totales y frecuencias en un único recorrido claro
   Socios.forEach((socio) => {
+    totalIngresos += Number(socio.cuota);
+    sumaEdades += calcularEdad(socio.fechaNacimiento);
+
     socio.actividades.forEach((actividad) => {
-      tipos[actividad]++;
+      tipos[actividad] = (tipos[actividad] || 0) + 1;
     });
   });
+
+  ingresosMensualesHTML.textContent = totalIngresos.toFixed(2) + config.moneda;
+  cuotaMediaHTML.textContent =
+    (totalIngresos / Socios.length).toFixed(2) + config.moneda;
+  edadMediaHTML.textContent = (sumaEdades / Socios.length).toFixed(1);
+
+  // Compara las fechas directamente como texto ISO (YYYY-MM-DD) sin instanciar Date
+  const sociosPorNacimiento = [...Socios].sort((a, b) =>
+    a.fechaNacimiento.localeCompare(b.fechaNacimiento),
+  );
+  edadMaxHTML.textContent = calcularEdad(sociosPorNacimiento[0].fechaNacimiento);
+  edadMinHTML.textContent = calcularEdad(
+    sociosPorNacimiento[sociosPorNacimiento.length - 1].fechaNacimiento,
+  );
 
   // Selecciona la actividad que tiene más socios.
   let actividadMasPopular = Object.entries(tipos).reduce((max, actual) => {
@@ -89,12 +65,11 @@ function recargarEstadisticas() {
 
   // Muestra el nombre de la actividad más popular y su cantidad de socios.
   actividadMasPopularHTML.textContent = `${actividadMasPopular[0]} (${actividadMasPopular[1]} clientes)`;
-  // Indica si hay al menos un socio menor de edad.
-  hayMenoresDeEdadHTML.textContent = Socios.some(
-    (socio) => calcularEdad(socio.fechaNacimiento) < 18,
-  )
-    ? "Sí"
-    : "No";
+  // Como están ordenados por fecha de nacimiento, el último es el más joven.
+  const edadMasJoven = calcularEdad(
+    sociosPorNacimiento[sociosPorNacimiento.length - 1].fechaNacimiento,
+  );
+  hayMenoresDeEdadHTML.textContent = edadMasJoven < 18 ? "Sí" : "No";
 
   // Indica si todos los socios tienen alguna actividad asignada.
   todosConActividadHTML.textContent = Socios.every(

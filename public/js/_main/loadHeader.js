@@ -9,6 +9,11 @@ import { mostrarToastError } from "../ui/toast/toast.js";
 let intervaloFecha;
 // Conserva el identificador para detener la actualización periódica de la hora.
 let intervaloHora;
+// Busca el elemento donde se mostrará la fecha.
+const fecha = document.getElementById("current-date");
+// Busca el elemento donde se mostrará la hora.
+const tiempo = document.getElementById("current-time");
+
 // Actualiza la fecha y la hora al iniciar y luego según sus intervalos configurados.
 try {
   // Muestra la fecha actual inmediatamente.
@@ -33,8 +38,6 @@ try {
  * @returns {void}
  */
 function loadFecha() {
-  // Busca el elemento donde se mostrará la fecha.
-  const fecha = document.getElementById("current-date");
   // Detiene la actualización si la página no contiene el elemento de fecha.
   if (!fecha) {
     // Detiene el temporizador si ya se había creado.
@@ -54,8 +57,6 @@ function loadFecha() {
  * @returns {void}
  */
 function loadHora() {
-  // Busca el elemento donde se mostrará la hora.
-  const tiempo = document.getElementById("current-time");
   // Detiene la actualización si la página no contiene el elemento de hora.
   if (!tiempo) {
     // Detiene el temporizador si ya se había creado.
@@ -66,20 +67,11 @@ function loadHora() {
 
   // Lee la fecha y la hora actuales del sistema.
   const fechaActual = new Date();
-  // Obtiene la hora actual.
-  let horas = fechaActual.getHours();
-  // Obtiene el minuto actual.
-  let minutos = fechaActual.getMinutes();
-  // Obtiene el segundo actual.
-  let segundos = fechaActual.getSeconds();
+  const pad = (n) => String(n).padStart(2, "0");
 
-  // Añade un cero a los valores de una sola cifra.
-  // Convierte la hora en texto para anteponerle un cero cuando sea necesario.
-  if (horas <= 9) horas = `0${horas}`;
-  // Convierte el minuto en texto para anteponerle un cero cuando sea necesario.
-  if (minutos <= 9) minutos = `0${minutos}`;
-  // Convierte el segundo en texto para anteponerle un cero cuando sea necesario.
-  if (segundos <= 9) segundos = `0${segundos}`;
+  const horas = pad(fechaActual.getHours());
+  const minutos = pad(fechaActual.getMinutes());
+  const segundos = pad(fechaActual.getSeconds());
 
   // Muestra la hora en formato de 24 horas.
   // Asigna la hora al elemento sin interpretar el contenido como HTML.

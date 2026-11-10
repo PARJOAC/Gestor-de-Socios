@@ -52,11 +52,8 @@ function obtenerSocios() {
     const query = normalizar(textoBusqueda);
     // Conserva los socios cuyo nombre, apellido o correo contiene el texto.
     resultado = resultado.filter((socio) => {
-      return (
-        normalizar(socio.nombre).includes(query) ||
-        normalizar(socio.apellidos).includes(query) ||
-        normalizar(socio.email).includes(query)
-      );
+      const datosSocio = normalizar(`${socio.nombre} ${socio.apellidos} ${socio.email}`);
+      return datosSocio.includes(query);
     });
   } else {
     // Mantiene el orden por identificador cuando no hay búsqueda suficiente.
@@ -93,16 +90,12 @@ function obtenerSocios() {
         resultado.sort((a, b) => a.apellidos.localeCompare(b.apellidos));
         break;
       case "jovenes":
-        // Ordena desde la fecha de nacimiento más reciente.
-        resultado.sort(
-          (a, b) => new Date(b.fechaNacimiento) - new Date(a.fechaNacimiento),
-        );
+        // Ordena desde la fecha de nacimiento más reciente (descendente).
+        resultado.sort((a, b) => b.fechaNacimiento.localeCompare(a.fechaNacimiento));
         break;
       case "antiguos":
-        // Ordena desde la fecha de nacimiento más antigua.
-        resultado.sort(
-          (a, b) => new Date(a.fechaNacimiento) - new Date(b.fechaNacimiento),
-        );
+        // Ordena desde la fecha de nacimiento más antigua (ascendente).
+        resultado.sort((a, b) => a.fechaNacimiento.localeCompare(b.fechaNacimiento));
         break;
       case "cuota":
         // Ordena de menor a mayor cuota.
@@ -126,48 +119,44 @@ function renderizarTabla() {
   // Obtiene los datos que deben aparecer en la tabla.
   const sociosFiltrados = obtenerSocios();
 
-  // Limpia las filas anteriores antes de mostrar los nuevos resultados.
-  tabla.textC = "";
-
   // Muestra un aviso dentro de la tabla si ningún socio coincide.
   if (sociosFiltrados.length === 0) {
     tabla.innerHTML = `<tr><td colspan="6" style="text-align: center;">No se encontraron socios</td></tr>`;
   } else {
-    // Crea una fila para cada socio encontrado.
-    sociosFiltrados.forEach((value) => {
-      // Prepara los datos que necesitan un formato especial en la fila.
-      const apellidosAbreviados = abreviarApellido(value.apellidos);
-      const email = esconderCorreo(value.email);
-      const iniciales = obtenerIniciales(value.nombre, value.apellidos);
+    // Genera todas las filas y actualiza el DOM de una sola vez
+    const filasHtml = sociosFiltrados
+      .map((value) => {
+        const apellidosAbreviados = abreviarApellido(value.apellidos);
+        const email = esconderCorreo(value.email);
+        const iniciales = obtenerIniciales(value.nombre, value.apellidos);
 
-      // Convierte las actividades del socio en etiquetas HTML.
-      let actividadesHtml = value.actividades
-        .map((actividad) => {
-          // Acepta tanto actividades guardadas como texto como objetos con nombre.
-          const texto =
-            typeof actividad === "string" ? actividad : actividad?.nombre || "";
-          // Devuelve la etiqueta de una actividad en mayúsculas.
-          return `<span class="badge-actividad">${texto.toUpperCase()}</span>`;
-        })
-        .join(" ");
+        const actividadesHtml = value.actividades
+          .map((actividad) => {
+            const texto =
+              typeof actividad === "string" ? actividad : actividad?.nombre || "";
+            return `<span class="badge-actividad">${texto.toUpperCase()}</span>`;
+          })
+          .join(" ");
 
-      // Añade a la tabla una fila con los datos preparados del socio.
-      tabla.innerHTML += `
-        <tr>
-          <td>
-            <div class="socio-id-container">
-              <div class="avatar-iniciales">${iniciales}</div>
-              <span class="id-numero">${value.id}</span>
-            </div>
-          </td>
-          <td>${value.nombre} ${apellidosAbreviados}</td>
-          <td>${email}</td>
-          <td><div class="contenedor-actividades">${actividadesHtml}</div></td>
-          <td>${calcularEdad(value.fechaNacimiento)} años</td>
-          <td>${parseFloat(value.cuota).toFixed(2)}${config.moneda}</td>
-        </tr>
-      `;
-    });
+        return `
+          <tr>
+            <td>
+              <div class="socio-id-container">
+                <div class="avatar-iniciales">${iniciales}</div>
+                <span class="id-numero">${value.id}</span>
+              </div>
+            </td>
+            <td>${value.nombre} ${apellidosAbreviados}</td>
+            <td>${email}</td>
+            <td><div class="contenedor-actividades">${actividadesHtml}</div></td>
+            <td>${calcularEdad(value.fechaNacimiento)} años</td>
+            <td>${parseFloat(value.cuota).toFixed(2)}${config.moneda}</td>
+          </tr>
+        `;
+      })
+      .join("");
+
+    tabla.innerHTML = filasHtml;
   }
 }
 

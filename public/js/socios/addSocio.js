@@ -20,6 +20,8 @@ import { Actividades } from "../_constants/actividades.js";
 import { renderizarTabla } from "../_main/loadTabla.js";
 // Importa la función que actualiza las estadísticas.
 import { recargarEstadisticas } from "./estadisticas.js";
+// Importa la función que formatea números de teléfono.
+import { formatearTelefono } from "../utils/formatearTelefono.js";
 
 // Busca el formulario y la ventana modal de alta.
 const formulario = document.getElementById("form-alta");
@@ -80,29 +82,28 @@ if (formulario) {
       limpiarErrores();
       let errores = [];
 
+      // Función auxiliar sencilla para comprobar campos básicos sin repetir código
+      const validarCampo = (campo, valor, fnCheck, msgInvalido) => {
+        if (!valor) {
+          errores.push({ nombreCampo: campo, razon: `Incluir ${campo}` });
+        } else if (!fnCheck(valor)) {
+          errores.push({ nombreCampo: campo, razon: msgInvalido });
+        }
+      };
+
       // Lee el nombre y exige que el campo tenga contenido válido.
       const nombre = document.getElementById("alta-nombre").value.trim() || "";
-      if (!nombre) {
-        errores.push({ nombreCampo: "NOMBRE", razon: "Incluir Nombre" });
-      } else {
-        const testNombre = comprobarNombre(nombre);
-        if (!testNombre)
-          errores.push({ nombreCampo: "NOMBRE", razon: "Nombre inválido" });
-      }
+      validarCampo("NOMBRE", nombre, comprobarNombre, "Nombre inválido");
 
       // Lee los apellidos y exige que el campo tenga contenido válido.
       const apellidos =
         document.getElementById("alta-apellidos").value.trim() || "";
-      if (!apellidos) {
-        errores.push({ nombreCampo: "APELLIDOS", razon: "Incluir Apellidos" });
-      } else {
-        const testApellidos = comprobarApellidos(apellidos);
-        if (!testApellidos)
-          errores.push({
-            nombreCampo: "APELLIDOS",
-            razon: "Apellidos inválidos",
-          });
-      }
+      validarCampo(
+        "APELLIDOS",
+        apellidos,
+        comprobarApellidos,
+        "Apellidos inválidos",
+      );
 
       // Lee el DNI en mayúsculas y separa sus cifras y su letra.
       const dni =
@@ -119,10 +120,8 @@ if (formulario) {
         errores.push({ nombreCampo: "DNI", razon: "DNI ya registrado" });
       } else if (calculoLetraDNI(numeroDni) !== letraDniUsuario) {
         errores.push({ nombreCampo: "DNI", razon: "DNI es incorrecto" });
-      } else {
-        const testDNI = comprobarDNI(dni);
-        if (!testDNI)
-          errores.push({ nombreCampo: "DNI", razon: "DNI inválido" });
+      } else if (!comprobarDNI(dni)) {
+        errores.push({ nombreCampo: "DNI", razon: "DNI inválido" });
       }
 
       // Lee el correo y comprueba que no esté vacío, repetido y tenga formato válido.
@@ -135,10 +134,8 @@ if (formulario) {
         )
       ) {
         errores.push({ nombreCampo: "EMAIL", razon: "Email ya registrado" });
-      } else {
-        const testEmail = comprobarEmail(email);
-        if (!testEmail)
-          errores.push({ nombreCampo: "EMAIL", razon: "Email inválido" });
+      } else if (!comprobarEmail(email)) {
+        errores.push({ nombreCampo: "EMAIL", razon: "Email inválido" });
       }
 
       // Lee el teléfono y quita los espacios antes de validarlo.
@@ -147,30 +144,22 @@ if (formulario) {
           .getElementById("alta-telefono")
           .value.trim()
           .replaceAll(" ", "") || "";
-      if (!telefono) {
-        errores.push({ nombreCampo: "TELÉFONO", razon: "Incluir Teléfono" });
-      } else {
-        const testTelefono = comprobarTelefono(telefono);
-        if (!testTelefono)
-          errores.push({ nombreCampo: "TELÉFONO", razon: "Teléfono inválido" });
-      }
+      validarCampo(
+        "TELÉFONO",
+        telefono,
+        comprobarTelefono,
+        "Teléfono inválido",
+      );
 
       // Lee la fecha de nacimiento para comprobar que sea válida y cumpla la edad mínima.
       const nacimiento =
         document.getElementById("alta-nacimiento").value.trim() || "";
-      if (!nacimiento) {
-        errores.push({
-          nombreCampo: "FECHA DE NACIMIENTO",
-          razon: "Incluir Nacimiento",
-        });
-      } else {
-        const testFechaNacimiento = comprobarFechaNacimiento(nacimiento);
-        if (!testFechaNacimiento)
-          errores.push({
-            nombreCampo: "FECHA DE NACIMIENTO",
-            razon: "Fecha de nacimiento inválida",
-          });
-      }
+      validarCampo(
+        "FECHA DE NACIMIENTO",
+        nacimiento,
+        comprobarFechaNacimiento,
+        "Fecha de nacimiento inválida",
+      );
 
       // Obtiene las actividades seleccionables y excluye la opción general.
       const listaActividadesValidas = Object.values(Actividades).filter(
@@ -243,16 +232,11 @@ if (formulario) {
         nacimiento.split("/");
 
       // Crea el siguiente identificador sumando uno al mayor identificador actual.
-      const nuevoID =
-        "SOC-" +
-        String(
-          Number(
-            Socios.sort((a, b) => b.id.localeCompare(a.id))[0].id.replace(
-              "SOC-",
-              "",
-            ),
-          ) + 1,
-        ).padStart(4, "0");
+      const mayorID = Socios.reduce((max, s) => {
+        const num = Number(s.id.replace("SOC-", ""));
+        return num > max ? num : max;
+      }, 0);
+      const nuevoID = `SOC-${String(mayorID + 1).padStart(4, "0")}`;
 
       // Prepara el nuevo socio con los datos validados y normalizados.
       const nuevoSocio = {
@@ -272,9 +256,6 @@ if (formulario) {
         actividades: actividades,
         cuota: Number(cuota),
       };
-
-      // Agrega el nuevo registro a la lista de socios.
-      console.log(nuevoSocio);
 
       Socios.push(nuevoSocio);
 
@@ -324,20 +305,5 @@ fechaNacimiento.addEventListener("input", function (e) {
 const telefono = document.getElementById("alta-telefono");
 // Agrupa las cifras del teléfono mientras el usuario escribe.
 telefono.addEventListener("input", function (e) {
-  // Conserva solo las cifras introducidas.
-  let valor = e.target.value.replace(/\D/g, "");
-  // Prepara el texto que se mostrará con espacios.
-  let formatoFinal = "";
-
-  // Añade las primeras tres cifras del teléfono.
-  if (valor.length > 0) formatoFinal += valor.substring(0, 3);
-
-  // Añade las siguientes cifras cuando se ha escrito el primer grupo.
-  if (valor.length >= 4) formatoFinal += " " + valor.substring(3, 6);
-
-  // Añade las últimas cifras cuando se ha escrito el segundo grupo.
-  if (valor.length >= 7) formatoFinal += " " + valor.substring(6, 9);
-
-  // Muestra el teléfono separado en grupos.
-  e.target.value = formatoFinal;
+  e.target.value = formatearTelefono(e.target.value);
 });

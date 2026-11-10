@@ -14,11 +14,9 @@ btnFullScreen.addEventListener("click", function () {
     // Activa la pantalla completa si aún no está activa.
     if (!document.fullscreenElement) {
       // Solicita al navegador que amplíe el documento.
-      elem.requestFullscreen().catch((err) => {
+      elem.requestFullscreen().catch(() => {
         // Comunica que el navegador no pudo activar la pantalla completa.
-        throw new Error(
-          "Ha ocurrido un error al establecer la pantalla completa.",
-        );
+        mostrarToastError("Ha ocurrido un error al establecer la pantalla completa.");
       });
     } else {
       // Sale del modo de pantalla completa si ya estaba activo.

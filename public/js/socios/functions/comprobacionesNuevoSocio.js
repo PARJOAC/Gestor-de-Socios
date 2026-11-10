@@ -1,9 +1,21 @@
 // Importa la edad mínima que debe cumplir un socio.
 import config from "../../../../config.json" with { type: "json" };
+// Importa la función de cálculo de edad para reutilizarla.
+import { calcularEdad } from "./edad.js";
 
 // Permite palabras separadas por un solo espacio, tildes y la ñ y ü.
 const sintaxisNombreApellidos =
   /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+(?: [A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+)*$/;
+
+/**
+ * Comprueba que un texto use letras españolas y un solo espacio entre palabras.
+ * @param {string} texto - Texto que se va a validar.
+ * @returns {boolean} Indica si el texto tiene contenido y caracteres permitidos.
+ */
+function comprobarTextoNombreApellidos(texto) {
+  const limpio = texto ? texto.trim() : "";
+  return limpio.length > 0 && sintaxisNombreApellidos.test(limpio);
+}
 
 /**
  * Comprueba que el identificador tenga el formato SOC- seguido de cuatro cifras.
@@ -23,10 +35,7 @@ function comprobarID(id) {
  * @returns {boolean} Indica si el nombre tiene contenido y caracteres permitidos.
  */
 function comprobarNombre(nombre) {
-  // Elimina los espacios sobrantes al principio y al final.
-  const nombreLimpio = nombre.trim();
-  // Exige contenido y permite un solo espacio entre palabras.
-  return nombreLimpio.length > 0 && sintaxisNombreApellidos.test(nombreLimpio);
+  return comprobarTextoNombreApellidos(nombre);
 }
 
 /**
@@ -35,13 +44,7 @@ function comprobarNombre(nombre) {
  * @returns {boolean} Indica si los apellidos tienen contenido y caracteres permitidos.
  */
 function comprobarApellidos(apellidos) {
-  // Elimina los espacios sobrantes al principio y al final.
-  const apellidosLimpios = apellidos.trim();
-  // Exige contenido y permite un solo espacio entre palabras.
-  return (
-    apellidosLimpios.length > 0 &&
-    sintaxisNombreApellidos.test(apellidosLimpios)
-  );
+  return comprobarTextoNombreApellidos(apellidos);
 }
 
 /**
@@ -134,7 +137,7 @@ function comprobarFechaNacimiento(fechaNacimiento) {
   }
   // Rechaza la fecha si la persona no supera la edad mínima configurada.
   if (minimaEdadSocio(fecha))
-    throw new Error("El socio debe tener más de 14 años");
+    throw new Error(`El socio debe tener más de ${config.edadMinimaSocio} años`);
 
   // Obtiene la fecha actual para evitar aceptar fechas futuras.
   const fechaActual = new Date();
@@ -148,20 +151,10 @@ function comprobarFechaNacimiento(fechaNacimiento) {
  * @returns {boolean} Indica si la edad es igual o inferior al mínimo permitido.
  */
 function minimaEdadSocio(fechaNacimiento) {
-  // Obtiene la fecha actual para calcular la edad completa.
-  const fechaActual = new Date();
-  // Calcula la diferencia inicial entre los años.
-  let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
-  // Detecta si el cumpleaños de este año todavía no ha llegado.
-  const aunNoCumpleAnios =
-    fechaActual.getMonth() < fechaNacimiento.getMonth() ||
-    (fechaActual.getMonth() === fechaNacimiento.getMonth() &&
-      fechaActual.getDate() < fechaNacimiento.getDate());
-
-  // Resta un año cuando todavía falta para el cumpleaños.
-  if (aunNoCumpleAnios) edad--;
-  // Indica si la edad es menor o igual al límite establecido.
-  return edad <= config.edadMinimaSocio;
+  const anio = fechaNacimiento.getFullYear();
+  const mes = String(fechaNacimiento.getMonth() + 1).padStart(2, "0");
+  const dia = String(fechaNacimiento.getDate()).padStart(2, "0");
+  return calcularEdad(`${anio}-${mes}-${dia}`) <= config.edadMinimaSocio;
 }
 
 /**
