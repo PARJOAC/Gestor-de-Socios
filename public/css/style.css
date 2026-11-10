@@ -1,7 +1,7 @@
 /* Guarda los colores, bordes y medidas compartidos por la interfaz. */
 :root {
-  --primary-color: #ebac25;
-  --primary-hover: #d8a61d;
+  --primary-color: #3482f8;
+  --primary-hover: #1d5ed8;
   --bg-color: #f8fafc;
   --card-bg: #ffffff;
   --text-color: #1e293b;
@@ -614,8 +614,8 @@ button:disabled {
 
 /* Da formato a las actividades mostradas en la tabla y en la ficha. */
 .badge-actividad {
-  background-color: #fdebc3;
-  color: #ebac25;
+  background-color: var(--primary-color);
+  color: var(--card-bg);
   font-size: 0.75rem;
   font-weight: 500;
   padding: 2px 8px;
