@@ -67,13 +67,12 @@ function loadHora() {
 
   // Lee la fecha y la hora actuales del sistema.
   const fechaActual = new Date();
-  const pad = (n) => String(n).padStart(2, "0");
+  const horaCompleta = fechaActual.toLocaleTimeString({
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
 
-  const horas = pad(fechaActual.getHours());
-  const minutos = pad(fechaActual.getMinutes());
-  const segundos = pad(fechaActual.getSeconds());
-
-  // Muestra la hora en formato de 24 horas.
   // Asigna la hora al elemento sin interpretar el contenido como HTML.
-  tiempo.textContent = `${horas}:${minutos}:${segundos}`;
+  tiempo.textContent = horaCompleta;
 }
