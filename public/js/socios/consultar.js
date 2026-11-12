@@ -95,7 +95,6 @@ btnBuscar.addEventListener("click", function (e) {
   } catch (e) {
     //Limpieza de datos y la última búsqueda
     ultimaBusqueda = "";
-    datosConsulta.innerHTML = "";
     // Muestra el motivo por el que no se pudo completar la búsqueda.
     mostrarToastError(e.message);
   }
