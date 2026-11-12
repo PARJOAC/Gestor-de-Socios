@@ -185,27 +185,16 @@ if (formulario) {
       );
 
       // Exige que se seleccione al menos una actividad válida.
-      if (actividades.length === 0) {
-        errores.push({
-          nombreCampo: "ACTIVIDADES",
-          razon: "Incluir Actividades",
-        });
-      } else if (!comprobarActividades(actividades)) {
-        errores.push({
-          nombreCampo: "ACTIVIDADES",
-          razon: "Actividades inválidas",
-        });
-      }
+      validarCampo(
+        "ACTIVIDADES",
+        actividades,
+        comprobarActividades,
+        "Actividades inválidas",
+      );
 
       // Lee y valida la cuota mensual.
       const cuota = document.getElementById("alta-cuota").value.trim() || "";
-      if (!cuota) {
-        errores.push({ nombreCampo: "CUOTA", razon: "Incluir Cuota" });
-      } else {
-        const testCuota = comprobarCuota(cuota);
-        if (!testCuota)
-          errores.push({ nombreCampo: "CUOTA", razon: "Cuota inválida" });
-      }
+      validarCampo("CUOTA", cuota, comprobarCuota, "Cuota inválida");
 
       // Muestra los errores junto a sus campos y detiene el alta.
       if (errores.length > 0) {
