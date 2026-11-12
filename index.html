@@ -179,6 +179,7 @@
                   type="text"
                   id="input-dni-search"
                   placeholder="Introduce un DNI..."
+                  maxlength="9"
                 />
                 <button id="btn-search-dni" class="btn-primary">
                   Consultar
@@ -286,6 +287,7 @@
                 id="alta-dni"
                 name="dni"
                 placeholder="12345678Z"
+                maxlength="9"
               />
               <span class="error-msg" id="error-dni"></span>
             </div>
@@ -311,6 +313,7 @@
                 id="alta-telefono"
                 name="telefono"
                 placeholder="612 345 678"
+                maxlength="11"
               />
               <span class="error-msg" id="error-telefono"></span>
             </div>
@@ -336,6 +339,8 @@
                 name="cuota"
                 step="0.01"
                 placeholder="35"
+                min="1"
+                max="100"
               />
               <span class="error-msg" id="error-cuota"></span>
             </div>

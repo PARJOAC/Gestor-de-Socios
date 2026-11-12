@@ -137,7 +137,9 @@ function comprobarFechaNacimiento(fechaNacimiento) {
   }
   // Rechaza la fecha si la persona no supera la edad mínima configurada.
   if (minimaEdadSocio(fecha))
-    throw new Error(`El socio debe tener más de ${config.edadMinimaSocio} años`);
+    throw new Error(
+      `El socio debe tener más de ${config.edadMinimaSocio} años`,
+    );
 
   // Obtiene la fecha actual para evitar aceptar fechas futuras.
   const fechaActual = new Date();
