@@ -438,17 +438,6 @@ button:disabled {
   background-color: var(--primary-hover);
 }
 
-/* Da un estilo neutro a las acciones secundarias. */
-.btn-secondary {
-  background-color: #e2e8f0;
-  color: var(--text-color);
-}
-
-/* Oscurece el botón secundario al pasar el puntero. */
-.btn-secondary:hover {
-  background-color: #cbd5e1;
-}
-
 /* Extiende el botón a todo el ancho disponible. */
 .btn-block {
   width: 100%;
