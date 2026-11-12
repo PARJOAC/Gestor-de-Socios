@@ -4,6 +4,7 @@ import { fechaCompleta } from "../utils/fechaCompleta.js";
 import config from "../../../config.json" with { type: "json" };
 // Importa el aviso que se muestra si falla la inicialización de la cabecera.
 import { mostrarToastError } from "../ui/toast/toast.js";
+import { colorAleatorioRangoRGB } from "../utils/colorRandomRGB.js";
 
 // Conserva el identificador para detener la actualización periódica de la fecha.
 let intervaloFecha;
@@ -76,3 +77,20 @@ function loadHora() {
   // Asigna la hora al elemento sin interpretar el contenido como HTML.
   tiempo.textContent = horaCompleta;
 }
+
+const tema = document.getElementById("theme");
+tema.addEventListener("click", function () {
+  let colores = colorAleatorioRangoRGB();
+  // Cambia las variables globales que afectan a toda la página
+  // Color más pastel con el 0.65
+  document.documentElement.style.setProperty(
+    "--primary-hover",
+    `rgb(${colores.R * 0.65}, ${colores.G * 0.65}, ${colores.B * 0.65})`,
+  );
+
+  // Color original
+  document.documentElement.style.setProperty(
+    "--primary-color",
+    `rgb(${colores.R}, ${colores.G}, ${colores.B})`,
+  );
+});
