@@ -80,16 +80,16 @@ btnBuscar.addEventListener("click", function (e) {
             <h3>${busqueda.nombre} ${busqueda.apellidos}</h3>
         </div>
         <div class="socio-grid">
-            ${socioFila("ID SOCIO", busqueda.id, {})}
-            ${socioFila("DNI", busqueda.dni, {})}
+            ${socioFila("ID SOCIO", busqueda.id)}
+            ${socioFila("DNI", busqueda.dni)}
             ${socioFila("Email", busqueda.email, { extra: `(dominio: ${dominio})` })}
-            ${socioFila("Teléfono", telefono, {})}
+            ${socioFila("Teléfono", telefono)}
             ${socioFila("Edad y Nacimiento", edadNacimiento, { extra: `Edad: ${calcularEdad(busqueda.fechaNacimiento)}` })}
             ${socioFila("Fecha de Alta", fechaLegibleYNumero(fechaAlta), { extra: `(${diasAlta} días)` })}
-            ${socioFila("Fecha de Cumpleaños", fechaCompleta(proximoCumple), {})}
+            ${socioFila("Fecha de Cumpleaños", fechaCompleta(proximoCumple))}
             ${socioFila("Actividades", busqueda.actividades.map((act) => act).join(", "), { extra: `(${busqueda.actividades.length} en total)` })}
         </div>
-        ${socioFila("Cuota Mensual", `${busqueda.cuota}${config.moneda}`, {})}
+        ${socioFila("Cuota Mensual", `${busqueda.cuota}${config.moneda}`)}
     </div>
     `;
   } catch (e) {
@@ -107,7 +107,7 @@ btnBuscar.addEventListener("click", function (e) {
  * @param {{extra?: string}} opciones - Dato adicional opcional que acompaña al valor.
  * @returns {string} HTML de la fila con su etiqueta y contenido.
  */
-function socioFila(titulo, contenido, { extra }) {
+function socioFila(titulo, contenido, { extra } = {}) {
   // Devuelve el fragmento HTML que presenta el dato del socio.
   return `
         <div class="socio-field socio-full">
