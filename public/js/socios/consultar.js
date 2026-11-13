@@ -5,20 +5,11 @@ import { Socios } from "../_data/socios.js";
 // Importa la función que calcula la edad del socio.
 import { calcularEdad } from "./functions/edad.js";
 // Importa la función que escribe las fechas de forma legible.
-import { fechaCompleta } from "../utils/fechaCompleta.js";
+import { fechaCompleta, fechaLegibleYNumero } from "../utils/fechaCompleta.js";
 // Importa la función que formatea números de teléfono.
 import { formatearTelefono } from "../utils/formatearTelefono.js";
 // Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
-
-/**
- * Escribe una fecha con su descripción completa y en formato numérico entre paréntesis.
- * @param {Date} f - Fecha a formatear.
- * @returns {string} Fecha con formato legible y numérico.
- */
-function fechaLegibleYNumero(f) {
-  return `${fechaCompleta(f)} (${f.getDate()}/${f.getMonth() + 1}/${f.getFullYear()})`;
-}
 
 // Busca el botón que inicia la consulta por DNI.
 const btnBuscar = document.getElementById("btn-search-dni");
