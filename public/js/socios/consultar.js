@@ -27,7 +27,7 @@ const btnBuscar = document.getElementById("btn-search-dni");
 let ultimaBusqueda = "";
 
 // Ejecuta la búsqueda cuando se pulsa el botón.
-btnBuscar.addEventListener("click", function (e) {
+btnBuscar.addEventListener("click", function () {
   // Captura posibles errores de búsqueda para mostrarlos al usuario.
   // Lee el DNI escrito
   const dni = document.getElementById("input-dni-search");
@@ -38,13 +38,14 @@ btnBuscar.addEventListener("click", function (e) {
     // Vacía el resultado y avisa si no se escribió un DNI.
     if (dni.value.length === 0) throw new Error("Debes escribir un DNI.");
 
+    // Si ya se está visualizando el dni, no se busca de nuevo
+    if (dni.value.toLowerCase() === ultimaBusqueda.toLowerCase())
+      throw new Error("Ya estás viendo a ese socio.");
+
     // Busca una coincidencia sin distinguir mayúsculas.
     let busqueda = Socios.find(
       (socio) => socio.dni.toLowerCase() === dni.value.toLowerCase(),
     );
-
-    if (dni.value.toLowerCase() === ultimaBusqueda.toLowerCase())
-      throw new Error("Ya estás viendo a ese socio.");
 
     // Vacía el resultado y avisa si no existe un socio con ese DNI.
     if (!busqueda) throw new Error("El socio no se ha encontrado.");
@@ -67,6 +68,8 @@ btnBuscar.addEventListener("click", function (e) {
       fecha.getMonth(),
       fecha.getDate(),
     );
+    if (proximoCumple < fechaActual)
+      proximoCumple.setFullYear(fechaActual.getFullYear() + 1);
 
     // Agrupa las cifras del teléfono para facilitar su lectura.
     const telefono = formatearTelefono(busqueda.telefono);
