@@ -10,6 +10,7 @@ import { fechaCompleta, fechaLegibleYNumero } from "../utils/fechaCompleta.js";
 import { formatearTelefono } from "../utils/formatearTelefono.js";
 // Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
+import { spanActividades } from "../utils/generarListaActividades.js";
 
 // Busca el botón que inicia la consulta por DNI.
 const btnBuscar = document.getElementById("btn-search-dni");
@@ -66,7 +67,7 @@ btnBuscar.addEventListener("click", function () {
     const telefono = formatearTelefono(busqueda.telefono);
     // Prepara la fecha de nacimiento con su nombre de día y mes.
     const edadNacimiento = fechaLegibleYNumero(fecha);
-    ultimaBusqueda = busqueda.dni;
+    ultimaBusqueda = busqueda.dni.toLowerCase();
     // Dibuja la ficha con los datos del socio encontrado.
     datosConsulta.innerHTML = `
     <div class="socio-card">
@@ -81,14 +82,21 @@ btnBuscar.addEventListener("click", function () {
             ${socioFila("Edad y Nacimiento", edadNacimiento, { extra: `Edad: ${calcularEdad(busqueda.fechaNacimiento)}` })}
             ${socioFila("Fecha de Alta", fechaLegibleYNumero(fechaAlta), { extra: `(${diasAlta} días)` })}
             ${socioFila("Fecha de Cumpleaños", fechaCompleta(proximoCumple))}
-            ${socioFila("Actividades", busqueda.actividades.map((act) => act).join(", "), { extra: `(${busqueda.actividades.length} en total)` })}
+            ${socioFila(
+              "Actividades",
+              busqueda.actividades.map((act) => spanActividades(act)).join(" "),
+              { extra: `(${busqueda.actividades.length} en total)` },
+            )}
         </div>
         ${socioFila("Cuota Mensual", `${busqueda.cuota}${config.moneda}`)}
     </div>
     `;
   } catch (e) {
     //Limpieza de datos y la última búsqueda
+    if (ultimaBusqueda !== dni.value.toLowerCase())
+      datosConsulta.innerHTML = "";
     ultimaBusqueda = "";
+
     // Muestra el motivo por el que no se pudo completar la búsqueda.
     mostrarToastError(e.message);
   }

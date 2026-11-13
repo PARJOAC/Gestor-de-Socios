@@ -10,6 +10,9 @@ import {
 } from "./functions/formatoFilaSocio.js";
 // Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
+import { spanActividades } from "../utils/generarListaActividades.js";
+
+import { colorAleatorioRangoRGB } from "../utils/colorRandomRGB.js";
 
 // Busca los controles que muestran y filtran la tabla.
 let tabla = document.getElementById("tbody-socios");
@@ -52,7 +55,9 @@ function obtenerSocios() {
     const query = normalizar(textoBusqueda);
     // Conserva los socios cuyo nombre, apellido o correo contiene el texto.
     resultado = resultado.filter((socio) => {
-      const datosSocio = normalizar(`${socio.nombre} ${socio.apellidos} ${socio.email}`);
+      const datosSocio = normalizar(
+        `${socio.nombre} ${socio.apellidos} ${socio.email}`,
+      );
       return datosSocio.includes(query);
     });
   } else {
@@ -91,11 +96,15 @@ function obtenerSocios() {
         break;
       case "jovenes":
         // Ordena desde la fecha de nacimiento más reciente (descendente).
-        resultado.sort((a, b) => b.fechaNacimiento.localeCompare(a.fechaNacimiento));
+        resultado.sort((a, b) =>
+          b.fechaNacimiento.localeCompare(a.fechaNacimiento),
+        );
         break;
       case "antiguos":
         // Ordena desde la fecha de nacimiento más antigua (ascendente).
-        resultado.sort((a, b) => a.fechaNacimiento.localeCompare(b.fechaNacimiento));
+        resultado.sort((a, b) =>
+          a.fechaNacimiento.localeCompare(b.fechaNacimiento),
+        );
         break;
       case "cuota":
         // Ordena de menor a mayor cuota.
@@ -133,8 +142,10 @@ function renderizarTabla() {
         const actividadesHtml = value.actividades
           .map((actividad) => {
             const texto =
-              typeof actividad === "string" ? actividad : actividad?.nombre || "";
-            return `<span class="badge-actividad">${texto.toUpperCase()}</span>`;
+              typeof actividad === "string"
+                ? actividad
+                : actividad?.nombre || "";
+            return spanActividades(texto);
           })
           .join(" ");
 
@@ -176,6 +187,30 @@ selectFiltro.addEventListener("change", (e) => {
 ordenarFiltro.addEventListener("change", (e) => {
   ordenFiltro = e.target.value;
   renderizarTabla();
+});
+
+// Buscar el elemento para cambiar el tema.
+const tema = document.getElementById("theme");
+// Evento para el boton del tema
+tema.addEventListener("click", function () {
+  // Si no existe el boton, no hace nada
+  if (!tema) return;
+
+  // Se generan el color aleatorio
+  let colores = colorAleatorioRangoRGB();
+
+  // Cambia las variables globales
+  // Color más pastel con el 0.65
+  document.documentElement.style.setProperty(
+    "--primary-hover",
+    `rgb(${colores.R * 0.65}, ${colores.G * 0.65}, ${colores.B * 0.65})`,
+  );
+
+  // Color original
+  document.documentElement.style.setProperty(
+    "--primary-color",
+    `rgb(${colores.R}, ${colores.G}, ${colores.B})`,
+  );
 });
 
 // Dibuja la tabla por primera vez al cargar el módulo.

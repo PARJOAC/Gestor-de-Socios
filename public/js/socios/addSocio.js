@@ -241,7 +241,7 @@ if (formulario) {
         email: email.toLowerCase(),
         telefono: telefono,
         fechaNacimiento: `${anioNacimiento}-${mesNacimiento}-${diaNacimiento}`,
-        fechaAlta: `${fecha.toLocaleDateString()}`,
+        fechaAlta: `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, "0")}-${String(fecha.getDate()).padStart(2, "0")}`,
         actividades: actividades,
         cuota: Number(cuota),
       };
