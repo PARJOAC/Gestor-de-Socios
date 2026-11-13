@@ -11,19 +11,21 @@ import {
 // Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
 import { spanActividades } from "../utils/generarListaActividades.js";
-
 import { colorAleatorioRangoRGB } from "../utils/colorRandomRGB.js";
+import { Actividades } from "../_constants/actividades.js";
 
 // Busca los controles que muestran y filtran la tabla.
-let tabla = document.getElementById("tbody-socios");
-let buscarSocio = document.getElementById("input-search");
-let selectFiltro = document.getElementById("select-activity-filter");
-let ordenarFiltro = document.getElementById("select-order");
+const tabla = document.getElementById("tbody-socios");
+const buscarSocio = document.getElementById("input-search");
+const selectFiltro = document.getElementById("select-activity-filter");
+const ordenarFiltro = document.getElementById("select-order");
+const actividadesDisponibles = Object.values(Actividades);
 
 // Guarda los valores actuales de búsqueda, actividad y orden.
 let textoBusqueda = "";
 let actividadFiltro = "";
 let ordenFiltro = "";
+const cacheBusquedaSocios = new Map();
 
 /**
  * Convierte un texto a minúsculas y quita las tildes para facilitar la búsqueda.
@@ -40,10 +42,25 @@ const normalizar = (texto) =>
         .replace(/[\u0300-\u036f]/g, "")
     : "";
 
+function datosBusquedaNormalizados(socio) {
+  const datos = `${socio.nombre} ${socio.apellidos} ${socio.email}`;
+  const cache = cacheBusquedaSocios.get(socio);
+
+  if (cache && cache.datos === datos) return cache.normalizados;
+
+  const normalizados = normalizar(datos);
+  cacheBusquedaSocios.set(socio, { datos, normalizados });
+  return normalizados;
+}
+
+function nombreActividad(actividad) {
+  return typeof actividad === "string" ? actividad : actividad?.nombre || "";
+}
+
 /**
  * Filtra y ordena una copia de la lista de socios según los controles de la tabla.
  * @returns {Object[]} Socios que coinciden con la búsqueda y el orden seleccionados.
- * @throws {Error} Si el control solicita un criterio de orden desconocido.
+ * @throws {Error} Si un control solicita un criterio desconocido.
  */
 function obtenerSocios() {
   // Copia la lista para ordenar sin cambiar el orden de los datos originales.
@@ -54,67 +71,61 @@ function obtenerSocios() {
     // Normaliza el texto para que la búsqueda ignore mayúsculas y tildes.
     const query = normalizar(textoBusqueda);
     // Conserva los socios cuyo nombre, apellido o correo contiene el texto.
-    resultado = resultado.filter((socio) => {
-      const datosSocio = normalizar(
-        `${socio.nombre} ${socio.apellidos} ${socio.email}`,
-      );
-      return datosSocio.includes(query);
-    });
-  } else {
-    // Mantiene el orden por identificador cuando no hay búsqueda suficiente.
-    resultado = resultado.sort((a, b) => a.id.localeCompare(b.id));
-  }
-
-  // Filtra por actividad cuando se ha elegido una opción concreta.
-  if (
-    actividadFiltro &&
-    actividadFiltro.toLowerCase() !== "todas las actividades"
-  ) {
-    // Normaliza la actividad seleccionada antes de compararla.
-    const queryFiltro = normalizar(actividadFiltro);
-    // Conserva los socios que tienen la actividad seleccionada.
     resultado = resultado.filter((socio) =>
-      socio.actividades.some((v) => normalizar(v).includes(queryFiltro)),
+      datosBusquedaNormalizados(socio).includes(query),
     );
   }
 
-  // Ordena los resultados según la opción elegida.
-  if (ordenFiltro) {
-    // Aplica el comparador correspondiente al tipo de orden.
-    switch (ordenFiltro.toLowerCase()) {
-      case "default":
-        // Ordena por identificador.
-        resultado.sort((a, b) => a.id.localeCompare(b.id));
-        break;
-      case "nombre":
-        // Ordena alfabéticamente por nombre.
-        resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
-        break;
-      case "apellidos":
-        // Ordena alfabéticamente por apellidos.
-        resultado.sort((a, b) => a.apellidos.localeCompare(b.apellidos));
-        break;
-      case "jovenes":
-        // Ordena desde la fecha de nacimiento más reciente (descendente).
-        resultado.sort((a, b) =>
-          b.fechaNacimiento.localeCompare(a.fechaNacimiento),
-        );
-        break;
-      case "antiguos":
-        // Ordena desde la fecha de nacimiento más antigua (ascendente).
-        resultado.sort((a, b) =>
-          a.fechaNacimiento.localeCompare(b.fechaNacimiento),
-        );
-        break;
-      case "cuota":
-        // Ordena de menor a mayor cuota.
-        resultado.sort((a, b) => a.cuota - b.cuota);
-        break;
-      default:
-        // Informa si se recibe una opción de orden desconocida.
-        throw new Error("Ese orden no existe.");
+  // Filtra por actividad cuando se ha elegido una opción concreta.
+  if (actividadFiltro !== "") {
+    const indiceActividad = Number(actividadFiltro);
+    const actividadSeleccionada = Number.isInteger(indiceActividad)
+      ? actividadesDisponibles[indiceActividad]
+      : undefined;
+
+    if (actividadSeleccionada === undefined)
+      throw new Error("Ese filtro de actividad no existe.");
+
+    if (actividadSeleccionada !== Actividades.TODAS) {
+      const queryFiltro = normalizar(actividadSeleccionada);
+      // Conserva los socios que tienen la actividad seleccionada.
+      resultado = resultado.filter((socio) =>
+        socio.actividades.some(
+          (actividad) =>
+            normalizar(nombreActividad(actividad)) === queryFiltro,
+        ),
+      );
     }
   }
+
+  // Ordena los resultados según la opción elegida.
+  switch (ordenFiltro.toLowerCase() || "default") {
+    case "default":
+      resultado.sort((a, b) => a.id.localeCompare(b.id));
+      break;
+    case "nombre":
+      resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      break;
+    case "apellidos":
+      resultado.sort((a, b) => a.apellidos.localeCompare(b.apellidos));
+      break;
+    case "jovenes":
+      resultado.sort((a, b) =>
+        b.fechaNacimiento.localeCompare(a.fechaNacimiento),
+      );
+      break;
+    case "antiguos":
+      resultado.sort((a, b) =>
+        a.fechaNacimiento.localeCompare(b.fechaNacimiento),
+      );
+      break;
+    case "cuota":
+      resultado.sort((a, b) => a.cuota - b.cuota);
+      break;
+    default:
+      throw new Error("Ese orden no existe.");
+  }
+
   // Devuelve el resultado después de aplicar los filtros y el orden.
   return resultado;
 }
@@ -140,13 +151,7 @@ function renderizarTabla() {
         const iniciales = obtenerIniciales(value.nombre, value.apellidos);
 
         const actividadesHtml = value.actividades
-          .map((actividad) => {
-            const texto =
-              typeof actividad === "string"
-                ? actividad
-                : actividad?.nombre || "";
-            return spanActividades(texto);
-          })
+          .map((actividad) => spanActividades(nombreActividad(actividad)))
           .join(" ");
 
         return `
