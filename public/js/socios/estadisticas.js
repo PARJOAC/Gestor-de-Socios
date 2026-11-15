@@ -2,7 +2,6 @@
 import { calcularEdad } from "./functions/edad.js";
 // Importa los valores configurables de la aplicación.
 import config from "../../../config.json" with { type: "json" };
-import { Actividades } from "../_constants/actividades.js";
 // Importa la lista de socios que se resume en las estadísticas.
 import { Socios } from "../_data/socios.js";
 
@@ -10,17 +9,17 @@ import { Socios } from "../_data/socios.js";
 import { colorAleatorioRangoRGB } from "../utils/colorRandomRGB.js";
 
 // Busca los elementos donde se mostrarán las estadísticas.
-let totalSociosHTML = document.getElementById("stat-total-socios");
-let ingresosMensualesHTML = document.getElementById("stat-ingresos");
-let cuotaMediaHTML = document.getElementById("stat-cuota-media");
-let edadMediaHTML = document.getElementById("stat-edad-media");
-let edadMinHTML = document.getElementById("stat-edad-min");
-let edadMaxHTML = document.getElementById("stat-edad-max");
-let actividadMasPopularHTML = document.getElementById("stat-populares");
-let hayMenoresDeEdadHTML = document.getElementById("stat-menores");
-let todosConActividadHTML = document.getElementById("stat-todos-actividad");
-let top3Socios = document.getElementById("stat-veteranos-list");
-let dominiosCorreo = document.getElementById("stat-dominios-list");
+const totalSociosHTML = document.getElementById("stat-total-socios");
+const ingresosMensualesHTML = document.getElementById("stat-ingresos");
+const cuotaMediaHTML = document.getElementById("stat-cuota-media");
+const edadMediaHTML = document.getElementById("stat-edad-media");
+const edadMinHTML = document.getElementById("stat-edad-min");
+const edadMaxHTML = document.getElementById("stat-edad-max");
+const actividadMasPopularHTML = document.getElementById("stat-populares");
+const hayMenoresDeEdadHTML = document.getElementById("stat-menores");
+const todosConActividadHTML = document.getElementById("stat-todos-actividad");
+const top3Socios = document.getElementById("stat-veteranos-list");
+const dominiosCorreo = document.getElementById("stat-dominios-list");
 
 /**
  * Calcula y actualiza las estadísticas mostradas en la página.

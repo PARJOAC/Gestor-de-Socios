@@ -25,7 +25,7 @@ btnBuscar.addEventListener("click", function () {
   const dni = document.getElementById("input-dni-search");
 
   // Busca el contenedor donde aparecerán los datos del socio.
-  let datosConsulta = document.getElementById("datosConsulta");
+  const datosConsulta = document.getElementById("datosConsulta");
   try {
     // Vacía el resultado y avisa si no se escribió un DNI.
     if (dni.value.length === 0) throw new Error("Debes escribir un DNI.");

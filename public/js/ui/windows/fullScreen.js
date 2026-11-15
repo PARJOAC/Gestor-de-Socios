@@ -2,7 +2,7 @@
 import { mostrarToastError } from "../toast/toast.js";
 
 // Busca el botón que activa o desactiva la pantalla completa.
-let btnFullScreen = document.getElementById("btn-fullscreen");
+const btnFullScreen = document.getElementById("btn-fullscreen");
 
 // Cambia el modo de pantalla cuando se pulsa el botón.
 btnFullScreen.addEventListener("click", function () {
