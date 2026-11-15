@@ -16,14 +16,14 @@ try {
 
     // Crea una casilla para que el socio pueda elegir esta actividad.
     altaActividades.innerHTML += `
-  <label class="tag-chip">
-                  <input
-                    type="checkbox"
-                    value="${index}"
-                    class="hidden-checkbox"
-                  />
-                  <span>${value}</span>
-                </label>
+     <label class="tag-chip">
+        <input
+        type="checkbox"
+        value="${index}"
+        class="hidden-checkbox"
+        />
+        <span>${value}</span>
+     </label>
   `;
   });
 } catch {

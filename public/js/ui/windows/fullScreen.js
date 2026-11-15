@@ -16,7 +16,9 @@ btnFullScreen.addEventListener("click", function () {
       // Solicita al navegador que amplíe el documento.
       elem.requestFullscreen().catch(() => {
         // Comunica que el navegador no pudo activar la pantalla completa.
-        mostrarToastError("Ha ocurrido un error al establecer la pantalla completa.");
+        mostrarToastError(
+          "Ha ocurrido un error al establecer la pantalla completa.",
+        );
       });
     } else {
       // Sale del modo de pantalla completa si ya estaba activo.
@@ -32,11 +34,6 @@ btnFullScreen.addEventListener("click", function () {
 document.addEventListener("fullscreenchange", function () {
   // Busca la cabecera que se oculta durante la pantalla completa.
   const header = document.getElementById("main-header");
-
   // Oculta la cabecera en pantalla completa y la restaura al salir.
-  if (document.fullscreenElement) {
-    header.style.display = "none";
-  } else {
-    header.style.display = "";
-  }
+  header.style.display = document.fullscreenElement ? "none" : "";
 });

@@ -13,5 +13,6 @@ function formatearTelefono(valor) {
   return coincidencias ? coincidencias.join(" ") : "";
 }
 
+// Permite usar el formateo de teléfono en otros módulos.
 export { formatearTelefono };
 
