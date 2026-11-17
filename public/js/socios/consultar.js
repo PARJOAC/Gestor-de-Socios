@@ -87,6 +87,7 @@ btnBuscar.addEventListener("click", function () {
               busqueda.actividades.map((act) => spanActividades(act)).join(" "),
               { extra: `(${busqueda.actividades.length} en total)` },
             )}
+            ${socioFila("Curiosidad (Vocales)", contarVocales(busqueda.nombre, busqueda.apellidos))}
         </div>
         ${socioFila("Cuota Mensual", `${busqueda.cuota}${config.moneda}`)}
     </div>
@@ -101,6 +102,29 @@ btnBuscar.addEventListener("click", function () {
     mostrarToastError(e.message);
   }
 });
+
+/**
+ * Función para poder contar las vocales de un string.
+ * @param {*} nombre
+ * @param {*} apellidos
+ * @returns
+ */
+function contarVocales(nombre, apellidos) {
+  //Juntar los nombres
+  const nombreCompleto = (nombre + apellidos).toUpperCase();
+  // Inicializar el contador
+  let contador = 0;
+  // Letras para contar
+  const sintaxis = /^[AEIOUÁÉÍÓÚ]$/;
+
+  // Bucle para poder añadir al contador si coincide con alguna letra específica
+  for (let i = 0; i < nombreCompleto.length; i++) {
+    if (sintaxis.test(nombreCompleto.charAt(i))) contador++;
+  }
+
+  //Devuelve el valor del conteo
+  return contador;
+}
 
 /**
  * Crea el fragmento HTML de un dato de la ficha del socio.

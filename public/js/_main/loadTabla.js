@@ -14,6 +14,7 @@ import { spanActividades } from "../utils/generarListaActividades.js";
 import { colorAleatorioRangoRGB } from "../utils/colorRandomRGB.js";
 import { Actividades } from "../_constants/actividades.js";
 
+import { obtenerAntiguedad } from "../utils/antiguedad.js";
 // Busca los controles que muestran y filtran la tabla.
 const tabla = document.getElementById("tbody-socios");
 const buscarSocio = document.getElementById("input-search");
@@ -122,6 +123,9 @@ function obtenerSocios() {
     case "cuota":
       resultado.sort((a, b) => a.cuota - b.cuota);
       break;
+    case "cuotamayor":
+      resultado.sort((a, b) => b.cuota - a.cuota);
+      break;
     default:
       throw new Error("Ese orden no existe.");
   }
@@ -167,6 +171,7 @@ function renderizarTabla() {
             <td><div class="contenedor-actividades">${actividadesHtml}</div></td>
             <td>${calcularEdad(value.fechaNacimiento)} años</td>
             <td>${parseFloat(value.cuota).toFixed(2)}${config.moneda}</td>
+            <td>${obtenerAntiguedad(value)}</td>
           </tr>
         `;
       })

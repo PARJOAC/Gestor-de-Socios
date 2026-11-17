@@ -195,8 +195,10 @@ function comprobarActividades(actividades) {
 function comprobarCuota(cuota) {
   // Permite cifras enteras o decimales con punto y hasta dos posiciones.
   const sintaxis = /^\d+(\.\d{1,2})?$/;
+  // Cuota parseada
+  const cuotaParsed = parseFloat(cuota);
   // Acepta el valor solo si cumple el formato y es mayor que cero.
-  return sintaxis.test(cuota) && parseFloat(cuota) > 0;
+  return sintaxis.test(cuota) && cuotaParsed > 0 && cuotaParsed <= 999.99;
 }
 
 // Exporta las comprobaciones para usarlas en el formulario de alta.
